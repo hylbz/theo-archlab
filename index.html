@@ -1,0 +1,2473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>THE O ARCHITECTURE LAB — Research. Design. Impact.</title>
+<meta name="description" content="THE O ARCHITECTURE LAB is an independent architecture and research laboratory working at the intersection of design, sustainability, building biology and social transformation." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+/* ─── CSS VARIABLES ─────────────────────────────────────── */
+:root {
+  --black:    #0C0C0C;
+  --grey-1:   #141414;
+  --grey-2:   #222222;
+  --grey-3:   #3A3A3A;
+  --grey-4:   #6B6B6B;
+  --grey-5:   #9E9E9E;
+  --white:    #F4F2EE;
+  --white-dim: rgba(244,242,238,.55);
+  --accent:   #8B7355;
+  --accent-lt:#A8906F;
+  --green:    #2D4A28;
+  --border:   rgba(244,242,238,.10);
+  --border-md:rgba(244,242,238,.18);
+
+  --ff-serif: 'Cormorant Garamond', 'Georgia', serif;
+  --ff-sans:  'DM Sans', system-ui, sans-serif;
+
+  --ease: cubic-bezier(.4,0,.2,1);
+  --nav-h: 76px;
+}
+
+/* ─── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--ff-sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { display: block; width: 100%; object-fit: cover; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ─── UTILITY ───────────────────────────────────────────── */
+.container { width: 90%; max-width: 1280px; margin: 0 auto; }
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .65rem;
+  font-weight: 400;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.h-display {
+  font-family: var(--ff-serif);
+  font-weight: 300;
+  line-height: 1.14;
+  color: var(--white);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ─── NAVIGATION ────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  transition: background .45s var(--ease), border-bottom .45s var(--ease), backdrop-filter .45s;
+}
+nav.scrolled {
+  background: rgba(12,12,12,.90);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 2px;
+}
+.nav-logo-top {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-family: var(--ff-sans);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .30em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.nav-logo-o {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--white);
+  border-radius: 50%;
+  font-size: .6rem;
+  letter-spacing: 0;
+  margin: 0 1px;
+  line-height: 1;
+  font-weight: 400;
+}
+.nav-logo-sub {
+  font-size: .52rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--grey-5);
+  font-weight: 300;
+}
+
+/* Nav right */
+.nav-right { display: flex; align-items: center; gap: 32px; }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a {
+  font-size: .72rem;
+  font-weight: 300;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--white); }
+
+/* Language toggle */
+.lang-toggle {
+  display: flex;
+  border: 1px solid var(--border-md);
+}
+.lang-btn {
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  font-size: .65rem;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--grey-5);
+  transition: background .2s, color .2s;
+}
+.lang-btn.active {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* Burger */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-burger span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--white);
+  transition: transform .3s, opacity .3s;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile overlay */
+.nav-mobile {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  border-top: 1px solid var(--border);
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a {
+  font-family: var(--ff-serif);
+  font-size: 2.6rem;
+  font-weight: 300;
+  color: var(--white);
+  letter-spacing: .04em;
+  transition: color .2s;
+}
+.nav-mobile a:hover { color: var(--accent); }
+.nav-mobile .lang-toggle { margin-top: 8px; }
+
+/* ─── HERO ──────────────────────────────────────────────── */
+#hero {
+  position: relative;
+  height: 100svh;
+  min-height: 620px;
+  display: grid;
+  align-items: end;
+  padding-bottom: 80px;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=85');
+  background-size: cover;
+  background-position: center 40%;
+  transition: transform 10s ease;
+  transform: scale(1.04);
+}
+#hero:hover .hero-bg { transform: scale(1); }
+
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(12,12,12,.55) 0%,
+    rgba(12,12,12,.30) 40%,
+    rgba(12,12,12,.85) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+  width: 90%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.hero-left {}
+
+.hero-tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .65rem;
+  font-weight: 400;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 22px;
+}
+.hero-tagline::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--accent);
+  display: block;
+}
+
+.hero-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(3rem, 6.5vw, 6.2rem);
+  font-weight: 300;
+  line-height: 1.08;
+  color: var(--white);
+  margin-bottom: 28px;
+}
+.hero-title em {
+  font-style: italic;
+  color: rgba(244,242,238,.55);
+}
+
+.hero-sub {
+  font-size: .88rem;
+  font-weight: 300;
+  color: var(--white-dim);
+  line-height: 1.85;
+  max-width: 360px;
+  margin-bottom: 40px;
+}
+
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-block;
+  padding: 13px 30px;
+  background: var(--white);
+  color: var(--black);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: background .25s, color .25s;
+}
+.btn-primary:hover { background: var(--accent); color: var(--white); }
+
+.btn-outline {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 1px solid rgba(244,242,238,.30);
+  color: var(--white);
+  font-size: .72rem;
+  font-weight: 300;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: border-color .25s;
+}
+.btn-outline:hover { border-color: var(--white); }
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 8px;
+}
+
+.hero-manifesto {
+  border-left: 1px solid var(--border-md);
+  padding-left: 28px;
+  margin-bottom: 36px;
+}
+.hero-manifesto p {
+  font-family: var(--ff-serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(244,242,238,.70);
+  line-height: 1.7;
+}
+
+.hero-metrics {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+.metric-item {}
+.metric-num {
+  font-family: var(--ff-serif);
+  font-size: 2.4rem;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.metric-label {
+  font-size: .64rem;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.hero-scroll-indicator span {
+  font-size: .58rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(180deg, var(--white-dim), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { opacity:.4; transform:scaleY(1); }
+  50% { opacity:1; transform:scaleY(1.2); }
+}
+
+/* ─── O PHILOSOPHY ──────────────────────────────────────── */
+#philosophy {
+  padding: 120px 0;
+  background: var(--grey-1);
+  overflow: hidden;
+}
+
+.philosophy-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+
+.philosophy-symbol {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.o-ring {
+  position: relative;
+  width: min(420px, 90%);
+  aspect-ratio: 1;
+}
+
+/* SVG O symbol */
+.o-svg {
+  width: 100%;
+  height: 100%;
+  animation: rotateSlowly 40s linear infinite;
+}
+@keyframes rotateSlowly {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.o-center-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: none;
+}
+.o-letter {
+  font-family: var(--ff-serif);
+  font-size: clamp(5rem, 14vw, 9rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1;
+}
+.o-letter-sub {
+  font-size: .62rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 4px;
+}
+
+.philosophy-text {}
+.philosophy-desc {
+  font-size: .92rem;
+  font-weight: 300;
+  color: var(--white-dim);
+  line-height: 1.9;
+  margin: 20px 0 40px;
+}
+
+.o-concepts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+.o-concept {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+.o-concept:nth-child(even) { border-right: none; padding-left: 20px; }
+.o-concept:nth-child(odd)  { padding-right: 20px; }
+
+.o-concept-word {
+  font-family: var(--ff-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+.o-concept-arrow {
+  font-size: .74rem;
+  color: var(--grey-5);
+  font-weight: 300;
+}
+
+/* ─── WORK AREAS ────────────────────────────────────────── */
+#work {
+  padding: 120px 0;
+}
+
+.work-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 72px;
+}
+.work-header-desc {
+  font-size: .9rem;
+  color: var(--white-dim);
+  line-height: 1.85;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+.work-item {
+  padding: 36px 30px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transition: background .3s;
+  position: relative;
+  overflow: hidden;
+}
+.work-item:hover { background: var(--grey-1); }
+
+.work-item-num {
+  font-family: var(--ff-serif);
+  font-size: .78rem;
+  color: var(--grey-4);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.work-item-icon {
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+  margin-bottom: 18px;
+  transition: width .3s;
+}
+.work-item:hover .work-item-icon { width: 48px; }
+
+.work-item-title {
+  font-family: var(--ff-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.work-item-desc {
+  font-size: .78rem;
+  font-weight: 300;
+  color: var(--grey-5);
+  line-height: 1.75;
+}
+
+/* ─── PROJECTS ──────────────────────────────────────────── */
+#projects {
+  padding: 120px 0;
+  background: var(--grey-1);
+}
+
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-bottom: 52px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+}
+.flt {
+  padding: 9px 20px;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border);
+  font-size: .65rem;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--grey-5);
+  transition: background .2s, color .2s;
+}
+.flt:last-child { border-right: none; }
+.flt:hover { color: var(--white); }
+.flt.active { background: var(--white); color: var(--black); }
+
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.proj-card {
+  position: relative;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--grey-2);
+}
+
+.proj-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .7s var(--ease);
+  filter: brightness(.88);
+}
+.proj-card:hover .proj-img {
+  transform: scale(1.05);
+  filter: brightness(.75);
+}
+
+.proj-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px 24px;
+  background: linear-gradient(180deg, transparent 45%, rgba(12,12,12,.88) 100%);
+}
+
+.proj-num {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  font-family: var(--ff-serif);
+  font-size: .78rem;
+  font-style: italic;
+  color: rgba(244,242,238,.45);
+}
+
+.proj-cat {
+  font-size: .62rem;
+  font-weight: 400;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.proj-name {
+  font-family: var(--ff-serif);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+.proj-meta {
+  font-size: .72rem;
+  color: rgba(244,242,238,.45);
+}
+
+.proj-more {
+  text-align: center;
+  margin-top: 56px;
+}
+.proj-more a {
+  font-size: .75rem;
+  font-weight: 400;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 3px;
+  transition: border-color .2s;
+}
+.proj-more a:hover { border-color: var(--accent); }
+
+/* ─── RESEARCH ──────────────────────────────────────────── */
+#research { padding: 120px 0; }
+
+.research-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 100px;
+  align-items: start;
+}
+
+.research-left-desc {
+  font-size: .88rem;
+  color: var(--white-dim);
+  line-height: 1.9;
+  margin-top: 18px;
+  margin-bottom: 32px;
+}
+
+.research-items { display: flex; flex-direction: column; }
+
+.research-item {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+  transition: background .2s;
+}
+.research-item:first-child { border-top: 1px solid var(--border); }
+.research-item:hover { background: rgba(244,242,238,.03); }
+
+.research-year {
+  font-family: var(--ff-serif);
+  font-size: .82rem;
+  font-style: italic;
+  color: var(--grey-4);
+  padding-top: 2px;
+}
+.research-title {
+  font-family: var(--ff-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+.research-type {
+  font-size: .66rem;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ─── ABOUT ─────────────────────────────────────────────── */
+#about { padding: 0; }
+
+.about-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 780px;
+}
+
+.about-img-col {
+  position: relative;
+  overflow: hidden;
+}
+.about-img-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(.75) saturate(.85);
+}
+
+.about-text-col {
+  background: var(--grey-1);
+  padding: 100px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-body {
+  font-size: .88rem;
+  font-weight: 300;
+  color: var(--white-dim);
+  line-height: 1.95;
+  margin: 18px 0 12px;
+}
+
+.about-stats {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 32px 0;
+  margin: 28px 0 36px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stat-n {
+  font-family: var(--ff-serif);
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 5px;
+}
+.stat-l {
+  font-size: .64rem;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ─── TESTIMONIALS ──────────────────────────────────────── */
+#testimonials {
+  padding: 120px 0;
+  background: var(--grey-1);
+}
+
+.test-head { text-align: center; margin-bottom: 60px; }
+.test-head .label { justify-content: center; }
+.test-head .label::before { display: none; }
+
+.test-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.test-card {
+  padding: 52px 48px;
+  background: var(--grey-2);
+  border: 1px solid var(--border);
+}
+
+.test-mark {
+  font-family: var(--ff-serif);
+  font-size: 4.5rem;
+  line-height: .7;
+  color: rgba(139,115,85,.22);
+  margin-bottom: 24px;
+}
+.test-quote {
+  font-family: var(--ff-serif);
+  font-size: 1.08rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+.test-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.test-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--grey-3);
+  border: 1px solid var(--border-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-serif);
+  font-size: 1rem;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.test-name { font-size: .84rem; font-weight: 400; color: var(--white); margin-bottom: 2px; }
+.test-role { font-size: .68rem; letter-spacing: .1em; color: var(--accent); }
+
+/* ─── APPROACH ──────────────────────────────────────────── */
+#approach { padding: 120px 0; }
+
+.approach-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 100px;
+  align-items: start;
+}
+
+.approach-steps { display: flex; flex-direction: column; padding-top: 8px; }
+
+.approach-step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+}
+.approach-step:first-child { border-top: 1px solid var(--border); }
+
+.step-roman {
+  font-family: var(--ff-serif);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--accent);
+  padding-top: 2px;
+}
+.step-t {
+  font-family: var(--ff-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.step-d {
+  font-size: .82rem;
+  font-weight: 300;
+  color: var(--grey-5);
+  line-height: 1.78;
+}
+
+.approach-left-body {
+  font-size: .88rem;
+  color: var(--white-dim);
+  line-height: 1.9;
+  margin-top: 18px;
+  margin-bottom: 36px;
+}
+
+/* ─── CONTACT CTA ───────────────────────────────────────── */
+#cta {
+  padding: 120px 0;
+  background: var(--white);
+}
+
+.cta-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 100px;
+  align-items: start;
+}
+
+.cta-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .65rem;
+  font-weight: 400;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.cta-label::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--accent);
+}
+
+.cta-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  font-weight: 300;
+  color: var(--black);
+  line-height: 1.18;
+  margin-bottom: 20px;
+}
+.cta-title em {
+  font-style: italic;
+  color: var(--grey-4);
+}
+
+.cta-sub {
+  font-size: .88rem;
+  font-weight: 300;
+  color: var(--grey-4);
+  line-height: 1.85;
+  margin-bottom: 32px;
+}
+
+.cta-info { display: flex; flex-direction: column; gap: 12px; }
+.cta-info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: .8rem;
+  font-weight: 300;
+  color: var(--grey-4);
+}
+.cta-info-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* ── Contact Form ── */
+.contact-form-wrap {
+  background: var(--black);
+  padding: 52px 48px;
+}
+
+.cf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.cf-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.cf-group.full { grid-column: 1 / -1; }
+
+.cf-label {
+  font-size: .62rem;
+  font-weight: 400;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--grey-5);
+}
+
+.cf-input,
+.cf-select,
+.cf-textarea {
+  background: var(--grey-1);
+  border: 1px solid var(--border-md);
+  color: var(--white);
+  font-family: var(--ff-sans);
+  font-size: .85rem;
+  font-weight: 300;
+  padding: 13px 16px;
+  outline: none;
+  width: 100%;
+  transition: border-color .2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.cf-input::placeholder,
+.cf-textarea::placeholder { color: var(--grey-4); }
+.cf-input:focus,
+.cf-select:focus,
+.cf-textarea:focus { border-color: var(--accent); }
+
+.cf-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239E9E9E' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+.cf-select option { background: var(--grey-1); color: var(--white); }
+
+.cf-textarea { resize: vertical; min-height: 120px; line-height: 1.65; }
+
+.cf-submit {
+  width: 100%;
+  padding: 15px 24px;
+  background: var(--white);
+  color: var(--black);
+  border: none;
+  font-family: var(--ff-sans);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .25s, color .25s;
+  margin-top: 4px;
+}
+.cf-submit:hover { background: var(--accent); color: var(--white); }
+.cf-submit:disabled { background: var(--grey-3); color: var(--grey-5); cursor: not-allowed; }
+
+/* Success state */
+.cf-success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  gap: 16px;
+}
+.cf-success.show { display: flex; }
+.cf-success-icon {
+  width: 48px; height: 48px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.cf-success-title {
+  font-family: var(--ff-serif);
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--white);
+}
+.cf-success-sub {
+  font-size: .82rem;
+  color: var(--grey-5);
+  max-width: 280px;
+  line-height: 1.7;
+}
+
+/* Error hint */
+.cf-error {
+  font-size: .7rem;
+  color: #c0614a;
+  margin-top: 4px;
+  display: none;
+}
+.cf-group.invalid .cf-error { display: block; }
+.cf-group.invalid .cf-input,
+.cf-group.invalid .cf-select,
+.cf-group.invalid .cf-textarea { border-color: #c0614a; }
+
+.btn-dark {
+  display: inline-block;
+  padding: 15px 38px;
+  background: var(--black);
+  color: var(--white);
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  transition: background .25s;
+}
+.btn-dark:hover { background: var(--accent); }
+
+@media (max-width: 900px) {
+  .cta-inner { grid-template-columns: 1fr; gap: 52px; }
+  .contact-form-wrap { padding: 36px 28px; }
+}
+@media (max-width: 560px) {
+  .cf-row { grid-template-columns: 1fr; }
+}
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+footer {
+  background: var(--black);
+  border-top: 1px solid var(--border);
+  padding: 80px 0 0;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  gap: 52px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.footer-logo-mark {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 18px;
+}
+.footer-logo-top {
+  display: flex;
+  align-items: center;
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.footer-logo-o {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--white);
+  border-radius: 50%;
+  font-size: .62rem;
+  letter-spacing: 0;
+  margin: 0 1px;
+  font-weight: 300;
+}
+.footer-logo-bottom {
+  font-size: .56rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--grey-5);
+  font-weight: 300;
+}
+
+.footer-desc {
+  font-size: .8rem;
+  font-weight: 300;
+  color: var(--grey-5);
+  line-height: 1.8;
+  margin-bottom: 22px;
+}
+
+.footer-tagline {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  font-size: .9rem;
+  color: var(--accent);
+}
+
+.social-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.social-links a {
+  font-size: .62rem;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--grey-4);
+  transition: color .2s;
+}
+.social-links a:hover { color: var(--white); }
+
+.footer-col-head {
+  font-size: .64rem;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul a {
+  font-size: .8rem;
+  font-weight: 300;
+  color: var(--grey-4);
+  transition: color .2s;
+}
+.footer-col ul a:hover { color: var(--accent); }
+
+.contact-info { display: flex; flex-direction: column; gap: 8px; }
+.contact-info p {
+  font-size: .8rem;
+  font-weight: 300;
+  color: var(--grey-4);
+  line-height: 1.6;
+}
+.contact-info a { color: var(--grey-4); transition: color .2s; }
+.contact-info a:hover { color: var(--accent); }
+
+.footer-bottom {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom p {
+  font-size: .68rem;
+  color: var(--grey-4);
+}
+.footer-bottom a { color: var(--grey-4); transition: color .2s; }
+.footer-bottom a:hover { color: var(--white); }
+.footer-bottom-links { display: flex; gap: 24px; }
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .work-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+}
+
+@media (max-width: 900px) {
+  .nav-links, .lang-toggle { display: none; }
+  .nav-burger { display: flex; }
+
+  section { padding: 80px 0; }
+  #philosophy, #work, #projects, #research, #approach, #testimonials { padding: 80px 0; }
+
+  .hero-content { grid-template-columns: 1fr; gap: 40px; }
+  .hero-right { display: none; }
+  .hero-sub { max-width: 100%; }
+
+  .philosophy-inner { grid-template-columns: 1fr; gap: 60px; }
+  .o-ring { max-width: 260px; }
+
+  .work-header { grid-template-columns: 1fr; gap: 24px; }
+
+  .proj-grid { grid-template-columns: 1fr 1fr; }
+
+  .research-inner { grid-template-columns: 1fr; gap: 52px; }
+
+  .about-wrap { grid-template-columns: 1fr; }
+  .about-img-col { height: 420px; }
+  .about-text-col { padding: 72px 40px; }
+
+  .test-row { grid-template-columns: 1fr; }
+
+  .approach-inner { grid-template-columns: 1fr; gap: 52px; }
+
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .proj-grid { grid-template-columns: 1fr; }
+  .work-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .about-stats { flex-direction: column; gap: 24px; }
+  .filter-row { flex-wrap: wrap; }
+  .flt { flex: 1; min-width: 60px; border-bottom: 1px solid var(--border); }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .footer-bottom-links { justify-content: center; }
+  .o-concepts { grid-template-columns: 1fr; }
+  .o-concept:nth-child(even), .o-concept:nth-child(odd) {
+    border-right: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ NAVIGATION ════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-top">
+        THE&nbsp;<span class="nav-logo-o">O</span>&nbsp;ARCHITECTURE
+      </div>
+      <div class="nav-logo-sub">LAB &mdash; Istanbul</div>
+    </a>
+
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#work"       data-i18n="nav.work">Work</a>
+        <a href="#projects"   data-i18n="nav.projects">Projects</a>
+        <a href="#research"   data-i18n="nav.research">Research</a>
+        <a href="#about"      data-i18n="nav.about">About</a>
+        <a href="#cta"        data-i18n="nav.contact">Contact</a>
+      </div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="langEN">EN</button>
+        <button class="lang-btn"        id="langTR">TR</button>
+      </div>
+    </div>
+
+    <button class="nav-burger" id="burger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile full-screen menu -->
+<div class="nav-mobile" id="mobileMenu">
+  <a href="#work"     class="mob-lnk" data-i18n="nav.work">Work</a>
+  <a href="#projects" class="mob-lnk" data-i18n="nav.projects">Projects</a>
+  <a href="#research" class="mob-lnk" data-i18n="nav.research">Research</a>
+  <a href="#about"    class="mob-lnk" data-i18n="nav.about">About</a>
+  <a href="#cta"      class="mob-lnk" data-i18n="nav.contact">Contact</a>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="langEN2">EN</button>
+    <button class="lang-btn"        id="langTR2">TR</button>
+  </div>
+</div>
+
+<!-- ════════════════ HERO ══════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg" role="img" aria-label="Contemporary architectural space"></div>
+  <div class="hero-veil"></div>
+
+  <div class="hero-content">
+    <div class="hero-left reveal">
+      <p class="hero-tagline" data-i18n="hero.label">Architecture &amp; Research Laboratory</p>
+      <h1 class="hero-title">
+        <span data-i18n="hero.title.line1">Architecture as a</span><br />
+        <em data-i18n="hero.title.line2">Catalyst</em><br />
+        <span data-i18n="hero.title.line3">for Transformation.</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero.sub">
+        An independent platform working at the intersection of design, research, sustainability and social impact — from Istanbul to the world.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary" data-i18n="hero.cta1">Explore Projects</a>
+        <a href="#cta"      class="btn-outline"  data-i18n="hero.cta2">Start a Conversation</a>
+      </div>
+    </div>
+
+    <div class="hero-right reveal" style="transition-delay:.2s">
+      <div class="hero-manifesto">
+        <p data-i18n="hero.manifesto">"Architecture is not only the production of buildings — it is an instrument of social, cultural and environmental transformation."</p>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric-item">
+          <div class="metric-num">48+</div>
+          <div class="metric-label" data-i18n="hero.metric1">Projects</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-num">9</div>
+          <div class="metric-label" data-i18n="hero.metric2">Years</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-num">14</div>
+          <div class="metric-label" data-i18n="hero.metric3">Countries</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-num">5</div>
+          <div class="metric-label" data-i18n="hero.metric4">Awards</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <span data-i18n="hero.scroll">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ════════════════ O PHILOSOPHY ═════════════════════════ -->
+<section id="philosophy">
+  <div class="container">
+    <div class="philosophy-inner">
+
+      <div class="philosophy-symbol reveal">
+        <div class="o-ring">
+          <!-- Animated outer ring with text path -->
+          <svg class="o-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Outer dashed circle -->
+            <circle cx="200" cy="200" r="188" stroke="rgba(244,242,238,0.08)" stroke-width="1" stroke-dasharray="4 8"/>
+            <!-- Mid ring -->
+            <circle cx="200" cy="200" r="160" stroke="rgba(139,115,85,0.18)" stroke-width="0.75"/>
+            <!-- Inner ring -->
+            <circle cx="200" cy="200" r="130" stroke="rgba(244,242,238,0.06)" stroke-width="1" stroke-dasharray="2 12"/>
+            <!-- Accent arc (bottom-right) -->
+            <path d="M 340 230 A 155 155 0 0 1 100 290" stroke="rgba(139,115,85,0.55)" stroke-width="1.5" fill="none"/>
+            <!-- Four cardinal marks -->
+            <line x1="200" y1="36" x2="200" y2="52" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
+            <line x1="200" y1="348" x2="200" y2="364" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
+            <line x1="36" y1="200" x2="52" y2="200" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
+            <line x1="348" y1="200" x2="364" y2="200" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
+          </svg>
+          <div class="o-center-text">
+            <span class="o-letter">O</span>
+            <span class="o-letter-sub">Origin · Cycle · Wholeness</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="philosophy-text reveal" style="transition-delay:.15s">
+        <span class="label" data-i18n="phil.label">The O</span>
+        <h2 class="h-display" style="font-size:clamp(2rem,3.8vw,3rem)" data-i18n="phil.title">More than a letter —<br />a system of thought.</h2>
+        <p class="philosophy-desc" data-i18n="phil.desc">
+          At the centre of our identity sits "O" — not merely the initial of our founder, but a multi-layered symbol encoding the fundamental principles of our practice. It is simultaneously a beginning and a return; a cycle without break.
+        </p>
+        <div class="o-concepts">
+          <div class="o-concept">
+            <div class="o-concept-word">Origin</div>
+            <div class="o-concept-arrow" data-i18n="phil.c1">The starting point of every idea</div>
+          </div>
+          <div class="o-concept">
+            <div class="o-concept-word">Zero Point</div>
+            <div class="o-concept-arrow" data-i18n="phil.c2">Where new thinking begins</div>
+          </div>
+          <div class="o-concept">
+            <div class="o-concept-word">Cycle</div>
+            <div class="o-concept-arrow" data-i18n="phil.c3">Circular &amp; regenerative design</div>
+          </div>
+          <div class="o-concept">
+            <div class="o-concept-word">Continuity</div>
+            <div class="o-concept-arrow" data-i18n="phil.c4">Long-term impact of architecture</div>
+          </div>
+          <div class="o-concept">
+            <div class="o-concept-word">Return</div>
+            <div class="o-concept-arrow" data-i18n="phil.c5">Beginning and end meet here</div>
+          </div>
+          <div class="o-concept">
+            <div class="o-concept-word">Wholeness</div>
+            <div class="o-concept-arrow" data-i18n="phil.c6">Human, nature &amp; built environment</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ WORK AREAS ════════════════════════════ -->
+<section id="work">
+  <div class="container">
+    <div class="work-header">
+      <div class="reveal">
+        <span class="label" data-i18n="work.label">Fields of Practice</span>
+        <h2 class="h-display" style="font-size:clamp(2.2rem,4vw,3.4rem)" data-i18n="work.title">A laboratory<br />without boundaries.</h2>
+      </div>
+      <div class="work-header-desc reveal" style="transition-delay:.12s" data-i18n="work.desc">
+        THE O ARCHITECTURE LAB operates across a wide spectrum — from large-scale built environment projects to academic research and international development programmes. Every field of work is guided by the same commitment: design as a force for transformation.
+      </div>
+    </div>
+
+    <div class="work-grid">
+      <div class="work-item reveal">
+        <div class="work-item-num">01</div>
+        <div class="work-item-icon"></div>
+        <h3 class="work-item-title" data-i18n="wa.1.t">Architectural Design</h3>
+        <p  class="work-item-desc"  data-i18n="wa.1.d">From concept to completion — buildings that respond to people, place and time.</p>
+      </div>
+      <div class="work-item reveal" style="transition-delay:.07s">
+        <div class="work-item-num">02</div>
+        <div class="work-item-icon"></div>
+        <h3 class="work-item-title" data-i18n="wa.2.t">Competition Projects</h3>
+        <p  class="work-item-desc"  data-i18n="wa.2.d">Internationally recognised ideas-led entries pushing the discipline forward.</p>
+      </div>
+      <div class="work-item reveal" style="transition-delay:.14s">
+        <div class="work-item-num">03</div>
+        <div class="work-item-icon"></div>
+        <h3 class="work-item-title" data-i18n="wa.3.t">Research &amp; Publications</h3>
+        <p  class="work-item-desc"  data-i18n="wa.3.d">Peer-reviewed studies, essays and books grounded in spatial and social inquiry.</p>
+      </div>
+      <div class="work-item reveal" style="transition-delay:.21s">
+        <div class="work-item-num">04</div>
+        <div class="work-item-icon"></div>
+        <h3 class="work-item-title" data-i18n="wa.4.t">Building Biology &amp; Healthy Spaces</h3>
+        <p  class="work-item-desc"  data-i18n="wa.4.d">Evidence-based design for occupant health, air quality and biophilic wellbeing.</p>
+      </div>
+      <div class="work-item reveal" style="transition-delay:.07s">
+        <div class="work-item-num">05</div>
+        <div class="work-item-icon"></div>
+        <h3 class="work-item-title" data-i18n="wa.5.t">Sustainable &amp; Regenerative Design</h3>
+        <p  class="work-item-desc"  data-i18n="wa.5.d">Carbon-conscious strategies that restore rather than deplete the natural environment.</p>
+      </div>
+      <div class="work-item reveal" style="transition-delay:.14s">
+        <div class="work-item-num">06</div>
+        <div class="work-item-icon"></div>
+        <h3 class="work-item-title" data-i18n="wa.6.t">EU &amp; International Funded Projects</h3>
+        <p  class="work-item-desc"  data-i18n="wa.6.d">Design leadership for Horizon Europe, UN and development agency programmes.</p>
+      </div>
+      <div class="work-item reveal" style="transition-delay:.21s">
+        <div class="work-item-num">07</div>
+        <div class="work-item-icon"></div>
+        <h3 class="work-item-title" data-i18n="wa.7.t">Education &amp; Workshops</h3>
+        <p  class="work-item-desc"  data-i18n="wa.7.d">Studio-based learning, public lectures and international design intensives.</p>
+      </div>
+      <div class="work-item reveal" style="transition-delay:.28s">
+        <div class="work-item-num">08</div>
+        <div class="work-item-icon"></div>
+        <h3 class="work-item-title" data-i18n="wa.8.t">Post-Disaster &amp; Humanitarian Architecture</h3>
+        <p  class="work-item-desc"  data-i18n="wa.8.d">Rapid-response shelter, community rebuilding and resilient urban frameworks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROJECTS ══════════════════════════════ -->
+<section id="projects">
+  <div class="container">
+    <div class="projects-header">
+      <div class="reveal">
+        <span class="label" data-i18n="proj.label">Selected Projects</span>
+        <h2 class="h-display" style="font-size:clamp(2rem,3.8vw,3.2rem)" data-i18n="proj.title">Built, imagined<br />&amp; researched.</h2>
+      </div>
+      <div class="filter-row reveal" style="transition-delay:.1s">
+        <button class="flt active" data-filter="all"          data-i18n="flt.all">All</button>
+        <button class="flt"        data-filter="residential"  data-i18n="flt.res">Residential</button>
+        <button class="flt"        data-filter="civic"        data-i18n="flt.civ">Civic</button>
+        <button class="flt"        data-filter="competition"  data-i18n="flt.comp">Competition</button>
+        <button class="flt"        data-filter="research"     data-i18n="flt.res2">Research</button>
+      </div>
+    </div>
+
+    <div class="proj-grid" id="projGrid">
+      <div class="proj-card reveal" data-cat="residential">
+        <img class="proj-img"
+          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
+          alt="Forest House — Bolu" />
+        <div class="proj-info">
+          <span class="proj-num">01</span>
+          <span class="proj-cat" data-i18n="cat.res">Residential</span>
+          <h3 class="proj-name" data-i18n="p1.name">Forest House</h3>
+          <p class="proj-meta">2024 · Bolu, Turkey</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal" data-cat="civic" style="transition-delay:.08s">
+        <img class="proj-img"
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+          alt="Civic Culture Centre — Istanbul" />
+        <div class="proj-info">
+          <span class="proj-num">02</span>
+          <span class="proj-cat" data-i18n="cat.civ">Civic</span>
+          <h3 class="proj-name" data-i18n="p2.name">Culture Centre Istanbul</h3>
+          <p class="proj-meta">2023 · Istanbul, Turkey</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal" data-cat="competition" style="transition-delay:.16s">
+        <img class="proj-img"
+          src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80"
+          alt="Nordic Library — International Competition" />
+        <div class="proj-info">
+          <span class="proj-num">03</span>
+          <span class="proj-cat" data-i18n="cat.comp">Competition</span>
+          <h3 class="proj-name" data-i18n="p3.name">Nordic Library — 2nd Prize</h3>
+          <p class="proj-meta">2023 · Helsinki, Finland</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal" data-cat="research" style="transition-delay:.04s">
+        <img class="proj-img"
+          src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80"
+          alt="Biophilic Office Research" />
+        <div class="proj-info">
+          <span class="proj-num">04</span>
+          <span class="proj-cat" data-i18n="cat.res2">Research</span>
+          <h3 class="proj-name" data-i18n="p4.name">Biophilic Workplace Study</h3>
+          <p class="proj-meta">2022 · Ongoing</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal" data-cat="residential" style="transition-delay:.12s">
+        <img class="proj-img"
+          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
+          alt="Coastal Villa — Çeşme" />
+        <div class="proj-info">
+          <span class="proj-num">05</span>
+          <span class="proj-cat" data-i18n="cat.res">Residential</span>
+          <h3 class="proj-name" data-i18n="p5.name">Coastal Villa</h3>
+          <p class="proj-meta">2022 · Çeşme, Turkey</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal" data-cat="civic" style="transition-delay:.20s">
+        <img class="proj-img"
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
+          alt="Community Regeneration — Izmir" />
+        <div class="proj-info">
+          <span class="proj-num">06</span>
+          <span class="proj-cat" data-i18n="cat.civ">Civic</span>
+          <h3 class="proj-name" data-i18n="p6.name">Neighbourhood Regeneration</h3>
+          <p class="proj-meta">2021 · Izmir, Turkey</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-more reveal">
+      <a href="mailto:info@theoarchlab.com" data-i18n="proj.more">View All Projects →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ RESEARCH ══════════════════════════════ -->
+<section id="research">
+  <div class="container">
+    <div class="research-inner">
+      <div class="reveal">
+        <span class="label" data-i18n="res.label">Research &amp; Publications</span>
+        <h2 class="h-display" style="font-size:clamp(2rem,3.8vw,3rem)" data-i18n="res.title">Thinking<br />through building.</h2>
+        <p class="research-left-desc" data-i18n="res.desc">
+          We believe rigorous research is inseparable from practice. Our publications, conference contributions and collaborative studies feed directly into built work — and vice versa.
+        </p>
+        <a href="mailto:info@theoarchlab.com" class="btn-outline" data-i18n="res.cta">All Publications →</a>
+      </div>
+
+      <div class="research-items reveal" style="transition-delay:.15s">
+        <div class="research-item">
+          <div class="research-year">2024</div>
+          <div>
+            <p class="research-title" data-i18n="r1.t">Regenerative Urbanism: Beyond Net Zero</p>
+            <span class="research-type" data-i18n="r1.tp">Journal Article · Sustainable Cities</span>
+          </div>
+        </div>
+        <div class="research-item">
+          <div class="research-year">2023</div>
+          <div>
+            <p class="research-title" data-i18n="r2.t">Building Biology Metrics for Post-Pandemic Workplaces</p>
+            <span class="research-type" data-i18n="r2.tp">Conference Paper · Archmarathon Berlin</span>
+          </div>
+        </div>
+        <div class="research-item">
+          <div class="research-year">2022</div>
+          <div>
+            <p class="research-title" data-i18n="r3.t">Temporary Permanence: Humanitarian Shelter as Architecture</p>
+            <span class="research-type" data-i18n="r3.tp">Book Chapter · Routledge</span>
+          </div>
+        </div>
+        <div class="research-item">
+          <div class="research-year">2021</div>
+          <div>
+            <p class="research-title" data-i18n="r4.t">Adaptive Reuse of Ottoman Commercial Fabric in Izmir</p>
+            <span class="research-type" data-i18n="r4.tp">Research Report · EU Horizon 2020</span>
+          </div>
+        </div>
+        <div class="research-item">
+          <div class="research-year">2020</div>
+          <div>
+            <p class="research-title" data-i18n="r5.t">Material Memory: Soil, Stone and Collective Identity</p>
+            <span class="research-type" data-i18n="r5.tp">Exhibition Catalogue · Istanbul Biennial</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ ABOUT ═════════════════════════════════ -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-img-col">
+      <img
+        src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80"
+        alt="THE O ARCHITECTURE LAB studio" />
+    </div>
+    <div class="about-text-col">
+      <div class="reveal">
+        <span class="label" data-i18n="about.label">The Laboratory</span>
+        <h2 class="h-display" style="font-size:clamp(2rem,3.5vw,2.9rem)" data-i18n="about.title">Designing with<br />people and purpose.</h2>
+        <p class="about-body" data-i18n="about.p1">
+          THE O ARCHITECTURE LAB is an independent architecture and research laboratory founded in Istanbul. We operate at the intersection of design, sustainability, building biology and social transformation — carrying projects from conceptual research to physical realisation.
+        </p>
+        <p class="about-body" data-i18n="about.p2">
+          Educated at ITU and TU Munich, our founding director brings 9 years of built and unbuilt work spanning residential, civic, competition and humanitarian fields. The lab collaborates with universities, development agencies and private clients across 14 countries.
+        </p>
+        <div class="about-stats">
+          <div>
+            <div class="stat-n">48+</div>
+            <div class="stat-l" data-i18n="stat.proj">Projects</div>
+          </div>
+          <div>
+            <div class="stat-n">9</div>
+            <div class="stat-l" data-i18n="stat.yrs">Years</div>
+          </div>
+          <div>
+            <div class="stat-n">14</div>
+            <div class="stat-l" data-i18n="stat.ctry">Countries</div>
+          </div>
+          <div>
+            <div class="stat-n">5</div>
+            <div class="stat-l" data-i18n="stat.awds">Awards</div>
+          </div>
+        </div>
+        <a href="#cta" class="btn-primary" data-i18n="about.cta">Work With Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TESTIMONIALS ══════════════════════════ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="test-head reveal">
+      <span class="label" data-i18n="test.label">Voices</span>
+      <h2 class="h-display" style="font-size:clamp(2rem,3.8vw,3rem)" data-i18n="test.title">What collaborators say.</h2>
+    </div>
+    <div class="test-row">
+      <div class="test-card reveal">
+        <div class="test-mark">"</div>
+        <p class="test-quote" data-i18n="t1.q">THE O ARCHITECTURE LAB brought an intellectual rigour and sensitivity to our headquarters project that we had not encountered before. The result is a building that genuinely reflects who we are.</p>
+        <div class="test-author">
+          <div class="test-avatar">M</div>
+          <div>
+            <p class="test-name">Mehmet Yılmaz</p>
+            <p class="test-role" data-i18n="t1.r">CEO, Akaya Development — Istanbul HQ, 2023</p>
+          </div>
+        </div>
+      </div>
+      <div class="test-card reveal" style="transition-delay:.12s">
+        <div class="test-mark">"</div>
+        <p class="test-quote" data-i18n="t2.q">Working with the lab on our Horizon Europe project was a seamless experience. Their ability to bridge design excellence with the demands of an international funding framework is rare and invaluable.</p>
+        <div class="test-author">
+          <div class="test-avatar">S</div>
+          <div>
+            <p class="test-name">Dr. Sophie Renard</p>
+            <p class="test-role" data-i18n="t2.r">Programme Director, EU Urban Futures — Brussels, 2024</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ APPROACH ══════════════════════════════ -->
+<section id="approach">
+  <div class="container">
+    <div class="approach-inner">
+      <div class="reveal">
+        <span class="label" data-i18n="appr.label">Our Process</span>
+        <h2 class="h-display" style="font-size:clamp(2rem,3.8vw,3rem)" data-i18n="appr.title">How we<br />think and build.</h2>
+        <p class="approach-left-body" data-i18n="appr.body">
+          Every project begins with listening. We invest heavily in the discovery phase — understanding context, people and ambition before a single line is drawn. From there, design unfolds as a continuous dialogue between idea and reality.
+        </p>
+        <a href="#cta" class="btn-outline" data-i18n="appr.cta">Begin a Project →</a>
+      </div>
+
+      <div class="approach-steps reveal" style="transition-delay:.15s">
+        <div class="approach-step">
+          <span class="step-roman">I</span>
+          <div>
+            <h3 class="step-t" data-i18n="step1.t">Listen &amp; Discover</h3>
+            <p  class="step-d" data-i18n="step1.d">Deep briefing, site research, cultural and contextual analysis. We ask the questions others skip — because the right questions yield the right architecture.</p>
+          </div>
+        </div>
+        <div class="approach-step">
+          <span class="step-roman">II</span>
+          <div>
+            <h3 class="step-t" data-i18n="step2.t">Design &amp; Develop</h3>
+            <p  class="step-d" data-i18n="step2.d">From loose sketches to precise drawings. An iterative, collaborative process where client, consultant and context shape every decision. No black-box design.</p>
+          </div>
+        </div>
+        <div class="approach-step">
+          <span class="step-roman">III</span>
+          <div>
+            <h3 class="step-t" data-i18n="step3.t">Build &amp; Steward</h3>
+            <p  class="step-d" data-i18n="step3.d">Construction documentation, on-site presence and post-occupancy evaluation. We don't disappear once the drawings are issued — we stay with the work until it lives.</p>
+          </div>
+        </div>
+        <div class="approach-step">
+          <span class="step-roman">IV</span>
+          <div>
+            <h3 class="step-t" data-i18n="step4.t">Reflect &amp; Publish</h3>
+            <p  class="step-d" data-i18n="step4.d">Every project returns to the research cycle. We document, analyse and share findings — building collective knowledge for the discipline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CONTACT CTA ═══════════════════════════ -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-inner">
+
+      <!-- Left: heading + info -->
+      <div class="reveal">
+        <p class="cta-label" data-i18n="cta.label">Let's Collaborate</p>
+        <h2 class="cta-title">
+          <span data-i18n="cta.title1">Let's bring your</span><br />
+          <em data-i18n="cta.title2">idea into the world.</em>
+        </h2>
+        <p class="cta-sub" data-i18n="cta.sub">Whether you have a building brief, a research question or a half-formed idea — we want to hear it. First conversations are always free.</p>
+        <div class="cta-info">
+          <div class="cta-info-item">
+            <span class="cta-info-dot"></span>
+            <span>info@theoarchlab.com</span>
+          </div>
+          <div class="cta-info-item">
+            <span class="cta-info-dot"></span>
+            <span>+90 212 123 45 67</span>
+          </div>
+          <div class="cta-info-item">
+            <span class="cta-info-dot"></span>
+            <span data-i18n="cta.location">Karaköy, Istanbul — Türkiye</span>
+          </div>
+          <div class="cta-info-item">
+            <span class="cta-info-dot"></span>
+            <span data-i18n="cta.free">First conversation is always free.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="reveal" style="transition-delay:.15s">
+        <div class="contact-form-wrap">
+
+          <!-- Form -->
+          <form id="contactForm" novalidate>
+            <div class="cf-row">
+              <div class="cf-group" id="grp-name">
+                <label class="cf-label" for="cf-name" data-i18n="form.name">Full Name</label>
+                <input class="cf-input" id="cf-name" type="text" placeholder="Jane Smith" autocomplete="name" />
+                <span class="cf-error" data-i18n="form.err.name">Please enter your name.</span>
+              </div>
+              <div class="cf-group" id="grp-email">
+                <label class="cf-label" for="cf-email" data-i18n="form.email">Email Address</label>
+                <input class="cf-input" id="cf-email" type="email" placeholder="jane@example.com" autocomplete="email" />
+                <span class="cf-error" data-i18n="form.err.email">Please enter a valid email.</span>
+              </div>
+            </div>
+
+            <div class="cf-row">
+              <div class="cf-group" id="grp-org">
+                <label class="cf-label" for="cf-org" data-i18n="form.org">Organisation <span style="opacity:.45;font-size:.9em">(optional)</span></label>
+                <input class="cf-input" id="cf-org" type="text" placeholder="Company / Institution" />
+              </div>
+              <div class="cf-group" id="grp-type">
+                <label class="cf-label" for="cf-type" data-i18n="form.type">Project Type</label>
+                <select class="cf-select" id="cf-type">
+                  <option value="" data-i18n="form.type.placeholder">Select a category</option>
+                  <option value="architectural-design"    data-i18n="wa.1.t">Architectural Design</option>
+                  <option value="competition"             data-i18n="wa.2.t">Competition Projects</option>
+                  <option value="research"                data-i18n="wa.3.t">Research &amp; Publications</option>
+                  <option value="building-biology"        data-i18n="wa.4.t">Building Biology &amp; Healthy Spaces</option>
+                  <option value="sustainable-design"      data-i18n="wa.5.t">Sustainable &amp; Regenerative Design</option>
+                  <option value="eu-funded"               data-i18n="wa.6.t">EU &amp; International Funded Projects</option>
+                  <option value="education"               data-i18n="wa.7.t">Education &amp; Workshops</option>
+                  <option value="humanitarian"            data-i18n="wa.8.t">Post-Disaster &amp; Humanitarian Architecture</option>
+                  <option value="other"                   data-i18n="form.type.other">Other</option>
+                </select>
+                <span class="cf-error" data-i18n="form.err.type">Please select a project type.</span>
+              </div>
+            </div>
+
+            <div class="cf-group full" id="grp-msg">
+              <label class="cf-label" for="cf-msg" data-i18n="form.msg">Your Message</label>
+              <textarea class="cf-textarea" id="cf-msg" placeholder="Tell us about your project, brief or question…" rows="5"></textarea>
+              <span class="cf-error" data-i18n="form.err.msg">Please write a brief message.</span>
+            </div>
+
+            <button type="submit" class="cf-submit" id="cf-btn" data-i18n="form.send">Send Message →</button>
+          </form>
+
+          <!-- Success state -->
+          <div class="cf-success" id="cfSuccess">
+            <div class="cf-success-icon">✓</div>
+            <p class="cf-success-title" data-i18n="form.ok.title">Message received.</p>
+            <p class="cf-success-sub"   data-i18n="form.ok.sub">We'll be in touch within 48 hours. Thank you for reaching out.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div>
+        <div class="footer-logo-mark">
+          <div class="footer-logo-top">
+            THE&nbsp;<span class="footer-logo-o">O</span>&nbsp;ARCHITECTURE
+          </div>
+          <div class="footer-logo-bottom">LAB — Istanbul</div>
+        </div>
+        <p class="footer-desc" data-i18n="foot.desc">
+          An independent architecture and research laboratory working at the intersection of design, sustainability and social transformation.
+        </p>
+        <p class="footer-tagline">Research. Design. Impact.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="LinkedIn">LinkedIn</a>
+          <a href="#" aria-label="Behance">Behance</a>
+          <a href="#" aria-label="ResearchGate">ResearchGate</a>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="footer-col">
+        <p class="footer-col-head" data-i18n="foot.nav">Navigate</p>
+        <ul>
+          <li><a href="#work"       data-i18n="nav.work">Work</a></li>
+          <li><a href="#projects"   data-i18n="nav.projects">Projects</a></li>
+          <li><a href="#research"   data-i18n="nav.research">Research</a></li>
+          <li><a href="#about"      data-i18n="nav.about">About</a></li>
+          <li><a href="#philosophy" data-i18n="foot.phil">Philosophy</a></li>
+        </ul>
+      </div>
+
+      <!-- Practice areas -->
+      <div class="footer-col">
+        <p class="footer-col-head" data-i18n="foot.prac">Practice</p>
+        <ul>
+          <li><a href="#work" data-i18n="wa.1.t">Architectural Design</a></li>
+          <li><a href="#work" data-i18n="wa.3.t">Research &amp; Publications</a></li>
+          <li><a href="#work" data-i18n="wa.5.t">Sustainable Design</a></li>
+          <li><a href="#work" data-i18n="wa.6.t">EU Funded Projects</a></li>
+          <li><a href="#work" data-i18n="wa.7.t">Education &amp; Workshops</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <p class="footer-col-head" data-i18n="foot.contact">Contact</p>
+        <div class="contact-info">
+          <p><a href="mailto:info@theoarchlab.com">info@theoarchlab.com</a></p>
+          <p><a href="tel:+902121234567">+90 212 123 45 67</a></p>
+          <p>Karaköy, Kemankeş Cad. 14/3<br />Beyoğlu, Istanbul<br />Türkiye</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 THE O ARCHITECTURE LAB. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#" data-i18n="foot.privacy">Privacy Policy</a>
+        <a href="#" data-i18n="foot.terms">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════ JAVASCRIPT ════════════════════════════ -->
+<script>
+/* ── i18n DATA ─────────────────────────────────────────────── */
+const translations = {
+  en: {
+    "nav.work":       "Work",
+    "nav.projects":   "Projects",
+    "nav.research":   "Research",
+    "nav.about":      "About",
+    "nav.contact":    "Contact",
+    "hero.label":     "Architecture & Research Laboratory",
+    "hero.title.line1":"Architecture as a",
+    "hero.title.line2":"Catalyst",
+    "hero.title.line3":"for Transformation.",
+    "hero.sub":       "An independent platform working at the intersection of design, research, sustainability and social impact — from Istanbul to the world.",
+    "hero.cta1":      "Explore Projects",
+    "hero.cta2":      "Start a Conversation",
+    "hero.manifesto": '"Architecture is not only the production of buildings — it is an instrument of social, cultural and environmental transformation."',
+    "hero.metric1":   "Projects",
+    "hero.metric2":   "Years",
+    "hero.metric3":   "Countries",
+    "hero.metric4":   "Awards",
+    "hero.scroll":    "Scroll",
+    "phil.label":     "The O",
+    "phil.title":     "More than a letter —\na system of thought.",
+    "phil.desc":      'At the centre of our identity sits "O" — not merely the initial of our founder, but a multi-layered symbol encoding the fundamental principles of our practice. It is simultaneously a beginning and a return; a cycle without break.',
+    "phil.c1":        "The starting point of every idea",
+    "phil.c2":        "Where new thinking begins",
+    "phil.c3":        "Circular & regenerative design",
+    "phil.c4":        "Long-term impact of architecture",
+    "phil.c5":        "Beginning and end meet here",
+    "phil.c6":        "Human, nature & built environment",
+    "work.label":     "Fields of Practice",
+    "work.title":     "A laboratory\nwithout boundaries.",
+    "work.desc":      "THE O ARCHITECTURE LAB operates across a wide spectrum — from large-scale built environment projects to academic research and international development programmes. Every field of work is guided by the same commitment: design as a force for transformation.",
+    "wa.1.t":         "Architectural Design",
+    "wa.1.d":         "From concept to completion — buildings that respond to people, place and time.",
+    "wa.2.t":         "Competition Projects",
+    "wa.2.d":         "Internationally recognised ideas-led entries pushing the discipline forward.",
+    "wa.3.t":         "Research & Publications",
+    "wa.3.d":         "Peer-reviewed studies, essays and books grounded in spatial and social inquiry.",
+    "wa.4.t":         "Building Biology & Healthy Spaces",
+    "wa.4.d":         "Evidence-based design for occupant health, air quality and biophilic wellbeing.",
+    "wa.5.t":         "Sustainable & Regenerative Design",
+    "wa.5.d":         "Carbon-conscious strategies that restore rather than deplete the natural environment.",
+    "wa.6.t":         "EU & International Funded Projects",
+    "wa.6.d":         "Design leadership for Horizon Europe, UN and development agency programmes.",
+    "wa.7.t":         "Education & Workshops",
+    "wa.7.d":         "Studio-based learning, public lectures and international design intensives.",
+    "wa.8.t":         "Post-Disaster & Humanitarian Architecture",
+    "wa.8.d":         "Rapid-response shelter, community rebuilding and resilient urban frameworks.",
+    "proj.label":     "Selected Projects",
+    "proj.title":     "Built, imagined\n& researched.",
+    "flt.all":        "All",
+    "flt.res":        "Residential",
+    "flt.civ":        "Civic",
+    "flt.comp":       "Competition",
+    "flt.res2":       "Research",
+    "cat.res":        "Residential",
+    "cat.civ":        "Civic",
+    "cat.comp":       "Competition",
+    "cat.res2":       "Research",
+    "p1.name":        "Forest House",
+    "p2.name":        "Culture Centre Istanbul",
+    "p3.name":        "Nordic Library — 2nd Prize",
+    "p4.name":        "Biophilic Workplace Study",
+    "p5.name":        "Coastal Villa",
+    "p6.name":        "Neighbourhood Regeneration",
+    "proj.more":      "View All Projects →",
+    "res.label":      "Research & Publications",
+    "res.title":      "Thinking\nthrough building.",
+    "res.desc":       "We believe rigorous research is inseparable from practice. Our publications, conference contributions and collaborative studies feed directly into built work — and vice versa.",
+    "res.cta":        "All Publications →",
+    "r1.t":           "Regenerative Urbanism: Beyond Net Zero",
+    "r1.tp":          "Journal Article · Sustainable Cities",
+    "r2.t":           "Building Biology Metrics for Post-Pandemic Workplaces",
+    "r2.tp":          "Conference Paper · Archmarathon Berlin",
+    "r3.t":           "Temporary Permanence: Humanitarian Shelter as Architecture",
+    "r3.tp":          "Book Chapter · Routledge",
+    "r4.t":           "Adaptive Reuse of Ottoman Commercial Fabric in Izmir",
+    "r4.tp":          "Research Report · EU Horizon 2020",
+    "r5.t":           "Material Memory: Soil, Stone and Collective Identity",
+    "r5.tp":          "Exhibition Catalogue · Istanbul Biennial",
+    "about.label":    "The Laboratory",
+    "about.title":    "Designing with\npeople and purpose.",
+    "about.p1":       "THE O ARCHITECTURE LAB is an independent architecture and research laboratory founded in Istanbul. We operate at the intersection of design, sustainability, building biology and social transformation — carrying projects from conceptual research to physical realisation.",
+    "about.p2":       "Educated at ITU and TU Munich, our founding director brings 9 years of built and unbuilt work spanning residential, civic, competition and humanitarian fields. The lab collaborates with universities, development agencies and private clients across 14 countries.",
+    "stat.proj":      "Projects",
+    "stat.yrs":       "Years",
+    "stat.ctry":      "Countries",
+    "stat.awds":      "Awards",
+    "about.cta":      "Work With Us",
+    "test.label":     "Voices",
+    "test.title":     "What collaborators say.",
+    "t1.q":           "THE O ARCHITECTURE LAB brought an intellectual rigour and sensitivity to our headquarters project that we had not encountered before. The result is a building that genuinely reflects who we are.",
+    "t1.r":           "CEO, Akaya Development — Istanbul HQ, 2023",
+    "t2.q":           "Working with the lab on our Horizon Europe project was a seamless experience. Their ability to bridge design excellence with the demands of an international funding framework is rare and invaluable.",
+    "t2.r":           "Programme Director, EU Urban Futures — Brussels, 2024",
+    "appr.label":     "Our Process",
+    "appr.title":     "How we\nthink and build.",
+    "appr.body":      "Every project begins with listening. We invest heavily in the discovery phase — understanding context, people and ambition before a single line is drawn. From there, design unfolds as a continuous dialogue between idea and reality.",
+    "appr.cta":       "Begin a Project →",
+    "step1.t":        "Listen & Discover",
+    "step1.d":        "Deep briefing, site research, cultural and contextual analysis. We ask the questions others skip — because the right questions yield the right architecture.",
+    "step2.t":        "Design & Develop",
+    "step2.d":        "From loose sketches to precise drawings. An iterative, collaborative process where client, consultant and context shape every decision. No black-box design.",
+    "step3.t":        "Build & Steward",
+    "step3.d":        "Construction documentation, on-site presence and post-occupancy evaluation. We don't disappear once the drawings are issued — we stay with the work until it lives.",
+    "step4.t":        "Reflect & Publish",
+    "step4.d":        "Every project returns to the research cycle. We document, analyse and share findings — building collective knowledge for the discipline.",
+    "cta.label":         "Let's Collaborate",
+    "cta.title1":        "Let's bring your",
+    "cta.title2":        "idea into the world.",
+    "cta.sub":           "Whether you have a building brief, a research question or a half-formed idea — we want to hear it. First conversations are always free.",
+    "cta.btn":           "Get in Touch →",
+    "cta.location":      "Karaköy, Istanbul — Türkiye",
+    "cta.free":          "First conversation is always free.",
+    "form.name":         "Full Name",
+    "form.email":        "Email Address",
+    "form.org":          "Organisation",
+    "form.type":         "Project Type",
+    "form.type.placeholder": "Select a category",
+    "form.type.other":   "Other",
+    "form.msg":          "Your Message",
+    "form.send":         "Send Message →",
+    "form.err.name":     "Please enter your name.",
+    "form.err.email":    "Please enter a valid email.",
+    "form.err.type":     "Please select a project type.",
+    "form.err.msg":      "Please write a brief message.",
+    "form.ok.title":     "Message received.",
+    "form.ok.sub":       "We'll be in touch within 48 hours. Thank you for reaching out.",
+    "form.sending":      "Sending…",
+    "foot.desc":      "An independent architecture and research laboratory working at the intersection of design, sustainability and social transformation.",
+    "foot.nav":       "Navigate",
+    "foot.phil":      "Philosophy",
+    "foot.prac":      "Practice",
+    "foot.contact":   "Contact",
+    "foot.privacy":   "Privacy Policy",
+    "foot.terms":     "Terms of Use",
+  },
+  tr: {
+    "nav.work":       "Çalışmalar",
+    "nav.projects":   "Projeler",
+    "nav.research":   "Araştırma",
+    "nav.about":      "Hakkımızda",
+    "nav.contact":    "İletişim",
+    "hero.label":     "Mimarlık & Araştırma Laboratuvarı",
+    "hero.title.line1":"Mimarlık bir",
+    "hero.title.line2":"Dönüşüm",
+    "hero.title.line3":"aracıdır.",
+    "hero.sub":       "Tasarım, araştırma, sürdürülebilirlik ve toplumsal etki kesişiminde faaliyet gösteren bağımsız bir platform — İstanbul'dan dünyaya.",
+    "hero.cta1":      "Projeleri Keşfet",
+    "hero.cta2":      "İletişime Geç",
+    "hero.manifesto": '"Mimarlık yalnızca bina üretimi değildir — sosyal, kültürel ve çevresel dönüşümün bir aracıdır."',
+    "hero.metric1":   "Proje",
+    "hero.metric2":   "Yıl",
+    "hero.metric3":   "Ülke",
+    "hero.metric4":   "Ödül",
+    "hero.scroll":    "Aşağı Kaydır",
+    "phil.label":     "O Sembolü",
+    "phil.title":     "Yalnızca bir harf değil —\nbir düşünce sistemi.",
+    "phil.desc":      '"O" kimliğimizin merkezinde yer alır — yalnızca kurucumuzun soyadının baş harfi değil, pratiğimizin temel ilkelerini kodlayan çok katmanlı bir semboldür. Aynı anda hem bir başlangıç hem bir geri dönüştür; kırılmayan bir döngü.',
+    "phil.c1":        "Her fikrin başlangıç noktası",
+    "phil.c2":        "Yeni düşüncelerin filizlendiği yer",
+    "phil.c3":        "Döngüsel ve rejeneratif tasarım",
+    "phil.c4":        "Mimarlığın uzun vadeli etkisi",
+    "phil.c5":        "Başlangıç ve sonun buluştuğu nokta",
+    "phil.c6":        "İnsan, doğa ve yapılı çevre bütünlüğü",
+    "work.label":     "Çalışma Alanları",
+    "work.title":     "Sınır tanımayan\nbir laboratuvar.",
+    "work.desc":      "THE O ARCHITECTURE LAB, büyük ölçekli yapılı çevre projelerinden akademik araştırma ve uluslararası kalkınma programlarına uzanan geniş bir yelpazede faaliyet göstermektedir. Her çalışma alanını aynı taahhüt yönlendirmektedir: dönüşümün bir gücü olarak tasarım.",
+    "wa.1.t":         "Mimari Tasarım",
+    "wa.1.d":         "Konseptten teslimata — insana, mekâna ve zamana duyarlı yapılar.",
+    "wa.2.t":         "Yarışma Projeleri",
+    "wa.2.d":         "Disiplini ileriye taşıyan, uluslararası alanda tanınan fikir odaklı katılımlar.",
+    "wa.3.t":         "Araştırma ve Yayınlar",
+    "wa.3.d":         "Mekânsal ve sosyal sorgulamaya dayanan hakemli çalışmalar, denemeler ve kitaplar.",
+    "wa.4.t":         "Yapı Biyolojisi ve Sağlıklı Yapılar",
+    "wa.4.d":         "Kullanıcı sağlığı, hava kalitesi ve biyofilik iyi oluş için kanıta dayalı tasarım.",
+    "wa.5.t":         "Sürdürülebilir ve Rejeneratif Tasarım",
+    "wa.5.d":         "Doğal çevreyi tüketmek yerine onarma hedefli karbon bilinçli stratejiler.",
+    "wa.6.t":         "AB ve Uluslararası Fonlu Projeler",
+    "wa.6.d":         "Horizon Europe, BM ve kalkınma ajansı programları için tasarım liderliği.",
+    "wa.7.t":         "Eğitim ve Atölyeler",
+    "wa.7.d":         "Stüdyo tabanlı öğrenme, kamuya açık dersler ve uluslararası tasarım yoğunlaşmaları.",
+    "wa.8.t":         "Afet Sonrası ve İnsani Yardım Mimarlığı",
+    "wa.8.d":         "Hızlı müdahale barınağı, topluluk yeniden yapılanması ve dayanıklı kentsel çerçeveler.",
+    "proj.label":     "Seçili Projeler",
+    "proj.title":     "İnşa edilen, hayal edilen\nve araştırılan.",
+    "flt.all":        "Tümü",
+    "flt.res":        "Konut",
+    "flt.civ":        "Kamusal",
+    "flt.comp":       "Yarışma",
+    "flt.res2":       "Araştırma",
+    "cat.res":        "Konut",
+    "cat.civ":        "Kamusal",
+    "cat.comp":       "Yarışma",
+    "cat.res2":       "Araştırma",
+    "p1.name":        "Orman Evi",
+    "p2.name":        "İstanbul Kültür Merkezi",
+    "p3.name":        "Kuzey Kütüphanesi — 2. Ödül",
+    "p4.name":        "Biyofilik İşyeri Araştırması",
+    "p5.name":        "Sahil Villası",
+    "p6.name":        "Mahalle Yenileme Projesi",
+    "proj.more":      "Tüm Projeleri Gör →",
+    "res.label":      "Araştırma ve Yayınlar",
+    "res.title":      "İnşa ederek\ndüşünmek.",
+    "res.desc":       "Titiz araştırmanın pratikten ayrılamayacağına inanıyoruz. Yayınlarımız, konferans katkılarımız ve ortak çalışmalarımız doğrudan inşa edilmiş işlere besleniyor — ve tam tersi.",
+    "res.cta":        "Tüm Yayınlar →",
+    "r1.t":           "Rejeneratif Kentçilik: Net Sıfırın Ötesinde",
+    "r1.tp":          "Hakemli Makale · Sürdürülebilir Kentler",
+    "r2.t":           "Pandemi Sonrası İşyerleri için Yapı Biyolojisi Ölçütleri",
+    "r2.tp":          "Konferans Bildirisi · Archmarathon Berlin",
+    "r3.t":           "Geçici Kalıcılık: Mimarlık Olarak İnsani Yardım Barınağı",
+    "r3.tp":          "Kitap Bölümü · Routledge",
+    "r4.t":           "İzmir'deki Osmanlı Ticaret Dokusunun Adaptif Yeniden Kullanımı",
+    "r4.tp":          "Araştırma Raporu · AB Ufuk 2020",
+    "r5.t":           "Malzeme Belleği: Toprak, Taş ve Kolektif Kimlik",
+    "r5.tp":          "Sergi Kataloğu · İstanbul Bienali",
+    "about.label":    "Laboratuvar",
+    "about.title":    "İnsanla ve\namaçla tasarlamak.",
+    "about.p1":       "THE O ARCHITECTURE LAB, İstanbul merkezli bağımsız bir mimarlık ve araştırma laboratuvarıdır. Tasarım, sürdürülebilirlik, yapı biyolojisi ve toplumsal dönüşümün kesişiminde çalışıyor; projeleri kavramsal araştırmadan fiziksel gerçekleşmeye taşıyoruz.",
+    "about.p2":       "İTÜ ve TU Münih mezunu kurucu direktörümüz, konut, kamusal, yarışma ve insani yardım alanlarını kapsayan 9 yıllık inşa edilmiş ve edilmemiş proje deneyimine sahiptir. Laboratuvar, 14 ülkedeki üniversiteler, kalkınma ajansları ve özel müşterilerle iş birliği yapmaktadır.",
+    "stat.proj":      "Proje",
+    "stat.yrs":       "Yıl",
+    "stat.ctry":      "Ülke",
+    "stat.awds":      "Ödül",
+    "about.cta":      "Birlikte Çalışalım",
+    "test.label":     "Paydaş Görüşleri",
+    "test.title":     "İş birlikçilerimiz ne diyor.",
+    "t1.q":           "THE O ARCHITECTURE LAB, genel merkez projemize daha önce hiç karşılaşmadığımız bir entelektüel titizlik ve duyarlılık kattı. Ortaya çıkan yapı gerçekten bizi yansıtıyor.",
+    "t1.r":           "CEO, Akaya Geliştirme — İstanbul, 2023",
+    "t2.q":           "Horizon Europe projemizde laboratuvarla çalışmak son derece akıcıydı. Tasarım mükemmeliyetini uluslararası fon çerçevesinin gereksinimleriyle harmanlama becerileri nadir ve paha biçilmez.",
+    "t2.r":           "Program Direktörü, AB Kentsel Gelecekler — Brüksel, 2024",
+    "appr.label":     "Sürecimiz",
+    "appr.title":     "Nasıl düşünüyor\nve inşa ediyoruz.",
+    "appr.body":      "Her proje dinlemekle başlar. Keşif aşamasına büyük yatırım yapıyoruz — tek bir çizgi çizmeden önce bağlamı, insanları ve hedefleri anlıyoruz. Oradan itibaren tasarım, fikir ile gerçeklik arasında kesintisiz bir diyalog olarak gelişiyor.",
+    "appr.cta":       "Proje Başlat →",
+    "step1.t":        "Dinle ve Keşfet",
+    "step1.d":        "Derinlemesine brifing, alan araştırması, kültürel ve bağlamsal analiz. Başkalarının atladığı soruları soruyoruz — çünkü doğru sorular doğru mimarlığı üretir.",
+    "step2.t":        "Tasarla ve Geliştir",
+    "step2.d":        "Serbest eskizlerden hassas çizimlere. Müşteri, danışman ve bağlamın her kararı şekillendirdiği yinelemeli, iş birlikçi bir süreç. Kapalı kutu tasarım yok.",
+    "step3.t":        "İnşa Et ve Denetle",
+    "step3.d":        "İnşaat belgelendirmesi, şantiye varlığı ve kullanım sonrası değerlendirme. Çizimler teslim edilince ortadan kaybolmuyoruz — iş hayata geçene dek yanındayız.",
+    "step4.t":        "Düşün ve Yayınla",
+    "step4.d":        "Her proje araştırma döngüsüne geri döner. Belgeler, analiz eder ve bulguları paylaşırız — disiplin için kolektif bilgi birikimi oluştururuz.",
+    "cta.label":         "Birlikte Çalışalım",
+    "cta.title1":        "Fikrinizi hayata",
+    "cta.title2":        "geçirelim birlikte.",
+    "cta.sub":           "Bir bina brifiniz, araştırma sorunuz ya da yarım kalmış bir fikriniz olsun — duymak istiyoruz. İlk görüşmeler her zaman ücretsizdir.",
+    "cta.btn":           "Hemen İletişime Geçin →",
+    "cta.location":      "Karaköy, İstanbul — Türkiye",
+    "cta.free":          "İlk görüşme her zaman ücretsizdir.",
+    "form.name":         "Ad Soyad",
+    "form.email":        "E-posta Adresi",
+    "form.org":          "Kurum / Şirket",
+    "form.type":         "Proje Türü",
+    "form.type.placeholder": "Kategori seçin",
+    "form.type.other":   "Diğer",
+    "form.msg":          "Mesajınız",
+    "form.send":         "Mesaj Gönder →",
+    "form.err.name":     "Lütfen adınızı girin.",
+    "form.err.email":    "Lütfen geçerli bir e-posta girin.",
+    "form.err.type":     "Lütfen bir proje türü seçin.",
+    "form.err.msg":      "Lütfen kısa bir mesaj yazın.",
+    "form.ok.title":     "Mesajınız alındı.",
+    "form.ok.sub":       "48 saat içinde size geri döneceğiz. Ulaştığınız için teşekkürler.",
+    "form.sending":      "Gönderiliyor…",
+    "foot.desc":      "Tasarım, sürdürülebilirlik ve toplumsal dönüşümün kesişiminde faaliyet gösteren bağımsız bir mimarlık ve araştırma laboratuvarı.",
+    "foot.nav":       "Sayfalar",
+    "foot.phil":      "Felsefe",
+    "foot.prac":      "Hizmetler",
+    "foot.contact":   "İletişim",
+    "foot.privacy":   "Gizlilik Politikası",
+    "foot.terms":     "Kullanım Koşulları",
+  }
+};
+
+/* ── Language switcher ─────────────────────────────────────── */
+let currentLang = 'en';
+
+function applyLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  document.documentElement.lang = lang;
+
+  // Sync both sets of buttons
+  ['langEN','langEN2'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.toggle('active', lang === 'en');
+  });
+  ['langTR','langTR2'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.toggle('active', lang === 'tr');
+  });
+}
+
+['langEN','langEN2'].forEach(id => {
+  document.getElementById(id)?.addEventListener('click', () => applyLang('en'));
+});
+['langTR','langTR2'].forEach(id => {
+  document.getElementById(id)?.addEventListener('click', () => applyLang('tr'));
+});
+
+/* ── Navbar scroll ─────────────────────────────────────────── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+/* ── Burger menu ───────────────────────────────────────────── */
+const burger    = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobLinks  = mobileMenu.querySelectorAll('.mob-lnk');
+
+burger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mobLinks.forEach(l => l.addEventListener('click', () => {
+  mobileMenu.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+}));
+
+/* ── Project filter ────────────────────────────────────────── */
+document.querySelectorAll('.flt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.flt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.proj-card').forEach(c => {
+      c.style.display = (f === 'all' || c.dataset.cat === f) ? '' : 'none';
+    });
+  });
+});
+
+/* ── Scroll reveal ─────────────────────────────────────────── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.10, rootMargin: '0px 0px -32px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── Active nav highlight ──────────────────────────────────── */
+const sectionsForNav = document.querySelectorAll('section[id]');
+const navAs = document.querySelectorAll('.nav-links a');
+
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navAs.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + e.target.id
+          ? 'var(--white)'
+          : '';
+      });
+    }
+  });
+}, { threshold: 0.4 }).forEach
+  ? new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting)
+          navAs.forEach(a => {
+            a.style.color = a.getAttribute('href') === '#' + e.target.id
+              ? 'var(--white)' : '';
+          });
+      });
+    }, { threshold: 0.4 })
+  : null;
+
+/* Run nav observer properly */
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting)
+      navAs.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + e.target.id
+          ? 'var(--white)' : '';
+      });
+  });
+}, { threshold: 0.35 });
+sectionsForNav.forEach(s => navObs.observe(s));
+
+/* ── Contact Form ───────────────────────────────────────────── */
+(function () {
+  const form    = document.getElementById('contactForm');
+  const success = document.getElementById('cfSuccess');
+  const btn     = document.getElementById('cf-btn');
+
+  if (!form) return;
+
+  function val(id, test) {
+    const grp = document.getElementById('grp-' + id);
+    const el  = document.getElementById('cf-' + id);
+    if (!grp || !el) return true;
+    const ok = test(el.value.trim());
+    grp.classList.toggle('invalid', !ok);
+    return ok;
+  }
+
+  function validateAll() {
+    const n = val('name',  v => v.length >= 2);
+    const e = val('email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+    const t = val('type',  v => v !== '');
+    const m = val('msg',   v => v.length >= 10);
+    return n && e && t && m;
+  }
+
+  /* Clear invalid state on input */
+  ['name','email','type','msg'].forEach(id => {
+    const el = document.getElementById('cf-' + id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      document.getElementById('grp-' + id)?.classList.remove('invalid');
+    });
+  });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!validateAll()) return;
+
+    const t = translations[currentLang];
+    btn.disabled    = true;
+    btn.textContent = t['form.sending'] || 'Sending…';
+
+    const payload = {
+      name:         document.getElementById('cf-name').value.trim(),
+      email:        document.getElementById('cf-email').value.trim(),
+      organisation: document.getElementById('cf-org').value.trim(),
+      project_type: document.getElementById('cf-type').value,
+      message:      document.getElementById('cf-msg').value.trim(),
+    };
+
+    try {
+      const res = await fetch('https://formspree.io/f/xzdqjbgg', {
+        method:  'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error('Network response was not ok');
+
+      form.style.display = 'none';
+      success.classList.add('show');
+      success.querySelector('[data-i18n="form.ok.title"]').textContent = t['form.ok.title'];
+      success.querySelector('[data-i18n="form.ok.sub"]').textContent   = t['form.ok.sub'];
+
+    } catch (err) {
+      btn.disabled    = false;
+      btn.textContent = t['form.send'] || 'Send Message →';
+
+      /* Inline error banner */
+      let banner = form.querySelector('.cf-send-error');
+      if (!banner) {
+        banner = document.createElement('p');
+        banner.className = 'cf-send-error';
+        banner.style.cssText = 'margin-top:12px;font-size:.78rem;color:#c0614a;text-align:center';
+        form.appendChild(banner);
+      }
+      banner.textContent = currentLang === 'tr'
+        ? 'Mesaj gönderilemedi. Lütfen tekrar deneyin.'
+        : 'Something went wrong. Please try again.';
+    }
+  });
+})();
+</script>
+</body>
+</html>
