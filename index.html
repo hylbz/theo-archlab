@@ -23,7 +23,7 @@ body {
   color: #F0EDE8;
   font-family: 'DM Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip, not hidden — hidden breaks position:sticky */
   cursor: none;
 }
 
@@ -60,15 +60,104 @@ body.cursor--hover #cursor-ring {
   opacity: 0.4;
 }
 
-/* ── THE.O Symbol Section ────────────────────────────────── */
+/* ── THE.O Symbol Section — sticky, projects slide over it ── */
 #theo-definition {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 2;
   height: 100vh;
   background: #0e0e0e;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ── Projects Showcase ───────────────────────────────────── */
+#projects-showcase {
+  position: relative;
+  z-index: 3;
+  height: 500vh; /* 4 projects × 100vh + 100vh base */
+  background: #080808;
+}
+.ps-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 5fr 3fr 5fr;
+}
+.ps-col {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+.ps-slide {
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  height: 62vh;
+  top: 19vh;
+  overflow: hidden;
+  will-change: transform, filter, opacity;
+  transform-origin: center top;
+}
+.ps-slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ps-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 16px;
+  position: relative;
+  z-index: 2;
+}
+.ps-idx {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .3em;
+  color: #8B7355;
+  margin-bottom: 18px;
+}
+.ps-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.1rem, 2.4vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  color: #F0EDE8;
+  line-height: 1.1;
+  transition: opacity .25s, transform .3s cubic-bezier(.4,0,.2,1);
+}
+.ps-tags {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: .85rem;
+  color: rgba(240,237,232,.42);
+  margin-top: 10px;
+  transition: opacity .25s, transform .3s cubic-bezier(.4,0,.2,1);
+}
+.ps-progress {
+  display: flex;
+  gap: 6px;
+  margin-top: 28px;
+}
+.ps-dot {
+  width: 18px;
+  height: 1.5px;
+  background: rgba(240,237,232,.2);
+  transition: background .3s, width .3s;
+}
+.ps-dot.active {
+  background: #F0EDE8;
+  width: 28px;
 }
 
 /* O symbol */
@@ -583,7 +672,7 @@ header {
    ═══════════════════════════════════════════════════════ */
 .page {
   position: relative;
-  z-index: 1;
+  z-index: 4;
   background: #080808;
 }
 
@@ -1312,6 +1401,20 @@ footer {
   </div>
 </section>
 
+<!-- ── Projects Showcase ─────────────────────────────── -->
+<section id="projects-showcase">
+  <div class="ps-sticky">
+    <div class="ps-col" id="psLeft"></div>
+    <div class="ps-center">
+      <p class="ps-idx" id="psIdx">01</p>
+      <h3 class="ps-name" id="psName"></h3>
+      <p class="ps-tags" id="psTags"></p>
+      <div class="ps-progress" id="psProgress"></div>
+    </div>
+    <div class="ps-col" id="psRight"></div>
+  </div>
+</section>
+
 <!-- ═══════════════════════════════════════════════════════
      PAGE — portfolio sections
      ═══════════════════════════════════════════════════════ -->
@@ -1841,6 +1944,140 @@ window.addEventListener('scroll', () => {
     });
   }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
   items.forEach(el => io.observe(el));
+})();
+
+/* ═══════════════════════════════════════════════════════
+   PROJECTS SHOWCASE — scroll-driven stack gallery
+   ═══════════════════════════════════════════════════════ */
+(function () {
+  const PROJECTS = [
+    {
+      idx: '01', title: 'Veil House', tags: 'Residential — Istanbul',
+      left:  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80',
+      right: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80',
+    },
+    {
+      idx: '02', title: 'Common Ground', tags: 'Public Space — Izmir',
+      left:  'https://images.unsplash.com/photo-1486718448742-163732cd1544?w=900&q=80',
+      right: 'https://images.unsplash.com/photo-1464146072230-91cabc968266?w=900&q=80',
+    },
+    {
+      idx: '03', title: 'Archive of Light', tags: 'Cultural — Istanbul',
+      left:  'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&q=80',
+      right: 'https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=900&q=80',
+    },
+    {
+      idx: '04', title: 'Soft Threshold', tags: 'Interior — Ankara',
+      left:  'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900&q=80',
+      right: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&q=80',
+    },
+  ];
+
+  const section  = document.getElementById('projects-showcase');
+  const leftCol  = document.getElementById('psLeft');
+  const rightCol = document.getElementById('psRight');
+  const nameEl   = document.getElementById('psName');
+  const tagsEl   = document.getElementById('psTags');
+  const idxEl    = document.getElementById('psIdx');
+  const progEl   = document.getElementById('psProgress');
+
+  if (!section) return;
+
+  /* Build slide elements */
+  const leftSlides = [], rightSlides = [];
+  PROJECTS.forEach((p, i) => {
+    ['left', 'right'].forEach(side => {
+      const slide = document.createElement('div');
+      slide.className = 'ps-slide';
+      const img = document.createElement('img');
+      img.src = p[side];
+      img.alt = p.title;
+      img.loading = i === 0 ? 'eager' : 'lazy';
+      slide.appendChild(img);
+      if (side === 'left') { leftCol.appendChild(slide); leftSlides.push(slide); }
+      else                 { rightCol.appendChild(slide); rightSlides.push(slide); }
+    });
+  });
+
+  /* Build progress dots */
+  const dots = PROJECTS.map(() => {
+    const d = document.createElement('div');
+    d.className = 'ps-dot';
+    progEl.appendChild(d);
+    return d;
+  });
+
+  /* Apply state to a slide */
+  function applySlide(el, ty, blurPx, scale, opacity) {
+    el.style.transform = `translateY(${ty}px) scale(${scale})`;
+    el.style.filter    = blurPx > 0.2 ? `blur(${blurPx.toFixed(1)}px)` : 'none';
+    el.style.opacity   = opacity;
+  }
+
+  let lastIdx = -1;
+
+  function updateText(idx) {
+    if (idx === lastIdx) return;
+    lastIdx = idx;
+    const p = PROJECTS[idx];
+    /* Fade out → swap → fade in */
+    nameEl.style.opacity = '0';
+    nameEl.style.transform = 'translateY(6px)';
+    tagsEl.style.opacity = '0';
+    setTimeout(() => {
+      idxEl.textContent  = p.idx;
+      nameEl.textContent = p.title;
+      tagsEl.textContent = p.tags;
+      nameEl.style.opacity = '1';
+      nameEl.style.transform = 'translateY(0)';
+      tagsEl.style.opacity = '1';
+    }, 180);
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  function update() {
+    const top      = section.getBoundingClientRect().top + window.scrollY;
+    const scrolled = Math.max(0, window.scrollY - top);
+    const maxS     = section.offsetHeight - window.innerHeight;
+    const p        = maxS > 0 ? Math.min(1, scrolled / maxS) : 0;
+    const raw      = p * PROJECTS.length;
+    const idx      = Math.min(Math.floor(raw), PROJECTS.length - 1);
+    const frac     = raw - Math.floor(raw);
+    const vh       = window.innerHeight;
+
+    PROJECTS.forEach((_, i) => {
+      const l = leftSlides[i], r = rightSlides[i];
+      if (i < idx) {
+        /* fully past: blurred, shrunk, slightly above */
+        applySlide(l, -vh * 0.05, 8, 0.93, 0.28);
+        applySlide(r, -vh * 0.05, 8, 0.93, 0.28);
+      } else if (i === idx) {
+        /* active, transitioning toward past as frac → 1 */
+        applySlide(l, -frac * vh * 0.05, frac * 8,   1 - frac * 0.07, 1 - frac * 0.72);
+        applySlide(r, -frac * vh * 0.05, frac * 8,   1 - frac * 0.07, 1 - frac * 0.72);
+      } else if (i === idx + 1) {
+        /* entering from below */
+        applySlide(l, (1 - frac) * vh, 0, 1, frac);
+        applySlide(r, (1 - frac) * vh, 0, 1, frac);
+      } else {
+        /* waiting below */
+        applySlide(l, vh, 0, 1, 0);
+        applySlide(r, vh, 0, 1, 0);
+      }
+    });
+
+    updateText(idx);
+  }
+
+  /* Init text & dots */
+  idxEl.textContent  = PROJECTS[0].idx;
+  nameEl.textContent = PROJECTS[0].title;
+  tagsEl.textContent = PROJECTS[0].tags;
+  dots[0].classList.add('active');
+  lastIdx = 0;
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 })();
 
 /* ═══════════════════════════════════════════════════════
