@@ -63,11 +63,71 @@ body.cursor--hover #cursor-ring {
 /* ── THE.O Definition Section ───────────────────────────── */
 #theo-definition {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   min-height: 100vh;
   background: #0e0e0e;
   color: #F0EDE8;
-  padding: 15vh 10vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.theo-symbol-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10vh 4vw 10vh 8vw;
+}
+
+/* O symbol — reused from o-symbol.html */
+.o-symbol {
+  position: relative;
+  width: min(340px, 38vw);
+  aspect-ratio: 1;
+}
+.o-svg {
+  width: 100%;
+  height: 100%;
+  animation: rotateSlow 40s linear infinite;
+}
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.o-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.o-letter {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-weight: 300;
+  color: #F4F2EE;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+.o-caption {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(.42rem, .7vw, .58rem);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #8B7355;
+  margin-top: 10px;
+  white-space: nowrap;
+}
+
+.theo-content-col {
+  padding: 10vh 8vw 10vh 4vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .theo-name {
@@ -147,25 +207,26 @@ body.cursor--hover #cursor-ring {
   line-height: 1.6;
 }
 
-/* Stagger reveal for theo section */
-#theo-definition > * {
+/* Stagger reveal for theo content */
+.theo-content-col > *, .theo-symbol-col {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-#theo-definition > *.is-visible {
+.theo-content-col > *.is-visible, .theo-symbol-col.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
+@media (max-width: 900px) {
+  #theo-definition { grid-template-columns: 1fr; }
+  .theo-symbol-col { padding: 10vh 8vw 4vh; justify-content: flex-start; }
+  .o-symbol { width: min(200px, 45vw); }
+  .theo-content-col { padding: 0 8vw 10vh; }
+}
 @media (max-width: 768px) {
-  #theo-definition { padding: 12vh 8vw; }
-  .theo-list li {
-    grid-template-columns: 1fr;
-    gap: 0.15rem;
-  }
+  .theo-list li { grid-template-columns: 1fr; gap: 0.15rem; }
   .theo-arrow { display: none; }
-  .theo-term { display: inline; }
 }
 
 /* ── Video BG (hero only — sections below cover it) ────── */
@@ -190,9 +251,10 @@ body.cursor--hover #cursor-ring {
     linear-gradient(180deg, rgba(5,5,5,.58) 0%, transparent 20%, transparent 76%, rgba(5,5,5,.72) 100%);
 }
 
-/* ── Shell (hero) ──────────────────────────────────────── */
+/* ── Shell (hero) — stays pinned while next section slides over it ── */
 .shell {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 1;
   width: 100%;
   height: 100vh;
@@ -1218,43 +1280,73 @@ footer {
 
 <!-- ── THE.O Definition ───────────────────────────────── -->
 <section id="theo-definition">
-  <h2 class="theo-name">THE.O</h2>
-  <p class="theo-phonetic">/ðə.oʊ/</p>
-  <p class="theo-pos">noun</p>
-  <p class="theo-tagline">A studio where every design begins at its origin, returns to zero, and completes the whole.</p>
-  <hr class="theo-divider">
-  <ul class="theo-list">
-    <li>
-      <span class="theo-term">Origin</span>
-      <span class="theo-arrow">→</span>
-      <span class="theo-desc">The point where every design begins.</span>
-    </li>
-    <li>
-      <span class="theo-term">Zero Point</span>
-      <span class="theo-arrow">→</span>
-      <span class="theo-desc">Where new ideas, research, and projects are born.</span>
-    </li>
-    <li>
-      <span class="theo-term">Cycle</span>
-      <span class="theo-arrow">→</span>
-      <span class="theo-desc">The closed-loop system at the heart of sustainability.</span>
-    </li>
-    <li>
-      <span class="theo-term">Continuity</span>
-      <span class="theo-arrow">→</span>
-      <span class="theo-desc">The lasting impact of architecture across its lifecycle.</span>
-    </li>
-    <li>
-      <span class="theo-term">Return</span>
-      <span class="theo-arrow">→</span>
-      <span class="theo-desc">Where beginning and end meet at the same point.</span>
-    </li>
-    <li>
-      <span class="theo-term">Wholeness</span>
-      <span class="theo-arrow">→</span>
-      <span class="theo-desc">The relationship between human, environment, and built world — treated as one.</span>
-    </li>
-  </ul>
+
+  <!-- Left: animated O symbol -->
+  <div class="theo-symbol-col">
+    <div class="o-symbol">
+      <svg class="o-svg" viewBox="0 0 400 400" fill="none"
+           xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="200" cy="200" r="188"
+                stroke="rgba(244,242,238,0.08)" stroke-width="1" stroke-dasharray="4 8"/>
+        <circle cx="200" cy="200" r="160"
+                stroke="rgba(139,115,85,0.18)" stroke-width="0.75"/>
+        <circle cx="200" cy="200" r="130"
+                stroke="rgba(244,242,238,0.06)" stroke-width="1" stroke-dasharray="2 12"/>
+        <path d="M 340 230 A 155 155 0 0 1 100 290"
+              stroke="rgba(139,115,85,0.55)" stroke-width="1.5" fill="none"/>
+        <line x1="200" y1="36"  x2="200" y2="52"  stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
+        <line x1="200" y1="348" x2="200" y2="364" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
+        <line x1="36"  y1="200" x2="52"  y2="200" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
+        <line x1="348" y1="200" x2="364" y2="200" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
+      </svg>
+      <div class="o-center">
+        <span class="o-letter">O</span>
+        <span class="o-caption">Origin · Cycle · Wholeness</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: name definition -->
+  <div class="theo-content-col">
+    <h2 class="theo-name">THE.O</h2>
+    <p class="theo-phonetic">/ðə.oʊ/</p>
+    <p class="theo-pos">noun</p>
+    <p class="theo-tagline">A studio where every design begins at its origin, returns to zero, and completes the whole.</p>
+    <hr class="theo-divider">
+    <ul class="theo-list">
+      <li>
+        <span class="theo-term">Origin</span>
+        <span class="theo-arrow">→</span>
+        <span class="theo-desc">The point where every design begins.</span>
+      </li>
+      <li>
+        <span class="theo-term">Zero Point</span>
+        <span class="theo-arrow">→</span>
+        <span class="theo-desc">Where new ideas, research, and projects are born.</span>
+      </li>
+      <li>
+        <span class="theo-term">Cycle</span>
+        <span class="theo-arrow">→</span>
+        <span class="theo-desc">The closed-loop system at the heart of sustainability.</span>
+      </li>
+      <li>
+        <span class="theo-term">Continuity</span>
+        <span class="theo-arrow">→</span>
+        <span class="theo-desc">The lasting impact of architecture across its lifecycle.</span>
+      </li>
+      <li>
+        <span class="theo-term">Return</span>
+        <span class="theo-arrow">→</span>
+        <span class="theo-desc">Where beginning and end meet at the same point.</span>
+      </li>
+      <li>
+        <span class="theo-term">Wholeness</span>
+        <span class="theo-arrow">→</span>
+        <span class="theo-desc">The relationship between human, environment, and built world — treated as one.</span>
+      </li>
+    </ul>
+  </div>
+
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -1613,17 +1705,19 @@ footer {
   const section = document.getElementById('theo-definition');
   if (!section) return;
 
-  const children = Array.from(section.children);
+  const symbolCol  = section.querySelector('.theo-symbol-col');
+  const contentKids = Array.from(section.querySelectorAll('.theo-content-col > *'));
+  const all = [symbolCol, ...contentKids];
 
   if (!('IntersectionObserver' in window)) {
-    children.forEach(el => el.classList.add('is-visible'));
+    all.forEach(el => el.classList.add('is-visible'));
     return;
   }
 
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        children.forEach((el, i) => {
+        all.forEach((el, i) => {
           setTimeout(() => el.classList.add('is-visible'), i * 80);
         });
         io.unobserve(section);
