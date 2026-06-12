@@ -148,15 +148,109 @@ body.cursor--hover #cursor-ring {
     linear-gradient(180deg, rgba(5,5,5,.58) 0%, transparent 20%, transparent 76%, rgba(5,5,5,.72) 100%);
 }
 
-/* ── Shell (hero) — stays pinned while next section slides over it ── */
+/* ── Shell (hero) — fixed behind everything, sections scroll over it ── */
 .shell {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 0; left: 0;
   z-index: 1;
   width: 100%;
   height: 100vh;
   display: grid;
   grid-template-rows: 1fr auto;
+}
+
+/* Spacer pushes scrollable content below the fixed hero */
+.hero-spacer {
+  height: 100vh;
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Hamburger nav — appears once hero is covered ────────── */
+#burger-nav {
+  position: fixed;
+  top: 36px;
+  right: 48px;
+  z-index: 9990;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s;
+}
+#burger-nav.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.burger-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  opacity: 0.32;
+  transition: opacity .3s;
+}
+#burger-nav:hover .burger-btn { opacity: 1; }
+#burger-nav.open .burger-btn  { opacity: 1; }
+
+.burger-btn span {
+  display: block;
+  height: 1.5px;
+  background: #F0EDE8;
+  border-radius: 1px;
+  transition: width .3s cubic-bezier(.4,0,.2,1), transform .35s cubic-bezier(.4,0,.2,1), opacity .2s;
+}
+.burger-btn span:nth-child(1) { width: 28px; }
+.burger-btn span:nth-child(2) { width: 20px; }
+.burger-btn span:nth-child(3) { width: 24px; }
+
+/* Morphs to X when open */
+#burger-nav.open .burger-btn span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); width: 24px; }
+#burger-nav.open .burger-btn span:nth-child(2) { opacity: 0; width: 0; }
+#burger-nav.open .burger-btn span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); width: 24px; }
+
+.burger-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity .3s, transform .35s cubic-bezier(.4,0,.2,1);
+}
+#burger-nav.open .burger-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.burger-menu a {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: .72rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #F0EDE8;
+  text-decoration: none;
+  padding: 10px 12px;
+  opacity: 0.6;
+  transition: opacity .2s;
+  white-space: nowrap;
+}
+.burger-menu a:hover { opacity: 1; }
+.burger-menu .burger-sep {
+  width: 100%;
+  height: 1px;
+  background: rgba(240,237,232,.1);
+  margin: 6px 12px;
 }
 
 /* ── Header ─────────────────────────────────────────────── */
@@ -1175,6 +1269,24 @@ footer {
   <div class="scroll-line"></div>
 </div>
 
+<!-- Spacer: reserves scroll distance for hero -->
+<div class="hero-spacer" aria-hidden="true"></div>
+
+<!-- ── Hamburger nav (appears after hero is covered) ──── -->
+<nav id="burger-nav" aria-label="Site navigation">
+  <button class="burger-btn" id="burgerBtn" aria-expanded="false" aria-controls="burgerMenu" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="burger-menu" id="burgerMenu" role="menu">
+    <a href="#works" role="menuitem">Works</a>
+    <a href="#studio" role="menuitem">Studio</a>
+    <a href="#research" role="menuitem">Research</a>
+    <a href="#process" role="menuitem">Process</a>
+    <div class="burger-sep"></div>
+    <a href="#contact" role="menuitem">Get in Touch</a>
+  </div>
+</nav>
+
 <!-- ── THE.O Symbol ───────────────────────────────────── -->
 <section id="theo-definition">
   <div class="o-symbol">
@@ -1658,6 +1770,44 @@ pill.addEventListener('click', e => {
 document.addEventListener('click', () => {
   if (open) { open = false; pill.style.width = ''; }
 });
+
+/* ═══════════════════════════════════════════════════════
+   HAMBURGER NAV — show after hero is scrolled past
+   ═══════════════════════════════════════════════════════ */
+(function () {
+  const nav  = document.getElementById('burger-nav');
+  const btn  = document.getElementById('burgerBtn');
+  const menu = document.getElementById('burgerMenu');
+
+  /* Show/hide based on scroll position */
+  function onScroll() {
+    const past = window.scrollY >= window.innerHeight * 0.9;
+    nav.classList.toggle('visible', past);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* Toggle open/close */
+  btn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen);
+  });
+
+  /* Close on link click */
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* Close on outside click */
+  document.addEventListener('click', e => {
+    if (!nav.contains(e.target)) {
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
 
 /* ═══════════════════════════════════════════════════════
    VIDEO fallback
