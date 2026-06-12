@@ -1589,16 +1589,10 @@ footer {
     requestAnimationFrame(loop);
   })();
 
-  /* Hover state on interactive elements */
-  document.addEventListener('mouseover', e => {
-    if (e.target.closest('a, button, [data-hover]')) {
-      document.body.classList.add('cursor--hover');
-    }
-  });
-  document.addEventListener('mouseout', e => {
-    if (e.target.closest('a, button, [data-hover]')) {
-      document.body.classList.remove('cursor--hover');
-    }
+  /* Hover state — checked on every mousemove to avoid child-element toggling */
+  document.addEventListener('mousemove', e => {
+    const over = !!e.target.closest('a, button, [data-hover]');
+    document.body.classList.toggle('cursor--hover', over);
   });
 
   /* Hide cursors when mouse leaves window */
