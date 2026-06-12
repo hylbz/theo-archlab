@@ -52,13 +52,11 @@ body {
   pointer-events: none;
   z-index: 9998;
   will-change: transform;
-  scale: 1;
   opacity: 0.6;
-  transition: scale .35s cubic-bezier(.4,0,.2,1), opacity .3s;
+  transition: opacity .3s;
 }
 
 body.cursor--hover #cursor-ring {
-  scale: 1.8;
   opacity: 0.4;
 }
 
@@ -1572,6 +1570,7 @@ footer {
 
   let mx = -100, my = -100; /* mouse position */
   let rx = -100, ry = -100; /* ring lerp position */
+  let rs = 1, targetScale = 1; /* ring lerp scale */
 
   /* Move dot instantly */
   document.addEventListener('mousemove', e => {
@@ -1580,18 +1579,20 @@ footer {
     dot.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
   });
 
-  /* Ring follows with lerp */
+  /* Ring follows with lerp — position AND scale in one transform */
   (function loop() {
     rx += (mx - rx) * 0.08;
     ry += (my - ry) * 0.08;
-    ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+    rs += (targetScale - rs) * 0.10;
+    ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%)) scale(${rs})`;
     requestAnimationFrame(loop);
   })();
 
-  /* Hover state — checked on every mousemove to avoid child-element toggling */
+  /* Hover state — update scale target, checked on every mousemove */
   document.addEventListener('mousemove', e => {
     const over = !!e.target.closest('a, button, [data-hover]');
     document.body.classList.toggle('cursor--hover', over);
+    targetScale = over ? 1.8 : 1;
   });
 
   /* Hide cursors when mouse leaves window */
