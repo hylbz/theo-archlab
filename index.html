@@ -66,29 +66,58 @@ header {
 .nav-left  { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; padding-top: 3px; }
 .nav-right { display: flex; flex-direction: column; align-items: flex-end;   gap: 7px; padding-top: 3px; }
 
+/* ── Nav link: 3D prism flip on X axis ─────────────────── */
 .nav-link {
   font-family: 'Space Grotesk', sans-serif;
   font-size: .68rem;
   font-weight: 700;
   letter-spacing: .24em;
   text-transform: uppercase;
-  color: rgba(240,237,232,.42);
   text-decoration: none;
-  line-height: 1;
+  display: inline-block;
+  /* perspective on the anchor so each link has its own vanishing point */
+  perspective: 300px;
+  perspective-origin: 50% 50%;
+}
+
+/* The rotating drum */
+.nav-flip {
+  display: block;
   position: relative;
-  padding-bottom: 3px;
+  height: 1em;           /* one line of text */
+  transform-style: preserve-3d;
+  transition: transform .42s cubic-bezier(.4, 0, .2, 1);
+}
+.nav-link:hover .nav-flip {
+  transform: rotateX(90deg);
+}
+
+/* Both faces share base styles */
+.nav-face {
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  white-space: nowrap;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  line-height: 1;
+}
+
+/* Front face — resting position, pushed forward along Z */
+.nav-face-front {
+  transform: rotateX(0deg) translateZ(.5em);
+  color: rgba(240,237,232,.42);
   transition: color .28s;
 }
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 0; height: 1px;
-  background: rgba(240,237,232,.70);
-  transition: width .38s cubic-bezier(.4,0,.2,1);
+.nav-link:hover .nav-face-front {
+  color: rgba(240,237,232,.42); /* keep dim; it's leaving the frame */
 }
-.nav-link:hover { color: #F0EDE8; }
-.nav-link:hover::after { width: 100%; }
+
+/* Back face — starts rotated -90° (below), comes up on hover */
+.nav-face-back {
+  transform: rotateX(-90deg) translateZ(.5em);
+  color: #F0EDE8;
+}
 
 /* Logo centre */
 .logo-center {
@@ -376,8 +405,18 @@ header {
   <!-- HEADER -->
   <header>
     <nav class="nav-left">
-      <a href="#works"  class="nav-link">Works</a>
-      <a href="#studio" class="nav-link">Studio</a>
+      <a href="#works" class="nav-link">
+        <span class="nav-flip">
+          <span class="nav-face nav-face-front">Works</span>
+          <span class="nav-face nav-face-back">Works</span>
+        </span>
+      </a>
+      <a href="#studio" class="nav-link">
+        <span class="nav-flip">
+          <span class="nav-face nav-face-front">Studio</span>
+          <span class="nav-face nav-face-back">Studio</span>
+        </span>
+      </a>
     </nav>
 
     <a href="/" class="logo-center" aria-label="THE O ARCHITECTURE LAB">
@@ -388,8 +427,18 @@ header {
     </a>
 
     <nav class="nav-right">
-      <a href="#research" class="nav-link">Research</a>
-      <a href="#process"  class="nav-link">Process</a>
+      <a href="#research" class="nav-link">
+        <span class="nav-flip">
+          <span class="nav-face nav-face-front">Research</span>
+          <span class="nav-face nav-face-back">Research</span>
+        </span>
+      </a>
+      <a href="#process" class="nav-link">
+        <span class="nav-flip">
+          <span class="nav-face nav-face-front">Process</span>
+          <span class="nav-face nav-face-back">Process</span>
+        </span>
+      </a>
     </nav>
   </header>
 
