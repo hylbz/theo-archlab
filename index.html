@@ -1217,6 +1217,170 @@ footer {
   color: rgba(240,237,232,.28);
 }
 
+/* ── THE.O Definition Text ───────────────────────────────── */
+.theo-def-inner {
+  max-width: 780px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1s ease, transform 1s ease;
+  padding: 0 clamp(28px, 6vw, 80px);
+}
+.theo-def-inner.is-visible { opacity: 1; transform: translateY(0); }
+.theo-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(3.5rem, 9vw, 7.5rem);
+  letter-spacing: -.02em;
+  color: #F4F2EE;
+  line-height: 1;
+}
+.theo-phonetic {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(.8rem, 1.4vw, 1.05rem);
+  color: #8B7355;
+  letter-spacing: .06em;
+  margin: 10px 0 5px;
+}
+.theo-pos {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: .56rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,.28);
+}
+.theo-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(.88rem, 1.35vw, 1.08rem);
+  color: rgba(240,237,232,.5);
+  line-height: 1.65;
+  margin: 24px 0 28px;
+  max-width: 540px;
+}
+.theo-rule {
+  width: 34px;
+  height: 1px;
+  background: rgba(139,115,85,.55);
+  margin-bottom: 24px;
+}
+.theo-items { list-style: none; }
+.theo-item {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(10px, 1.8vw, 22px);
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(240,237,232,.06);
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+.theo-item:first-child { border-top: 1px solid rgba(240,237,232,.06); }
+.theo-item.is-visible { opacity: 1; transform: translateX(0); }
+.theo-item-key {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: .65rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #8B7355;
+  min-width: clamp(88px, 11vw, 126px);
+  flex-shrink: 0;
+}
+.theo-item-arrow {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: .82rem;
+  color: rgba(139,115,85,.38);
+  flex-shrink: 0;
+}
+.theo-item-val {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: clamp(.8rem, 1.1vw, .93rem);
+  color: rgba(240,237,232,.52);
+  line-height: 1.5;
+}
+
+/* ── Projects Showcase intro (fades as projects scroll in) ── */
+.ps-intro {
+  position: absolute;
+  top: 9vh;
+  left: 50%;
+  z-index: 4;
+  pointer-events: none;
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+  will-change: transform, opacity, filter;
+}
+
+/* ── Section Overlays ─────────────────────────────────────── */
+.section-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: #060606;
+  transform: translateX(100%);
+  transition: transform .65s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.section-overlay.open { transform: translateX(0); }
+.overlay-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(6,6,6,.96);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px clamp(28px, 6vw, 80px);
+  border-bottom: 1px solid rgba(240,237,232,.07);
+}
+.overlay-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: .6rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,.28);
+}
+.overlay-close-btn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(240,237,232,.4);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  transition: color .2s;
+  padding: 4px 0;
+}
+.overlay-close-btn:hover { color: #F0EDE8; }
+.overlay-close-btn svg {
+  width: 13px; height: 13px;
+  stroke: currentColor; stroke-width: 2;
+  fill: none;
+  flex-shrink: 0;
+}
+.overlay-body {
+  padding: clamp(44px, 7vw, 80px) clamp(28px, 6vw, 80px) 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .works-grid { gap: 52px 32px; }
@@ -1279,13 +1443,13 @@ footer {
   <!-- HEADER -->
   <header>
     <nav class="nav-left">
-      <a href="#works" class="nav-link">
+      <a href="#" data-overlay="works" class="nav-link">
         <span class="nav-flip">
           <span class="nav-face nav-face-front">Works</span>
           <span class="nav-face nav-face-back">Works</span>
         </span>
       </a>
-      <a href="#studio" class="nav-link">
+      <a href="#" data-overlay="studio" class="nav-link">
         <span class="nav-flip">
           <span class="nav-face nav-face-front">Studio</span>
           <span class="nav-face nav-face-back">Studio</span>
@@ -1301,13 +1465,13 @@ footer {
     </a>
 
     <nav class="nav-right">
-      <a href="#research" class="nav-link">
+      <a href="#" data-overlay="research" class="nav-link">
         <span class="nav-flip">
           <span class="nav-face nav-face-front">Research</span>
           <span class="nav-face nav-face-back">Research</span>
         </span>
       </a>
-      <a href="#process" class="nav-link">
+      <a href="#" data-overlay="process" class="nav-link">
         <span class="nav-flip">
           <span class="nav-face nav-face-front">Process</span>
           <span class="nav-face nav-face-back">Process</span>
@@ -1325,7 +1489,7 @@ footer {
 
       <!-- Thread animation row -->
       <div class="tl-thread-row" aria-live="polite" aria-label="as a catalyst">
-        <span class="tl-thread-prefix">as&nbsp;a</span>
+        <span class="tl-thread-prefix">as&nbsp;a&nbsp;&nbsp;</span>
         <span class="tl-thread-word" id="threadWord"></span>
       </div>
 
@@ -1375,43 +1539,67 @@ footer {
     <span></span><span></span><span></span>
   </button>
   <div class="burger-menu" id="burgerMenu" role="menu">
-    <a href="#works" role="menuitem">Works</a>
-    <a href="#studio" role="menuitem">Studio</a>
-    <a href="#research" role="menuitem">Research</a>
-    <a href="#process" role="menuitem">Process</a>
+    <a href="#" data-overlay="works" role="menuitem">Works</a>
+    <a href="#" data-overlay="studio" role="menuitem">Studio</a>
+    <a href="#" data-overlay="research" role="menuitem">Research</a>
+    <a href="#" data-overlay="process" role="menuitem">Process</a>
     <div class="burger-sep"></div>
     <a href="#contact" role="menuitem">Get in Touch</a>
   </div>
 </nav>
 
-<!-- ── THE.O Symbol ───────────────────────────────────── -->
+<!-- ── THE.O Definition ───────────────────────────────────── -->
 <section id="theo-definition">
-  <div class="o-symbol">
-    <svg class="o-svg" viewBox="0 0 400 400" fill="none"
-         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="200" cy="200" r="188"
-              stroke="rgba(244,242,238,0.08)" stroke-width="1" stroke-dasharray="4 8"/>
-      <circle cx="200" cy="200" r="160"
-              stroke="rgba(139,115,85,0.18)" stroke-width="0.75"/>
-      <circle cx="200" cy="200" r="130"
-              stroke="rgba(244,242,238,0.06)" stroke-width="1" stroke-dasharray="2 12"/>
-      <path d="M 340 230 A 155 155 0 0 1 100 290"
-            stroke="rgba(139,115,85,0.55)" stroke-width="1.5" fill="none"/>
-      <line x1="200" y1="36"  x2="200" y2="52"  stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
-      <line x1="200" y1="348" x2="200" y2="364" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
-      <line x1="36"  y1="200" x2="52"  y2="200" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
-      <line x1="348" y1="200" x2="364" y2="200" stroke="rgba(244,242,238,0.20)" stroke-width="1"/>
-    </svg>
-    <div class="o-center">
-      <span class="o-letter">O</span>
-      <span class="o-caption">Origin · Cycle · Wholeness</span>
-    </div>
+  <div class="theo-def-inner" id="theoDefInner">
+    <h2 class="theo-title">THE.O</h2>
+    <p class="theo-phonetic">/ðə.oʊ/</p>
+    <p class="theo-pos">noun</p>
+    <p class="theo-desc">A studio where every design begins at its origin, returns to zero, and completes the whole.</p>
+    <div class="theo-rule"></div>
+    <ul class="theo-items">
+      <li class="theo-item">
+        <span class="theo-item-key">Origin</span>
+        <span class="theo-item-arrow">→</span>
+        <span class="theo-item-val">The point where every design begins.</span>
+      </li>
+      <li class="theo-item">
+        <span class="theo-item-key">Zero Point</span>
+        <span class="theo-item-arrow">→</span>
+        <span class="theo-item-val">Where new ideas, research, and projects are born.</span>
+      </li>
+      <li class="theo-item">
+        <span class="theo-item-key">Cycle</span>
+        <span class="theo-item-arrow">→</span>
+        <span class="theo-item-val">The closed-loop system at the heart of sustainability.</span>
+      </li>
+      <li class="theo-item">
+        <span class="theo-item-key">Continuity</span>
+        <span class="theo-item-arrow">→</span>
+        <span class="theo-item-val">The lasting impact of architecture across its lifecycle.</span>
+      </li>
+      <li class="theo-item">
+        <span class="theo-item-key">Return</span>
+        <span class="theo-item-arrow">→</span>
+        <span class="theo-item-val">Where beginning and end meet at the same point.</span>
+      </li>
+      <li class="theo-item">
+        <span class="theo-item-key">Wholeness</span>
+        <span class="theo-item-arrow">→</span>
+        <span class="theo-item-val">The relationship between human, environment, and built world — treated as one.</span>
+      </li>
+    </ul>
   </div>
 </section>
 
 <!-- ── Projects Showcase ─────────────────────────────── -->
 <section id="projects-showcase">
   <div class="ps-sticky">
+    <!-- Intro header — blurs out as first project appears -->
+    <div class="ps-intro" id="psIntro">
+      <p class="sec-label">Selected Works</p>
+      <h2 class="sec-title">Built &amp; <em>imagined</em></h2>
+      <p class="sec-note">A selection of projects where research, context and craft meet — each one a question asked through space.</p>
+    </div>
     <div class="ps-col" id="psLeft"></div>
     <div class="ps-center">
       <p class="ps-idx" id="psIdx">01</p>
@@ -1427,231 +1615,6 @@ footer {
      PAGE — portfolio sections
      ═══════════════════════════════════════════════════════ -->
 <main class="page">
-
-  <!-- ── WORKS ──────────────────────────────────────────── -->
-  <section class="section" id="works">
-    <div class="reveal">
-      <p class="sec-label">Selected Works</p>
-      <h2 class="sec-title">Built &amp; <em>imagined</em></h2>
-      <p class="sec-note">A selection of projects where research, context and craft
-        meet — each one a question asked through space.</p>
-    </div>
-
-    <div class="works-grid">
-      <a href="#contact" class="work-card reveal">
-        <div class="work-media">
-          <span class="work-index">01 / 2025</span>
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="Veil House — residential project" loading="lazy" />
-        </div>
-        <div class="work-meta">
-          <h3 class="work-title">Veil House</h3>
-          <span class="work-tags">Residential — Istanbul</span>
-        </div>
-      </a>
-
-      <a href="#contact" class="work-card reveal">
-        <div class="work-media">
-          <span class="work-index">02 / 2024</span>
-          <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?w=1200&q=80" alt="Common Ground — public space project" loading="lazy" />
-        </div>
-        <div class="work-meta">
-          <h3 class="work-title">Common Ground</h3>
-          <span class="work-tags">Public Space — Izmir</span>
-        </div>
-      </a>
-
-      <a href="#contact" class="work-card reveal">
-        <div class="work-media">
-          <span class="work-index">03 / 2024</span>
-          <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=80" alt="Archive of Light — cultural project" loading="lazy" />
-        </div>
-        <div class="work-meta">
-          <h3 class="work-title">Archive of Light</h3>
-          <span class="work-tags">Cultural — Istanbul</span>
-        </div>
-      </a>
-
-      <a href="#contact" class="work-card reveal">
-        <div class="work-media">
-          <span class="work-index">04 / 2023</span>
-          <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&q=80" alt="Soft Threshold — interior project" loading="lazy" />
-        </div>
-        <div class="work-meta">
-          <h3 class="work-title">Soft Threshold</h3>
-          <span class="work-tags">Interior — Ankara</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ── STUDIO ─────────────────────────────────────────── -->
-  <section class="section" id="studio">
-    <div class="reveal">
-      <p class="sec-label">Studio</p>
-      <h2 class="sec-title">A lab, <em>not an office</em></h2>
-    </div>
-
-    <div class="studio-grid">
-      <p class="studio-statement reveal">
-        We treat every brief as a <strong>research question</strong> —
-        testing, prototyping and discarding until the building answers
-        something the site has been asking all along.
-      </p>
-      <div class="studio-copy reveal">
-        <p>THE O ARCHITECTURE LAB is an Istanbul-based practice working across
-          architecture, urbanism and spatial research. The studio was founded on
-          a simple conviction: design is strongest when it begins by listening —
-          to people, to context, to material.</p>
-        <p>Our work spans private houses, public space, cultural buildings and
-          interiors. Whatever the scale, the method stays the same: research first,
-          form later. The "O" in our name is the circle we draw around a problem
-          before we touch it.</p>
-      </div>
-    </div>
-
-    <div class="studio-stats reveal">
-      <div class="stat">
-        <div class="stat-num">24<span>+</span></div>
-        <div class="stat-label">completed projects</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">6</div>
-        <div class="stat-label">disciplines in dialogue</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">3</div>
-        <div class="stat-label">cities, one method</div>
-      </div>
-    </div>
-
-    <!-- Services -->
-    <div class="service-list reveal">
-      <div class="service-row">
-        <span class="service-num">S—01</span>
-        <h3 class="service-name">Architectural Design</h3>
-        <p class="service-desc">Concept-to-completion design for residential, cultural
-          and commercial buildings — from first sketch to site supervision.</p>
-      </div>
-      <div class="service-row">
-        <span class="service-num">S—02</span>
-        <h3 class="service-name">Urban &amp; Spatial Research</h3>
-        <p class="service-desc">Mapping, fieldwork and analysis that ground design
-          decisions in how places are actually lived and used.</p>
-      </div>
-      <div class="service-row">
-        <span class="service-num">S—03</span>
-        <h3 class="service-name">Interior &amp; Adaptive Reuse</h3>
-        <p class="service-desc">Interiors and transformations of existing structures —
-          working with what is there rather than against it.</p>
-      </div>
-      <div class="service-row">
-        <span class="service-num">S—04</span>
-        <h3 class="service-name">Consultancy &amp; Feasibility</h3>
-        <p class="service-desc">Early-stage strategy, site assessment and feasibility
-          studies for clients weighing what to build — or whether to build at all.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── RESEARCH ───────────────────────────────────────── -->
-  <section class="section" id="research">
-    <div class="reveal">
-      <p class="sec-label">Research</p>
-      <h2 class="sec-title">Questions <em>we keep open</em></h2>
-      <p class="sec-note">Ongoing lines of inquiry that run underneath the
-        commissioned work and occasionally surface inside it.</p>
-    </div>
-
-    <div class="research-grid reveal">
-      <div class="research-card">
-        <span class="research-num">R / 01</span>
-        <h3 class="research-title">Memory of the Block</h3>
-        <p>How Istanbul's residential fabric stores collective memory — and what is
-          lost when it is renewed wholesale. Field study, oral history, drawing.</p>
-      </div>
-      <div class="research-card">
-        <span class="research-num">R / 02</span>
-        <h3 class="research-title">Thresholds &amp; Commons</h3>
-        <p>The thin zones between private and public — doorsteps, courtyards,
-          arcades — as the real infrastructure of neighbourhood life.</p>
-      </div>
-      <div class="research-card">
-        <span class="research-num">R / 03</span>
-        <h3 class="research-title">Material Afterlives</h3>
-        <p>Reuse, reclamation and the architecture of disassembly: designing
-          buildings whose components are meant to live more than one life.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── PROCESS ────────────────────────────────────────── -->
-  <section class="section" id="process">
-    <div class="reveal">
-      <p class="sec-label">Process</p>
-      <h2 class="sec-title">Research first, <em>form later</em></h2>
-    </div>
-
-    <div class="process-steps reveal">
-      <div class="step">
-        <span class="step-num">01</span>
-        <h3 class="step-name">Listen</h3>
-        <p>Site visits, conversations, archives. We map what the place already
-          knows before proposing anything.</p>
-      </div>
-      <div class="step">
-        <span class="step-num">02</span>
-        <h3 class="step-name">Frame</h3>
-        <p>The brief becomes a question. We define what the project must answer —
-          and what it should refuse.</p>
-      </div>
-      <div class="step">
-        <span class="step-num">03</span>
-        <h3 class="step-name">Test</h3>
-        <p>Models, prototypes, drawings in iteration. Options are kept alive
-          long enough to be compared honestly.</p>
-      </div>
-      <div class="step">
-        <span class="step-num">04</span>
-        <h3 class="step-name">Deliver</h3>
-        <p>Documentation, supervision and handover — staying close to the build
-          until the idea survives construction.</p>
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="faq-wrap reveal">
-      <details class="faq-item">
-        <summary>What scale of project do you take on?<span class="faq-x"></span></summary>
-        <p>From single-room interiors to public buildings and urban studies. The
-          method matters more to us than the square meterage — if the question is
-          interesting, the size rarely disqualifies it.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Do you work outside Istanbul?<span class="faq-x"></span></summary>
-        <p>Yes. The studio is based in Istanbul but has delivered projects in Izmir
-          and Ankara, and collaborates remotely with consultants across Europe.
-          Site presence is arranged per project phase.</p>
-      </details>
-      <details class="faq-item">
-        <summary>How are fees structured?<span class="faq-x"></span></summary>
-        <p>Typically as a percentage of construction cost for full-service design,
-          or a fixed fee for research, feasibility and consultancy work. We scope
-          this transparently in the first proposal — no hidden phases.</p>
-      </details>
-      <details class="faq-item">
-        <summary>How long does a typical project take?<span class="faq-x"></span></summary>
-        <p>Concept design usually takes 6–10 weeks; full design development and
-          documentation 4–8 months depending on scale. We would rather give you an
-          honest timeline early than a flattering one we revise later.</p>
-      </details>
-      <details class="faq-item">
-        <summary>What does the first meeting look like?<span class="faq-x"></span></summary>
-        <p>A conversation, not a pitch. Bring the site, the budget range and the
-          doubts. We will tell you honestly whether the project needs us — and
-          sometimes the honest answer is that it doesn't yet.</p>
-      </details>
-    </div>
-  </section>
 
   <!-- ── CONTACT ────────────────────────────────────────── -->
   <section class="section" id="contact">
@@ -1707,6 +1670,236 @@ footer {
 
 </main>
 
+<!-- ═══════════════════════════════════════════════════════
+     SECTION OVERLAYS — slide in from right on nav click
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- WORKS overlay -->
+<div class="section-overlay" id="overlay-works" role="dialog" aria-modal="true" aria-label="Works">
+  <div class="overlay-header">
+    <span class="overlay-label">Works</span>
+    <button class="overlay-close-btn" aria-label="Close">
+      Close
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="overlay-body">
+    <div class="reveal in">
+      <p class="sec-label">Selected Works</p>
+      <h2 class="sec-title">Built &amp; <em>imagined</em></h2>
+      <p class="sec-note">A selection of projects where research, context and craft meet — each one a question asked through space.</p>
+    </div>
+    <div class="works-grid" style="margin-top:60px;">
+      <a href="#contact" class="work-card" onclick="closeAllOverlays()">
+        <div class="work-media">
+          <span class="work-index">01 / 2025</span>
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="Veil House" loading="lazy" />
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Veil House</h3>
+          <span class="work-tags">Residential — Istanbul</span>
+        </div>
+      </a>
+      <a href="#contact" class="work-card" onclick="closeAllOverlays()">
+        <div class="work-media">
+          <span class="work-index">02 / 2024</span>
+          <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?w=1200&q=80" alt="Common Ground" loading="lazy" />
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Common Ground</h3>
+          <span class="work-tags">Public Space — Izmir</span>
+        </div>
+      </a>
+      <a href="#contact" class="work-card" onclick="closeAllOverlays()">
+        <div class="work-media">
+          <span class="work-index">03 / 2024</span>
+          <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=80" alt="Archive of Light" loading="lazy" />
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Archive of Light</h3>
+          <span class="work-tags">Cultural — Istanbul</span>
+        </div>
+      </a>
+      <a href="#contact" class="work-card" onclick="closeAllOverlays()">
+        <div class="work-media">
+          <span class="work-index">04 / 2023</span>
+          <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&q=80" alt="Soft Threshold" loading="lazy" />
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Soft Threshold</h3>
+          <span class="work-tags">Interior — Ankara</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- STUDIO overlay -->
+<div class="section-overlay" id="overlay-studio" role="dialog" aria-modal="true" aria-label="Studio">
+  <div class="overlay-header">
+    <span class="overlay-label">Studio</span>
+    <button class="overlay-close-btn" aria-label="Close">
+      Close
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="overlay-body">
+    <div class="reveal in">
+      <p class="sec-label">Studio</p>
+      <h2 class="sec-title">A lab, <em>not an office</em></h2>
+    </div>
+    <div class="studio-grid">
+      <p class="studio-statement">
+        We treat every brief as a <strong>research question</strong> —
+        testing, prototyping and discarding until the building answers
+        something the site has been asking all along.
+      </p>
+      <div class="studio-copy">
+        <p>THE O ARCHITECTURE LAB is an Istanbul-based practice working across
+          architecture, urbanism and spatial research. The studio was founded on
+          a simple conviction: design is strongest when it begins by listening —
+          to people, to context, to material.</p>
+        <p>Our work spans private houses, public space, cultural buildings and
+          interiors. Whatever the scale, the method stays the same: research first,
+          form later. The "O" in our name is the circle we draw around a problem
+          before we touch it.</p>
+      </div>
+    </div>
+    <div class="studio-stats">
+      <div class="stat">
+        <div class="stat-num">24<span>+</span></div>
+        <div class="stat-label">completed projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6</div>
+        <div class="stat-label">disciplines in dialogue</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">cities, one method</div>
+      </div>
+    </div>
+    <div class="service-list">
+      <div class="service-row">
+        <span class="service-num">S—01</span>
+        <h3 class="service-name">Architectural Design</h3>
+        <p class="service-desc">Concept-to-completion design for residential, cultural and commercial buildings — from first sketch to site supervision.</p>
+      </div>
+      <div class="service-row">
+        <span class="service-num">S—02</span>
+        <h3 class="service-name">Urban &amp; Spatial Research</h3>
+        <p class="service-desc">Mapping, fieldwork and analysis that ground design decisions in how places are actually lived and used.</p>
+      </div>
+      <div class="service-row">
+        <span class="service-num">S—03</span>
+        <h3 class="service-name">Interior &amp; Adaptive Reuse</h3>
+        <p class="service-desc">Interiors and transformations of existing structures — working with what is there rather than against it.</p>
+      </div>
+      <div class="service-row">
+        <span class="service-num">S—04</span>
+        <h3 class="service-name">Consultancy &amp; Feasibility</h3>
+        <p class="service-desc">Early-stage strategy, site assessment and feasibility studies for clients weighing what to build — or whether to build at all.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH overlay -->
+<div class="section-overlay" id="overlay-research" role="dialog" aria-modal="true" aria-label="Research">
+  <div class="overlay-header">
+    <span class="overlay-label">Research</span>
+    <button class="overlay-close-btn" aria-label="Close">
+      Close
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="overlay-body">
+    <div class="reveal in">
+      <p class="sec-label">Research</p>
+      <h2 class="sec-title">Questions <em>we keep open</em></h2>
+      <p class="sec-note">Ongoing lines of inquiry that run underneath the commissioned work and occasionally surface inside it.</p>
+    </div>
+    <div class="research-grid" style="margin-top:60px;">
+      <div class="research-card">
+        <span class="research-num">R / 01</span>
+        <h3 class="research-title">Memory of the Block</h3>
+        <p>How Istanbul's residential fabric stores collective memory — and what is lost when it is renewed wholesale. Field study, oral history, drawing.</p>
+      </div>
+      <div class="research-card">
+        <span class="research-num">R / 02</span>
+        <h3 class="research-title">Thresholds &amp; Commons</h3>
+        <p>The thin zones between private and public — doorsteps, courtyards, arcades — as the real infrastructure of neighbourhood life.</p>
+      </div>
+      <div class="research-card">
+        <span class="research-num">R / 03</span>
+        <h3 class="research-title">Material Afterlives</h3>
+        <p>Reuse, reclamation and the architecture of disassembly: designing buildings whose components are meant to live more than one life.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS overlay -->
+<div class="section-overlay" id="overlay-process" role="dialog" aria-modal="true" aria-label="Process">
+  <div class="overlay-header">
+    <span class="overlay-label">Process</span>
+    <button class="overlay-close-btn" aria-label="Close">
+      Close
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="overlay-body">
+    <div class="reveal in">
+      <p class="sec-label">Process</p>
+      <h2 class="sec-title">Research first, <em>form later</em></h2>
+    </div>
+    <div class="process-steps" style="margin-top:60px;">
+      <div class="step">
+        <span class="step-num">01</span>
+        <h3 class="step-name">Listen</h3>
+        <p>Site visits, conversations, archives. We map what the place already knows before proposing anything.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <h3 class="step-name">Frame</h3>
+        <p>The brief becomes a question. We define what the project must answer — and what it should refuse.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <h3 class="step-name">Test</h3>
+        <p>Models, prototypes, drawings in iteration. Options are kept alive long enough to be compared honestly.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <h3 class="step-name">Deliver</h3>
+        <p>Documentation, supervision and handover — staying close to the build until the idea survives construction.</p>
+      </div>
+    </div>
+    <div class="faq-wrap" style="margin-top:60px;">
+      <details class="faq-item">
+        <summary>What scale of project do you take on?<span class="faq-x"></span></summary>
+        <p>From single-room interiors to public buildings and urban studies. The method matters more to us than the square meterage — if the question is interesting, the size rarely disqualifies it.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do you work outside Istanbul?<span class="faq-x"></span></summary>
+        <p>Yes. The studio is based in Istanbul but has delivered projects in Izmir and Ankara, and collaborates remotely with consultants across Europe. Site presence is arranged per project phase.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How are fees structured?<span class="faq-x"></span></summary>
+        <p>Typically as a percentage of construction cost for full-service design, or a fixed fee for research, feasibility and consultancy work. We scope this transparently in the first proposal — no hidden phases.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How long does a typical project take?<span class="faq-x"></span></summary>
+        <p>Concept design usually takes 6–10 weeks; full design development and documentation 4–8 months depending on scale. We would rather give you an honest timeline early than a flattering one we revise later.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What does the first meeting look like?<span class="faq-x"></span></summary>
+        <p>A conversation, not a pitch. Bring the site, the budget range and the doubts. We will tell you honestly whether the project needs us — and sometimes the honest answer is that it doesn't yet.</p>
+      </details>
+    </div>
+  </div>
+</div>
+
 <!-- ── FOOTER ─────────────────────────────────────────── -->
 <footer>
   <div class="footer-grid">
@@ -1716,10 +1909,10 @@ footer {
       </div>
     </a>
     <nav class="footer-nav">
-      <a href="#works">Works</a>
-      <a href="#studio">Studio</a>
-      <a href="#research">Research</a>
-      <a href="#process">Process</a>
+      <a href="#" data-overlay="works">Works</a>
+      <a href="#" data-overlay="studio">Studio</a>
+      <a href="#" data-overlay="research">Research</a>
+      <a href="#" data-overlay="process">Process</a>
       <a href="#contact">Contact</a>
     </nav>
     <p class="footer-copy">&copy; 2026 The O Architecture Lab — Istanbul</p>
@@ -1773,29 +1966,84 @@ footer {
 })();
 
 /* ═══════════════════════════════════════════════════════
-   THEO DEFINITION — staggered scroll reveal
+   THEO DEFINITION — staggered reveal
    ═══════════════════════════════════════════════════════ */
 (function () {
   const section = document.getElementById('theo-definition');
-  if (!section) return;
+  const inner   = document.getElementById('theoDefInner');
+  if (!section || !inner) return;
 
-  const symbol = section.querySelector('.o-symbol');
+  const items = section.querySelectorAll('.theo-item');
 
   if (!('IntersectionObserver' in window)) {
-    symbol.classList.add('is-visible');
+    inner.classList.add('is-visible');
+    items.forEach(el => el.classList.add('is-visible'));
     return;
   }
 
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        symbol.classList.add('is-visible');
+        inner.classList.add('is-visible');
+        items.forEach((item, i) => {
+          setTimeout(() => item.classList.add('is-visible'), 480 + i * 110);
+        });
         io.unobserve(section);
       }
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0.15 });
 
   io.observe(section);
+})();
+
+/* ═══════════════════════════════════════════════════════
+   SECTION OVERLAYS — slide-in panels
+   ═══════════════════════════════════════════════════════ */
+(function () {
+  function openOverlay(id) {
+    const ol = document.getElementById('overlay-' + id);
+    if (!ol) return;
+    ol.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    ol.scrollTop = 0;
+  }
+
+  window.closeAllOverlays = function () {
+    document.querySelectorAll('.section-overlay.open').forEach(ol => {
+      ol.classList.remove('open');
+    });
+    document.body.style.overflow = '';
+  };
+
+  /* Nav + footer links with data-overlay */
+  document.addEventListener('click', e => {
+    const trigger = e.target.closest('[data-overlay]');
+    if (trigger) {
+      e.preventDefault();
+      openOverlay(trigger.dataset.overlay);
+      /* Close burger menu if open */
+      const burgerNav = document.getElementById('burger-nav');
+      const burgerBtn = document.getElementById('burgerBtn');
+      if (burgerNav) {
+        burgerNav.classList.remove('open');
+        burgerBtn.setAttribute('aria-expanded', 'false');
+      }
+      return;
+    }
+
+    /* Close button inside overlay */
+    const closeBtn = e.target.closest('.overlay-close-btn');
+    if (closeBtn) {
+      const ol = closeBtn.closest('.section-overlay');
+      if (ol) { ol.classList.remove('open'); document.body.style.overflow = ''; }
+      return;
+    }
+  });
+
+  /* Close on Escape */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') window.closeAllOverlays();
+  });
 })();
 
 /* ═══════════════════════════════════════════════════════
@@ -1988,6 +2236,7 @@ window.addEventListener('scroll', () => {
   const tagsEl   = document.getElementById('psTags');
   const idxEl    = document.getElementById('psIdx');
   const progEl   = document.getElementById('psProgress');
+  const introEl  = document.getElementById('psIntro');
 
   if (!section) return;
 
@@ -2075,14 +2324,26 @@ window.addEventListener('scroll', () => {
     });
 
     updateText(idx);
+
+    /* Blur / fade out the intro header as first project comes in */
+    if (introEl) {
+      const introFrac = Math.min(1, raw * 4); /* gone by 25% of project 1 */
+      introEl.style.opacity = Math.max(0, 1 - introFrac).toFixed(3);
+      introEl.style.filter  = introFrac > 0.01 ? `blur(${(introFrac * 14).toFixed(1)}px)` : 'none';
+      introEl.style.transform = `translateX(-50%) translateY(${-(introFrac * 40).toFixed(1)}px)`;
+      /* Fade project info in as intro fades out */
+      const centerVis = Math.min(1, introFrac * 2).toFixed(3);
+      document.querySelector('.ps-center').style.opacity = centerVis;
+    }
   }
 
-  /* Init text & dots */
+  /* Init text, dots & intro */
   idxEl.textContent  = PROJECTS[0].idx;
   nameEl.textContent = PROJECTS[0].title;
   tagsEl.textContent = PROJECTS[0].tags;
   dots[0].classList.add('active');
   lastIdx = 0;
+  if (introEl) { introEl.style.transform = 'translateX(-50%)'; document.querySelector('.ps-center').style.opacity = '0'; }
 
   window.addEventListener('scroll', update, { passive: true });
   update();
