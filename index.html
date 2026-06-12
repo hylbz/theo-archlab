@@ -10,13 +10,13 @@
   Bold display  → Space Grotesk 700 / 600
   Thin contrast → DM Sans 300 / 400
 -->
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet" />
 <style>
 /* ── Reset ─────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none; }
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;   /* prevent any element from creating horizontal scroll */
+  overflow-x: hidden;
 }
 body {
   background: #080808;
@@ -24,6 +24,151 @@ body {
   font-family: 'DM Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── Custom Cursor ──────────────────────────────────────── */
+:root { --cursor-color: #F0EDE8; }
+
+#cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--cursor-color);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+#cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--cursor-color);
+  background: transparent;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  transition: opacity .3s, border-color .3s;
+  opacity: 0.6;
+}
+
+body.cursor--hover #cursor-ring {
+  transform: translate(-50%, -50%) scale(1.8);
+  opacity: 0.4;
+  transition: opacity .3s, border-color .3s, transform .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── THE.O Definition Section ───────────────────────────── */
+#theo-definition {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  background: #0e0e0e;
+  color: #F0EDE8;
+  padding: 15vh 10vw;
+}
+
+.theo-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.theo-phonetic {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  opacity: 0.45;
+  margin-top: 0.5rem;
+}
+
+.theo-pos {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.35;
+  margin-top: 1rem;
+}
+
+.theo-tagline {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  opacity: 0.7;
+  max-width: 600px;
+  margin-top: 2rem;
+  line-height: 1.7;
+}
+
+.theo-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  margin: 3rem 0;
+}
+
+.theo-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.theo-list li {
+  display: grid;
+  grid-template-columns: 140px 20px 1fr;
+  gap: 0 1rem;
+  align-items: baseline;
+}
+
+.theo-term {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.theo-arrow {
+  opacity: 0.25;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.theo-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+  opacity: 0.75;
+  line-height: 1.6;
+}
+
+/* Stagger reveal for theo section */
+#theo-definition > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+#theo-definition > *.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  #theo-definition { padding: 12vh 8vw; }
+  .theo-list li {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+  .theo-arrow { display: none; }
+  .theo-term { display: inline; }
 }
 
 /* ── Video BG (hero only — sections below cover it) ────── */
@@ -967,6 +1112,10 @@ footer {
 </head>
 <body>
 
+<!-- ── Custom Cursor ─────────────────────────────────── -->
+<div id="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
+
 <!-- ── Background Video ───────────────────────────────── -->
 <div class="bg-video">
   <video autoplay muted loop playsinline
@@ -1069,6 +1218,47 @@ footer {
   <span>Scroll</span>
   <div class="scroll-line"></div>
 </div>
+
+<!-- ── THE.O Definition ───────────────────────────────── -->
+<section id="theo-definition">
+  <h2 class="theo-name">THE.O</h2>
+  <p class="theo-phonetic">/ðə.oʊ/</p>
+  <p class="theo-pos">noun</p>
+  <p class="theo-tagline">A studio where every design begins at its origin, returns to zero, and completes the whole.</p>
+  <hr class="theo-divider">
+  <ul class="theo-list">
+    <li>
+      <span class="theo-term">Origin</span>
+      <span class="theo-arrow">→</span>
+      <span class="theo-desc">The point where every design begins.</span>
+    </li>
+    <li>
+      <span class="theo-term">Zero Point</span>
+      <span class="theo-arrow">→</span>
+      <span class="theo-desc">Where new ideas, research, and projects are born.</span>
+    </li>
+    <li>
+      <span class="theo-term">Cycle</span>
+      <span class="theo-arrow">→</span>
+      <span class="theo-desc">The closed-loop system at the heart of sustainability.</span>
+    </li>
+    <li>
+      <span class="theo-term">Continuity</span>
+      <span class="theo-arrow">→</span>
+      <span class="theo-desc">The lasting impact of architecture across its lifecycle.</span>
+    </li>
+    <li>
+      <span class="theo-term">Return</span>
+      <span class="theo-arrow">→</span>
+      <span class="theo-desc">Where beginning and end meet at the same point.</span>
+    </li>
+    <li>
+      <span class="theo-term">Wholeness</span>
+      <span class="theo-arrow">→</span>
+      <span class="theo-desc">The relationship between human, environment, and built world — treated as one.</span>
+    </li>
+  </ul>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════
      PAGE — portfolio sections
@@ -1374,6 +1564,82 @@ footer {
 </footer>
 
 <script>
+/* ═══════════════════════════════════════════════════════
+   CUSTOM CURSOR
+   ═══════════════════════════════════════════════════════ */
+(function () {
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+
+  let mx = -100, my = -100; /* mouse position */
+  let rx = -100, ry = -100; /* ring lerp position */
+
+  /* Move dot instantly */
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
+  });
+
+  /* Ring follows with lerp */
+  (function loop() {
+    rx += (mx - rx) * 0.08;
+    ry += (my - ry) * 0.08;
+    ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+    requestAnimationFrame(loop);
+  })();
+
+  /* Hover state on interactive elements */
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('a, button, [data-hover]')) {
+      document.body.classList.add('cursor--hover');
+    }
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('a, button, [data-hover]')) {
+      document.body.classList.remove('cursor--hover');
+    }
+  });
+
+  /* Hide cursors when mouse leaves window */
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity = '';
+    ring.style.opacity = '';
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   THEO DEFINITION — staggered scroll reveal
+   ═══════════════════════════════════════════════════════ */
+(function () {
+  const section = document.getElementById('theo-definition');
+  if (!section) return;
+
+  const children = Array.from(section.children);
+
+  if (!('IntersectionObserver' in window)) {
+    children.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        children.forEach((el, i) => {
+          setTimeout(() => el.classList.add('is-visible'), i * 80);
+        });
+        io.unobserve(section);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  io.observe(section);
+})();
+
 /* ═══════════════════════════════════════════════════════
    THREAD ANIMATION
    Cycles through words, typing each letter one-by-one
