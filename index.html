@@ -14,13 +14,16 @@
 <style>
 /* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;   /* prevent any element from creating horizontal scroll */
+}
 body {
   background: #080808;
   color: #F0EDE8;
   font-family: 'DM Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 /* ── Video BG (hero only — sections below cover it) ────── */
@@ -57,14 +60,26 @@ body {
 
 /* ── Header ─────────────────────────────────────────────── */
 header {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: flex-start;
   padding: 40px 52px 0;
 }
 
-.nav-left  { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; padding-top: 3px; }
-.nav-right { display: flex; flex-direction: column; align-items: flex-end;   gap: 7px; padding-top: 3px; }
+.nav-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.nav-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+}
 
 /* ── Nav link: 3D prism flip on X axis ─────────────────── */
 .nav-link {
@@ -75,47 +90,43 @@ header {
   text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
-  /* perspective on the anchor so each link has its own vanishing point */
-  perspective: 300px;
-  perspective-origin: 50% 50%;
+  /* no CSS perspective property — avoids stacking-context overflow */
 }
 
-/* The rotating drum */
+/* The rotating drum — inline-block shrink-wraps to text width */
 .nav-flip {
-  display: block;
+  display: inline-block;
   position: relative;
-  height: 1em;           /* one line of text */
+  vertical-align: top;
   transform-style: preserve-3d;
-  transition: transform .42s cubic-bezier(.4, 0, .2, 1);
+  /* perspective baked into transform so no separate containing block */
+  transform: perspective(500px) rotateX(0deg);
+  transition: transform .44s cubic-bezier(.4, 0, .2, 1);
 }
 .nav-link:hover .nav-flip {
-  transform: rotateX(90deg);
+  transform: perspective(500px) rotateX(90deg);
 }
 
-/* Both faces share base styles */
+/* Both faces */
 .nav-face {
   display: block;
-  position: absolute;
-  top: 0; left: 0;
   white-space: nowrap;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   line-height: 1;
 }
 
-/* Front face — resting position, pushed forward along Z */
+/* Front — in normal flow, defines the drum width & height */
 .nav-face-front {
-  transform: rotateX(0deg) translateZ(.5em);
+  transform: translateZ(.46em);
   color: rgba(240,237,232,.42);
-  transition: color .28s;
-}
-.nav-link:hover .nav-face-front {
-  color: rgba(240,237,232,.42); /* keep dim; it's leaving the frame */
 }
 
-/* Back face — starts rotated -90° (below), comes up on hover */
+/* Back — absolute, sits below (-90°), rises into view on hover */
 .nav-face-back {
-  transform: rotateX(-90deg) translateZ(.5em);
+  position: absolute;
+  top: 0; left: 0;
+  transform: rotateX(-90deg) translateZ(.46em);
   color: #F0EDE8;
 }
 
