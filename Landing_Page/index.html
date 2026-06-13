@@ -660,18 +660,48 @@ header {
 .scroll-hint span {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: .52rem;
-  letter-spacing: .28em;
+  font-size: .58rem;
+  letter-spacing: .3em;
   text-transform: uppercase;
-  color: rgba(240,237,232,.25);
+  color: rgba(240,237,232,.62);
 }
-.scroll-line {
-  width: 1px;
-  height: 42px;
-  background: linear-gradient(180deg, rgba(240,237,232,.28), transparent);
-  animation: pulse 2.4s ease-in-out infinite;
+.scroll-arrow {
+  width: 22px;
+  height: 22px;
+  stroke: rgba(240,237,232,.7);
+  stroke-width: 2;
+  fill: none;
+  animation: scrollBounce 1.8s ease-in-out infinite;
 }
-@keyframes pulse { 0%,100%{opacity:.28} 50%{opacity:.9} }
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: .55; }
+  50%      { transform: translateY(7px); opacity: 1; }
+}
+
+/* ── Back-to-top button ─────────────────────────────────── */
+#backToTop {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(240,237,232,.22);
+  background: rgba(14,14,14,.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity .4s ease, transform .4s ease, border-color .25s, background .25s;
+}
+#backToTop.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+#backToTop:hover { border-color: #C4A97A; background: rgba(20,20,20,.9); }
+#backToTop svg { width: 18px; height: 18px; stroke: #C4A97A; stroke-width: 2; fill: none; }
 
 /* ═══════════════════════════════════════════════════════
    PAGE SECTIONS — below the hero
@@ -1209,7 +1239,7 @@ header {
 /* ── FOOTER ─────────────────────────────────────────────── */
 footer {
   position: relative;
-  z-index: 1;
+  z-index: 4;
   background: #080808;
   border-top: 1px solid rgba(240,237,232,.08);
   padding: 60px 52px 40px;
@@ -1379,7 +1409,7 @@ footer {
   position: fixed;
   top: 36px;
   right: 48px;
-  z-index: 9001;
+  z-index: 9800;
   display: none;
   align-items: center;
   gap: 8px;
@@ -1695,8 +1725,17 @@ footer {
 <!-- Scroll hint -->
 <div class="scroll-hint" id="scrollHint" aria-hidden="true">
   <span>Scroll</span>
-  <div class="scroll-line"></div>
+  <svg class="scroll-arrow" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 10 12 16 18 10" />
+  </svg>
 </div>
+
+<!-- Back to top → landing page -->
+<button id="backToTop" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 14 12 8 18 14" />
+  </svg>
+</button>
 
 <!-- Spacer: reserves scroll distance for hero -->
 <div class="hero-spacer" aria-hidden="true"></div>
@@ -2630,25 +2669,49 @@ footer {
   const burgerNav = document.getElementById('burger-nav');
   const burgerBtn = document.getElementById('burgerBtn');
 
+  /* Back-stack: opening an overlay from another keeps the previous one
+     underneath, so Close returns to it rather than the main page. */
+  const overlayStack = [];
+  let zCounter = 9000;
+
   window.openOverlay = function openOverlay(id) {
     const ol = document.getElementById('overlay-' + id);
     if (!ol) return;
+    if (overlayStack[overlayStack.length - 1] === ol) return; /* already on top */
     ol.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    ol.style.zIndex = (++zCounter);
     ol.scrollTop = 0;
+    overlayStack.push(ol);
+    document.body.style.overflow = 'hidden';
     closeBtn.classList.add('visible');
     if (burgerNav) burgerNav.style.opacity = '0';
-  }
+  };
 
+  /* Close ONLY the topmost overlay → reveals the previous one (or main page) */
+  window.closeOverlay = function closeOverlay() {
+    const top = overlayStack.pop();
+    if (top) { top.classList.remove('open'); top.style.zIndex = ''; }
+    if (overlayStack.length === 0) {
+      document.body.style.overflow = '';
+      closeBtn.classList.remove('visible');
+      if (burgerNav) burgerNav.style.opacity = '';
+    }
+  };
+
+  /* Close every overlay at once (used when jumping to a page anchor) */
   window.closeAllOverlays = function () {
-    document.querySelectorAll('.section-overlay.open').forEach(ol => ol.classList.remove('open'));
+    while (overlayStack.length) {
+      const ol = overlayStack.pop();
+      ol.classList.remove('open');
+      ol.style.zIndex = '';
+    }
     document.body.style.overflow = '';
     closeBtn.classList.remove('visible');
     if (burgerNav) burgerNav.style.opacity = '';
   };
 
-  /* Shared close button */
-  closeBtn.addEventListener('click', window.closeAllOverlays);
+  /* Shared close button → step back one level */
+  closeBtn.addEventListener('click', window.closeOverlay);
 
   /* Nav + footer links with data-overlay */
   document.addEventListener('click', e => {
@@ -2665,9 +2728,9 @@ footer {
     }
   });
 
-  /* Close on Escape */
+  /* Close on Escape → step back one level */
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') window.closeAllOverlays();
+    if (e.key === 'Escape') window.closeOverlay();
   });
 })();
 
@@ -2803,9 +2866,17 @@ if (vid) vid.addEventListener('error', () => { vid.style.display = 'none'; });
    SCROLL HINT — fade out once the user scrolls
    ═══════════════════════════════════════════════════════ */
 const hint = document.getElementById('scrollHint');
+const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   hint.classList.toggle('hidden', window.scrollY > 80);
+  if (backToTop) backToTop.classList.toggle('visible', window.scrollY > window.innerHeight * 1.2);
 }, { passive: true });
+if (backToTop) {
+  backToTop.addEventListener('click', () => {
+    if (window.closeAllOverlays) window.closeAllOverlays();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
 /* ═══════════════════════════════════════════════════════
    REVEAL ON SCROLL
@@ -2929,6 +3000,11 @@ window.addEventListener('scroll', () => {
     const frac     = raw - Math.floor(raw);
     const vh       = window.innerHeight;
 
+    /* Intro crossfade: "Built & imagined" title recedes/blurs out while the
+       first project's image AND name fade in together at the same rate. */
+    const introFrac   = Math.min(1, raw * 4);  /* title gone by 25% of project 1 */
+    const introReveal = introFrac;             /* same curve → image + name in sync */
+
     PROJECTS.forEach((_, i) => {
       const l = leftSlides[i], r = rightSlides[i];
       if (i < idx) {
@@ -2937,8 +3013,10 @@ window.addEventListener('scroll', () => {
         applySlide(r, -vh * 0.05, 8, 0.93, 0.28);
       } else if (i === idx) {
         /* active, transitioning toward past as frac → 1 */
-        applySlide(l, -frac * vh * 0.05, frac * 8,   1 - frac * 0.07, 1 - frac * 0.72);
-        applySlide(r, -frac * vh * 0.05, frac * 8,   1 - frac * 0.07, 1 - frac * 0.72);
+        let op = 1 - frac * 0.72;
+        if (idx === 0) op *= introReveal;  /* first project fades in with the title */
+        applySlide(l, -frac * vh * 0.05, frac * 8,   1 - frac * 0.07, op);
+        applySlide(r, -frac * vh * 0.05, frac * 8,   1 - frac * 0.07, op);
       } else if (i === idx + 1) {
         /* entering from below */
         applySlide(l, (1 - frac) * vh, 0, 1, frac);
@@ -2956,13 +3034,11 @@ window.addEventListener('scroll', () => {
 
     /* Blur / fade out the intro header as first project comes in */
     if (introEl) {
-      const introFrac = Math.min(1, raw * 4); /* gone by 25% of project 1 */
       introEl.style.opacity = Math.max(0, 1 - introFrac).toFixed(3);
       introEl.style.filter  = introFrac > 0.01 ? `blur(${(introFrac * 14).toFixed(1)}px)` : 'none';
       introEl.style.transform = `translateX(-50%) translateY(${-(introFrac * 40).toFixed(1)}px)`;
-      /* Fade project info in as intro fades out */
-      const centerVis = Math.min(1, introFrac * 2).toFixed(3);
-      document.querySelector('.ps-center').style.opacity = centerVis;
+      /* Project name fades in at the SAME rate the first image does */
+      document.querySelector('.ps-center').style.opacity = introReveal.toFixed(3);
     }
   }
 
