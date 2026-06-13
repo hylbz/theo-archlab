@@ -114,12 +114,9 @@ body.cursor--hover #cursor-ring {
   justify-content: center;
   text-align: center;
   padding: 0 16px;
-  position: absolute;
+  position: relative;
   z-index: 2;
   pointer-events: auto;
-  inset: 0;
-  bottom: auto;
-  top: 0;
 }
 .ps-idx {
   font-family: 'Space Grotesk', sans-serif;
@@ -1270,13 +1267,13 @@ footer {
 }
 .theo-title .dot {
   display: inline-block;
-  font-weight: 700;
-  font-size: .48em;
-  color: #C4A97A;
+  font-weight: 400;
+  font-size: .6em;
+  color: #F0EDE8;
   letter-spacing: 0;
-  vertical-align: .35em;
-  opacity: 0.7;
-  margin: 0 .08em;
+  vertical-align: .25em;
+  opacity: 0.75;
+  margin: 0 .1em;
   margin: 0 .04em;
 }
 .theo-phonetic {
@@ -1338,8 +1335,8 @@ footer {
 .theo-item-arrow {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 1rem;
-  color: #D4A853;
+  font-size: 1.1rem;
+  color: #C4A97A;
   flex-shrink: 0;
   opacity: 1 !important;
 }
@@ -1555,14 +1552,16 @@ footer {
 }
 .lightbox-close {
   position: absolute;
-  top: 30px;
-  right: 40px;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
   background: none;
   border: none;
   color: #F0EDE8;
   font-size: 2rem;
   cursor: pointer;
   z-index: 10001;
+  padding: 10px;
 }
 .lightbox-nav {
   position: absolute;
