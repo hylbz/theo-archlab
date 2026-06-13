@@ -76,7 +76,7 @@ body.cursor--hover #cursor-ring {
 #projects-showcase {
   position: relative;
   z-index: 3;
-  height: 400vh; /* 4 projects: raw goes 0→N-1, no trailing scroll */
+  height: 500vh; /* 4 projects + 1 trailing vh: last project stays pinned while contact swipes over */
   background: #080808;
 }
 .ps-sticky {
@@ -710,6 +710,14 @@ header {
   align-items: flex-end;
   gap: 14px;
 }
+.lang-pill:hover { width: 158px; }
+.lang-content {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 9px;
+  padding: 0 0 0 24px !important;
+}
+.lang-slash { color: rgba(12,12,12,.25); font-weight: 700; font-size: .68rem; }
 .lang-pill .lang-code {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
@@ -756,9 +764,10 @@ header {
    ═══════════════════════════════════════════════════════ */
 .page {
   position: relative;
-  z-index: 4;
+  z-index: 5; /* above projects-showcase (3) so contact swipes over it */
   background: #080808;
-  min-height: 100vh; /* final panel fully covers the sticky backdrop below it */
+  min-height: 100vh;
+  margin-top: -100vh; /* pull contact up to slide over the pinned last project */
 }
 /* Contact = the closing full-screen panel that scrolls over everything */
 #contact {
@@ -1755,12 +1764,11 @@ footer {
     <div class="git-wrap">
 
       <!-- LANGUAGE pill -->
-      <button class="git-pill lang-pill" aria-label="Language — switch between English and Turkish">
-        <div class="git-content">
-          <span class="git-label" data-tr="Dil">Language</span>
-          <div class="git-sep"></div>
-          <span class="lang-opt" data-lang-opt="en" onclick="event.stopPropagation(); window.setLang('en');">English</span>
-          <span class="lang-opt" data-lang-opt="tr" onclick="event.stopPropagation(); window.setLang('tr');">Türkçe</span>
+      <button class="git-pill lang-pill" aria-label="Language — EN / TR">
+        <div class="git-content lang-content">
+          <span class="lang-opt" data-lang-opt="en" onclick="event.stopPropagation(); window.setLang('en');">EN</span>
+          <span class="lang-slash">/</span>
+          <span class="lang-opt" data-lang-opt="tr" onclick="event.stopPropagation(); window.setLang('tr');">TR</span>
         </div>
         <div class="git-divider"></div>
         <div class="git-icon lang-code" aria-hidden="true"><span data-lang-code>EN</span></div>
@@ -1821,10 +1829,6 @@ footer {
     <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('process'); return false;" role="menuitem" data-tr="Süreç">Process</a>
     <div class="burger-sep"></div>
     <a href="#contact" role="menuitem" data-tr="İletişime Geç">Get in Touch</a>
-    <div class="burger-sep"></div>
-    <button class="burger-lang" role="menuitem" aria-label="Switch language">
-      <span data-lang="en" onclick="event.stopPropagation(); window.setLang('en');">EN</span><span class="lang-sep">/</span><span data-lang="tr" onclick="event.stopPropagation(); window.setLang('tr');">TR</span>
-    </button>
   </div>
 </nav>
 
@@ -2977,7 +2981,10 @@ if (backToTop) {
     const top      = section.getBoundingClientRect().top + window.scrollY;
     const scrolled = Math.max(0, window.scrollY - top);
     const maxS     = section.offsetHeight - window.innerHeight;
-    const p        = maxS > 0 ? Math.min(1, scrolled / maxS) : 0;
+    /* Reserve the final viewport so the last project stays pinned & clear
+       while the contact panel swipes up over it. */
+    const usable   = Math.max(1, maxS - window.innerHeight);
+    const p        = Math.min(1, scrolled / usable);
     const raw      = p * (PROJECTS.length - 1);
     const idx      = Math.min(Math.floor(raw), PROJECTS.length - 1);
     const frac     = raw - Math.floor(raw);
