@@ -1257,10 +1257,10 @@ footer {
 }
 .theo-def-inner.is-visible { opacity: 1; transform: translateY(0); }
 .theo-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: clamp(4.5rem, 11vw, 10rem);
-  letter-spacing: -.03em;
+  letter-spacing: -.01em;
   color: #F4F2EE;
   line-height: .92;
   opacity: 0.85;
@@ -1599,10 +1599,10 @@ footer {
 <!-- ── Background Video ───────────────────────────────── -->
 <div class="bg-video">
   <video autoplay muted loop playsinline
-    poster="https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1920&q=80"
+    poster="https://images.unsplash.com/photo-1469022563149-aa64dbd37dae?w=1920&q=80"
     aria-hidden="true">
-    <source src="https://videos.pexels.com/video-files/4763824/4763824-uhd_2560_1440_24fps.mp4" type="video/mp4" />
-    <source src="https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+    <source src="https://videos.pexels.com/video-files/5737452/5737452-hd_1920_1080_30fps.mp4" type="video/mp4" />
+    <source src="https://videos.pexels.com/video-files/2873667/2873667-hd_1920_1080_25fps.mp4" type="video/mp4" />
   </video>
 </div>
 
@@ -2230,53 +2230,284 @@ footer {
 </div>
 
 <div class="section-overlay" id="overlay-project-common-ground" role="dialog" aria-modal="true" aria-label="Common Ground">
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="commonGroundLightbox">
+    <button class="lightbox-close" onclick="document.getElementById('commonGroundLightbox').style.display='none';" aria-label="Close lightbox">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="commonGroundLightboxNav(-1);">‹</button>
+    <img class="lightbox-image" id="commonGroundLightboxImage" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" onclick="commonGroundLightboxNav(1);">›</button>
+    <p class="lightbox-counter"><span id="commonGroundLightboxCurrent">1</span> / <span id="commonGroundLightboxTotal">6</span></p>
+  </div>
+
   <div class="overlay-body">
-    <p class="overlay-top-label">02 — Public Space</p>
-    <h2 class="sec-title" style="margin-bottom:12px;">Common <em>Ground</em></h2>
-    <p class="ps-tags" style="margin-bottom:48px;">Izmir, 2022</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px;">
-      <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?w=1200&q=85" alt="Common Ground" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
-      <img src="https://images.unsplash.com/photo-1464146072230-91cabc968266?w=1200&q=85" alt="Common Ground" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+    <!-- Carousel Header -->
+    <div class="carousel-section" style="margin-bottom:80px;">
+      <div class="carousel-container">
+        <div class="carousel-track" id="commonGroundCarouselTrack">
+          <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?w=1400&q=85" alt="Common Ground - View 1" />
+          <img src="https://images.unsplash.com/photo-1464146072230-91cabc968266?w=1400&q=85" alt="Common Ground - View 2" />
+          <img src="https://images.unsplash.com/photo-1462144149519-0d91f270f9ff?w=1400&q=85" alt="Common Ground - View 3" />
+          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1400&q=85" alt="Common Ground - View 4" />
+        </div>
+        <button class="carousel-btn carousel-prev" onclick="commonGroundCarouselNav(-1);">←</button>
+        <button class="carousel-btn carousel-next" onclick="commonGroundCarouselNav(1);">→</button>
+      </div>
+      <div class="carousel-dots" id="commonGroundCarouselDots"></div>
     </div>
-    <div style="max-width:640px;">
-      <p class="sec-label" style="margin-bottom:16px;">About the project</p>
-      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;margin-bottom:24px;">A reclaimed industrial plot in Alsancak converted into a shared civic space for a neighbourhood that had none. The brief asked for a plaza; the result is closer to a public room — enclosed enough to gather, open enough to pass through.</p>
-      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;">Seating, planting and a water element are embedded into a single cast-concrete topography rather than placed on top of a flat surface. The ground itself does the work.</p>
+
+    <!-- Hero Title -->
+    <div style="margin-bottom:60px;">
+      <p class="overlay-top-label">02 — Public Space</p>
+      <h2 class="sec-title" style="margin-bottom:12px;">Common <em>Ground</em></h2>
+      <p class="ps-tags" style="margin-bottom:0;">Izmir, Turkey — 2022</p>
     </div>
+
+    <!-- Overview -->
+    <div style="max-width:900px;margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:24px;">Overview</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.85;margin-bottom:24px;">A reclaimed industrial plot in Alsancak converted into a shared civic space for a neighbourhood that had none. The brief asked for a plaza; the result is closer to a public room — enclosed enough to gather, open enough to pass through.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.85;">Seating, planting and a water element are embedded into a single cast-concrete topography rather than placed on top of a flat surface. The ground itself does the work.</p>
+    </div>
+
+    <!-- Process -->
+    <div style="margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Design Process</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:900px;">
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">01 — Context Analysis</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Mapping the neighbourhood's history, daily patterns, and gaps in civic infrastructure.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .1s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">02 — Topographic Design</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Creating a continuous ground surface that facilitates gathering and movement.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .2s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">03 — Material Testing</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Prototyping concrete finishes and plant selections for durability and beauty.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .3s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">04 — Community Integration</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Activation and programming — turning a space into a living civic room.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery with Lightbox -->
+    <div style="margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Project Gallery</p>
+      <div class="gallery-grid" id="commonGroundGallery">
+        <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?w=800&q=85" alt="Plaza overview" onclick="commonGroundLightboxOpen(0)" />
+        <img src="https://images.unsplash.com/photo-1464146072230-91cabc968266?w=800&q=85" alt="Water feature" onclick="commonGroundLightboxOpen(1)" />
+        <img src="https://images.unsplash.com/photo-1462144149519-0d91f270f9ff?w=800&q=85" alt="Seating area" onclick="commonGroundLightboxOpen(2)" />
+        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&q=85" alt="Evening view" onclick="commonGroundLightboxOpen(3)" />
+        <img src="https://images.unsplash.com/photo-1445231330039-e21cae61b6d4?w=800&q=85" alt="Planting detail" onclick="commonGroundLightboxOpen(4)" />
+        <img src="https://images.unsplash.com/photo-1502933691298-84fc14542831?w=800&q=85" alt="Gathering space" onclick="commonGroundLightboxOpen(5)" />
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="max-width:900px;margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Materials & Details</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div><h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px;">Ground & Structure</h4><ul style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.8;list-style:none;padding:0;"><li>• Cast concrete topography</li><li>• Permeable paving</li><li>• Native plantings</li></ul></div>
+        <div><h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px;">Amenities</h4><ul style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.8;list-style:none;padding:0;"><li>• Integrated seating</li><li>• Water feature</li><li>• Lighting system</li></ul></div>
+      </div>
+    </div>
+
+    <!-- Credits -->
+    <div style="padding-top:40px;border-top:1px solid rgba(240,237,232,.1);max-width:900px;">
+      <p class="sec-label" style="margin-bottom:16px;">Project Team</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:.95rem;color:rgba(240,237,232,.55);line-height:1.8;">Architecture: THE O | Landscape: [Partner] | Engineering: [Partner] | Photography: [Photographer]</p>
+    </div>
+
   </div>
 </div>
 
 <div class="section-overlay" id="overlay-project-archive-of-light" role="dialog" aria-modal="true" aria-label="Archive of Light">
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="archiveLightbox">
+    <button class="lightbox-close" onclick="document.getElementById('archiveLightbox').style.display='none';" aria-label="Close lightbox">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="archiveLightboxNav(-1);">‹</button>
+    <img class="lightbox-image" id="archiveLightboxImage" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" onclick="archiveLightboxNav(1);">›</button>
+    <p class="lightbox-counter"><span id="archiveLightboxCurrent">1</span> / <span id="archiveLightboxTotal">6</span></p>
+  </div>
+
   <div class="overlay-body">
-    <p class="overlay-top-label">03 — Cultural</p>
-    <h2 class="sec-title" style="margin-bottom:12px;">Archive of <em>Light</em></h2>
-    <p class="ps-tags" style="margin-bottom:48px;">Istanbul, 2021</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px;">
-      <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=85" alt="Archive of Light" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
-      <img src="https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=1200&q=85" alt="Archive of Light" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+    <!-- Carousel Header -->
+    <div class="carousel-section" style="margin-bottom:80px;">
+      <div class="carousel-container">
+        <div class="carousel-track" id="archiveCarouselTrack">
+          <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1400&q=85" alt="Archive - View 1" />
+          <img src="https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=1400&q=85" alt="Archive - View 2" />
+          <img src="https://images.unsplash.com/photo-1552840250-7da742d26115?w=1400&q=85" alt="Archive - View 3" />
+          <img src="https://images.unsplash.com/photo-1569163139394-de4798aa62b1?w=1400&q=85" alt="Archive - View 4" />
+        </div>
+        <button class="carousel-btn carousel-prev" onclick="archiveCarouselNav(-1);">←</button>
+        <button class="carousel-btn carousel-next" onclick="archiveCarouselNav(1);">→</button>
+      </div>
+      <div class="carousel-dots" id="archiveCarouselDots"></div>
     </div>
-    <div style="max-width:640px;">
-      <p class="sec-label" style="margin-bottom:16px;">About the project</p>
-      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;margin-bottom:24px;">A photography archive and study centre housed in a former printing workshop in Karaköy. The original cast-iron structure is retained and expressed; new insertions are clearly legible as new. Light — the subject of the archive — is the primary design medium.</p>
-      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;">A system of sliding perforated screens controls the quality of light across reading rooms, print vaults and a small public gallery throughout the day without mechanical assistance.</p>
+
+    <!-- Hero Title -->
+    <div style="margin-bottom:60px;">
+      <p class="overlay-top-label">03 — Cultural</p>
+      <h2 class="sec-title" style="margin-bottom:12px;">Archive of <em>Light</em></h2>
+      <p class="ps-tags" style="margin-bottom:0;">Istanbul, Turkey — 2021</p>
     </div>
+
+    <!-- Overview -->
+    <div style="max-width:900px;margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:24px;">Overview</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.85;margin-bottom:24px;">A photography archive and study centre housed in a former printing workshop in Karaköy. The original cast-iron structure is retained and expressed; new insertions are clearly legible as new. Light — the subject of the archive — becomes the primary design medium.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.85;">A system of sliding perforated screens controls the quality of light across reading rooms, print vaults and a public gallery throughout the day without mechanical assistance.</p>
+    </div>
+
+    <!-- Process -->
+    <div style="margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Design Process</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:900px;">
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">01 — Heritage Study</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Understanding the building's industrial past and structural logic.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .1s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">02 — Light Studies</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Mapping solar patterns and designing screen systems for optimal light control.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .2s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">03 — Adaptive Insertion</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Integrating new spaces within the existing structure without compromise.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .3s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">04 — Activation</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Creating spaces for research, exhibition, and public engagement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery with Lightbox -->
+    <div style="margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Project Gallery</p>
+      <div class="gallery-grid" id="archiveGallery">
+        <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=85" alt="Archive interior" onclick="archiveLightboxOpen(0)" />
+        <img src="https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=800&q=85" alt="Reading room" onclick="archiveLightboxOpen(1)" />
+        <img src="https://images.unsplash.com/photo-1552840250-7da742d26115?w=800&q=85" alt="Light detail" onclick="archiveLightboxOpen(2)" />
+        <img src="https://images.unsplash.com/photo-1569163139394-de4798aa62b1?w=800&q=85" alt="Vault space" onclick="archiveLightboxOpen(3)" />
+        <img src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=800&q=85" alt="Exhibition space" onclick="archiveLightboxOpen(4)" />
+        <img src="https://images.unsplash.com/photo-1491932783202-ecd47e3eee4b?w=800&q=85" alt="Screen detail" onclick="archiveLightboxOpen(5)" />
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="max-width:900px;margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Materials & Details</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div><h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px;">Existing Structure</h4><ul style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.8;list-style:none;padding:0;"><li>• Cast-iron frame</li><li>• Original timber beams</li><li>• Brick masonry walls</li></ul></div>
+        <div><h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px;">New Insertions</h4><ul style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.8;list-style:none;padding:0;"><li>• Perforated steel screens</li><li>• Concrete flooring</li><li>• Minimalist furniture</li></ul></div>
+      </div>
+    </div>
+
+    <!-- Credits -->
+    <div style="padding-top:40px;border-top:1px solid rgba(240,237,232,.1);max-width:900px;">
+      <p class="sec-label" style="margin-bottom:16px;">Project Team</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:.95rem;color:rgba(240,237,232,.55);line-height:1.8;">Architecture: THE O | Heritage Consultant: [Partner] | Engineering: [Partner] | Photography: [Photographer]</p>
+    </div>
+
   </div>
 </div>
 
 <div class="section-overlay" id="overlay-project-soft-threshold" role="dialog" aria-modal="true" aria-label="Soft Threshold">
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="softThresholdLightbox">
+    <button class="lightbox-close" onclick="document.getElementById('softThresholdLightbox').style.display='none';" aria-label="Close lightbox">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="softThresholdLightboxNav(-1);">‹</button>
+    <img class="lightbox-image" id="softThresholdLightboxImage" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" onclick="softThresholdLightboxNav(1);">›</button>
+    <p class="lightbox-counter"><span id="softThresholdLightboxCurrent">1</span> / <span id="softThresholdLightboxTotal">6</span></p>
+  </div>
+
   <div class="overlay-body">
-    <p class="overlay-top-label">04 — Interior</p>
-    <h2 class="sec-title" style="margin-bottom:12px;">Soft <em>Threshold</em></h2>
-    <p class="ps-tags" style="margin-bottom:48px;">Ankara, 2024</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px;">
-      <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&q=85" alt="Soft Threshold" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
-      <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=85" alt="Soft Threshold" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+    <!-- Carousel Header -->
+    <div class="carousel-section" style="margin-bottom:80px;">
+      <div class="carousel-container">
+        <div class="carousel-track" id="softThresholdCarouselTrack">
+          <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1400&q=85" alt="Soft Threshold - View 1" />
+          <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1400&q=85" alt="Soft Threshold - View 2" />
+          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1400&q=85" alt="Soft Threshold - View 3" />
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1400&q=85" alt="Soft Threshold - View 4" />
+        </div>
+        <button class="carousel-btn carousel-prev" onclick="softThresholdCarouselNav(-1);">←</button>
+        <button class="carousel-btn carousel-next" onclick="softThresholdCarouselNav(1);">→</button>
+      </div>
+      <div class="carousel-dots" id="softThresholdCarouselDots"></div>
     </div>
-    <div style="max-width:640px;">
-      <p class="sec-label" style="margin-bottom:16px;">About the project</p>
-      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;margin-bottom:24px;">A 220 m² apartment interior in Çankaya where the client's brief was simply: make the rooms feel connected without removing the walls. The answer is a threshold system — deep doorways, level changes and material shifts that signal transition without hard division.</p>
-      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;">Warm plaster, unlacquered oak and hand-woven textiles provide continuity of warmth across all rooms while allowing each space its own register.</p>
+
+    <!-- Hero Title -->
+    <div style="margin-bottom:60px;">
+      <p class="overlay-top-label">04 — Interior</p>
+      <h2 class="sec-title" style="margin-bottom:12px;">Soft <em>Threshold</em></h2>
+      <p class="ps-tags" style="margin-bottom:0;">Ankara, Turkey — 2024</p>
     </div>
+
+    <!-- Overview -->
+    <div style="max-width:900px;margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:24px;">Overview</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.85;margin-bottom:24px;">A 220 m² apartment interior in Çankaya where the client's brief was simply: make the rooms feel connected without removing the walls. The answer is a threshold system — deep doorways, level changes and material shifts that signal transition without hard division.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.85;">Warm plaster, unlacquered oak and hand-woven textiles provide continuity across all rooms while allowing each space its own intimate register.</p>
+    </div>
+
+    <!-- Process -->
+    <div style="margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Design Process</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:900px;">
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">01 — Brief Understanding</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Understanding the client's daily patterns and desire for spatial fluidity.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .1s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">02 — Threshold Design</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Developing a vocabulary of transitions — doorways, steps, material changes.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .2s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">03 — Material Selection</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Choosing materials that age beautifully — plaster, oak, textiles — for warmth.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .3s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">04 — Custom Craft</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Handmade textiles and bespoke joinery for the intimate scale of home.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery with Lightbox -->
+    <div style="margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Project Gallery</p>
+      <div class="gallery-grid" id="softThresholdGallery">
+        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&q=85" alt="Living space" onclick="softThresholdLightboxOpen(0)" />
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=85" alt="Bedroom detail" onclick="softThresholdLightboxOpen(1)" />
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=85" alt="Doorway threshold" onclick="softThresholdLightboxOpen(2)" />
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85" alt="Kitchen area" onclick="softThresholdLightboxOpen(3)" />
+        <img src="https://images.unsplash.com/photo-1556020685-06a96c9b3d18?w=800&q=85" alt="Material detail" onclick="softThresholdLightboxOpen(4)" />
+        <img src="https://images.unsplash.com/photo-1574909620644-cb61981fc145?w=800&q=85" alt="Textile close-up" onclick="softThresholdLightboxOpen(5)" />
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="max-width:900px;margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Materials & Details</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div><h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px;">Finishes</h4><ul style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.8;list-style:none;padding:0;"><li>• Warm plaster walls</li><li>• Unlacquered oak flooring</li><li>• Natural stone accents</li></ul></div>
+        <div><h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px;">Custom Elements</h4><ul style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.8;list-style:none;padding:0;"><li>• Hand-woven textiles</li><li>• Bespoke joinery</li><li>• Integrated storage</li></ul></div>
+      </div>
+    </div>
+
+    <!-- Credits -->
+    <div style="padding-top:40px;border-top:1px solid rgba(240,237,232,.1);max-width:900px;">
+      <p class="sec-label" style="margin-bottom:16px;">Project Team</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:.95rem;color:rgba(240,237,232,.55);line-height:1.8;">Architecture & Interior: THE O | Textile Artist: [Partner] | Joinery: [Partner] | Photography: [Photographer]</p>
+    </div>
+
   </div>
 </div>
 
@@ -2872,6 +3103,150 @@ window.addEventListener('scroll', () => {
     if (e.key === 'ArrowLeft' && lightboxModal.style.display === 'flex') {
       veilHouseLightboxNav(-1);
     }
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   COMMON GROUND CAROUSEL & LIGHTBOX
+   ═══════════════════════════════════════════════════════ */
+(function() {
+  let carouselIndex = 0;
+  const carouselTrack = document.getElementById('commonGroundCarouselTrack');
+  const carouselDots = document.getElementById('commonGroundCarouselDots');
+  const images = carouselTrack ? carouselTrack.querySelectorAll('img') : [];
+  if (carouselTrack && images.length > 0) {
+    images.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = i === 0 ? 'active' : '';
+      dot.onclick = () => commonGroundCarouselGo(i);
+      carouselDots.appendChild(dot);
+    });
+    setInterval(() => commonGroundCarouselNav(1), 5000);
+  }
+  window.commonGroundCarouselNav = function(dir) {
+    carouselIndex = (carouselIndex + dir + images.length) % images.length;
+    commonGroundCarouselGo(carouselIndex);
+  };
+  window.commonGroundCarouselGo = function(idx) {
+    carouselIndex = idx;
+    carouselTrack.style.transform = `translateX(-${idx * 100}%)`;
+    document.querySelectorAll('#commonGroundCarouselDots div').forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  const lightboxModal = document.getElementById('commonGroundLightbox');
+  const lightboxImage = document.getElementById('commonGroundLightboxImage');
+  const lightboxCurrent = document.getElementById('commonGroundLightboxCurrent');
+  const galleryImages = document.querySelectorAll('#commonGroundGallery img');
+  let currentImageIdx = 0;
+  window.commonGroundLightboxOpen = function(idx) {
+    currentImageIdx = idx;
+    const img = galleryImages[idx];
+    if (img) { lightboxImage.src = img.src; lightboxImage.alt = img.alt; lightboxCurrent.textContent = idx + 1; lightboxModal.style.display = 'flex'; }
+  };
+  window.commonGroundLightboxNav = function(dir) {
+    currentImageIdx = (currentImageIdx + dir + galleryImages.length) % galleryImages.length;
+    const img = galleryImages[currentImageIdx];
+    if (img) { lightboxImage.style.opacity = '0'; setTimeout(() => { lightboxImage.src = img.src; lightboxImage.alt = img.alt; lightboxCurrent.textContent = currentImageIdx + 1; lightboxImage.style.opacity = '1'; }, 150); }
+  };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxModal.style.display === 'flex') lightboxModal.style.display = 'none';
+    if (e.key === 'ArrowRight' && lightboxModal.style.display === 'flex') commonGroundLightboxNav(1);
+    if (e.key === 'ArrowLeft' && lightboxModal.style.display === 'flex') commonGroundLightboxNav(-1);
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   ARCHIVE OF LIGHT CAROUSEL & LIGHTBOX
+   ═══════════════════════════════════════════════════════ */
+(function() {
+  let carouselIndex = 0;
+  const carouselTrack = document.getElementById('archiveCarouselTrack');
+  const carouselDots = document.getElementById('archiveCarouselDots');
+  const images = carouselTrack ? carouselTrack.querySelectorAll('img') : [];
+  if (carouselTrack && images.length > 0) {
+    images.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = i === 0 ? 'active' : '';
+      dot.onclick = () => archiveCarouselGo(i);
+      carouselDots.appendChild(dot);
+    });
+    setInterval(() => archiveCarouselNav(1), 5000);
+  }
+  window.archiveCarouselNav = function(dir) {
+    carouselIndex = (carouselIndex + dir + images.length) % images.length;
+    archiveCarouselGo(carouselIndex);
+  };
+  window.archiveCarouselGo = function(idx) {
+    carouselIndex = idx;
+    carouselTrack.style.transform = `translateX(-${idx * 100}%)`;
+    document.querySelectorAll('#archiveCarouselDots div').forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  const lightboxModal = document.getElementById('archiveLightbox');
+  const lightboxImage = document.getElementById('archiveLightboxImage');
+  const lightboxCurrent = document.getElementById('archiveLightboxCurrent');
+  const galleryImages = document.querySelectorAll('#archiveGallery img');
+  let currentImageIdx = 0;
+  window.archiveLightboxOpen = function(idx) {
+    currentImageIdx = idx;
+    const img = galleryImages[idx];
+    if (img) { lightboxImage.src = img.src; lightboxImage.alt = img.alt; lightboxCurrent.textContent = idx + 1; lightboxModal.style.display = 'flex'; }
+  };
+  window.archiveLightboxNav = function(dir) {
+    currentImageIdx = (currentImageIdx + dir + galleryImages.length) % galleryImages.length;
+    const img = galleryImages[currentImageIdx];
+    if (img) { lightboxImage.style.opacity = '0'; setTimeout(() => { lightboxImage.src = img.src; lightboxImage.alt = img.alt; lightboxCurrent.textContent = currentImageIdx + 1; lightboxImage.style.opacity = '1'; }, 150); }
+  };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxModal.style.display === 'flex') lightboxModal.style.display = 'none';
+    if (e.key === 'ArrowRight' && lightboxModal.style.display === 'flex') archiveLightboxNav(1);
+    if (e.key === 'ArrowLeft' && lightboxModal.style.display === 'flex') archiveLightboxNav(-1);
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   SOFT THRESHOLD CAROUSEL & LIGHTBOX
+   ═══════════════════════════════════════════════════════ */
+(function() {
+  let carouselIndex = 0;
+  const carouselTrack = document.getElementById('softThresholdCarouselTrack');
+  const carouselDots = document.getElementById('softThresholdCarouselDots');
+  const images = carouselTrack ? carouselTrack.querySelectorAll('img') : [];
+  if (carouselTrack && images.length > 0) {
+    images.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = i === 0 ? 'active' : '';
+      dot.onclick = () => softThresholdCarouselGo(i);
+      carouselDots.appendChild(dot);
+    });
+    setInterval(() => softThresholdCarouselNav(1), 5000);
+  }
+  window.softThresholdCarouselNav = function(dir) {
+    carouselIndex = (carouselIndex + dir + images.length) % images.length;
+    softThresholdCarouselGo(carouselIndex);
+  };
+  window.softThresholdCarouselGo = function(idx) {
+    carouselIndex = idx;
+    carouselTrack.style.transform = `translateX(-${idx * 100}%)`;
+    document.querySelectorAll('#softThresholdCarouselDots div').forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  const lightboxModal = document.getElementById('softThresholdLightbox');
+  const lightboxImage = document.getElementById('softThresholdLightboxImage');
+  const lightboxCurrent = document.getElementById('softThresholdLightboxCurrent');
+  const galleryImages = document.querySelectorAll('#softThresholdGallery img');
+  let currentImageIdx = 0;
+  window.softThresholdLightboxOpen = function(idx) {
+    currentImageIdx = idx;
+    const img = galleryImages[idx];
+    if (img) { lightboxImage.src = img.src; lightboxImage.alt = img.alt; lightboxCurrent.textContent = idx + 1; lightboxModal.style.display = 'flex'; }
+  };
+  window.softThresholdLightboxNav = function(dir) {
+    currentImageIdx = (currentImageIdx + dir + galleryImages.length) % galleryImages.length;
+    const img = galleryImages[currentImageIdx];
+    if (img) { lightboxImage.style.opacity = '0'; setTimeout(() => { lightboxImage.src = img.src; lightboxImage.alt = img.alt; lightboxCurrent.textContent = currentImageIdx + 1; lightboxImage.style.opacity = '1'; }, 150); }
+  };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxModal.style.display === 'flex') lightboxModal.style.display = 'none';
+    if (e.key === 'ArrowRight' && lightboxModal.style.display === 'flex') softThresholdLightboxNav(1);
+    if (e.key === 'ArrowLeft' && lightboxModal.style.display === 'flex') softThresholdLightboxNav(-1);
   });
 })();
 </script>
