@@ -114,9 +114,12 @@ body.cursor--hover #cursor-ring {
   justify-content: center;
   text-align: center;
   padding: 0 16px;
-  position: relative;
+  position: absolute;
   z-index: 2;
   pointer-events: auto;
+  inset: 0;
+  bottom: auto;
+  top: 0;
 }
 .ps-idx {
   font-family: 'Space Grotesk', sans-serif;
@@ -766,6 +769,29 @@ header {
   overflow: hidden;
   aspect-ratio: 4 / 3;
   background: #101010;
+  cursor: pointer;
+}
+.work-media::before {
+  content: 'See the Details';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity .3s ease;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(.75rem, 1.3vw, .95rem);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #F0EDE8;
+  z-index: 5;
+  pointer-events: none;
+}
+.work-card:hover .work-media::before {
+  opacity: 1;
 }
 .work-media img {
   width: 100%;
@@ -1550,10 +1576,10 @@ footer {
     <span></span><span></span><span></span>
   </button>
   <div class="burger-menu" id="burgerMenu" role="menu">
-    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('works'); return false;" role="menuitem">Works</a>
-    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('studio'); return false;" role="menuitem">Studio</a>
-    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('research'); return false;" role="menuitem">Research</a>
-    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('process'); return false;" role="menuitem">Process</a>
+    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('works'); return false;" role="menuitem">Works</a>
+    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('studio'); return false;" role="menuitem">Studio</a>
+    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('research'); return false;" role="menuitem">Research</a>
+    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('process'); return false;" role="menuitem">Process</a>
     <div class="burger-sep"></div>
     <a href="#contact" role="menuitem">Get in Touch</a>
   </div>
@@ -1700,7 +1726,7 @@ footer {
       <p class="sec-note">A selection of projects where research, context and craft meet — each one a question asked through space.</p>
     </div>
     <div class="works-grid" style="margin-top:60px;">
-      <a href="#contact" class="work-card" onclick="closeAllOverlays()">
+      <a href="#" class="work-card" onclick="event.preventDefault(); window.openOverlay('project-veil-house'); return false;">
         <div class="work-media">
           <span class="work-index">01 / 2025</span>
           <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="Veil House" loading="lazy" />
@@ -1710,7 +1736,7 @@ footer {
           <span class="work-tags">Residential — Istanbul</span>
         </div>
       </a>
-      <a href="#contact" class="work-card" onclick="closeAllOverlays()">
+      <a href="#" class="work-card" onclick="event.preventDefault(); window.openOverlay('project-common-ground'); return false;">
         <div class="work-media">
           <span class="work-index">02 / 2024</span>
           <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?w=1200&q=80" alt="Common Ground" loading="lazy" />
@@ -1720,7 +1746,7 @@ footer {
           <span class="work-tags">Public Space — Izmir</span>
         </div>
       </a>
-      <a href="#contact" class="work-card" onclick="closeAllOverlays()">
+      <a href="#" class="work-card" onclick="event.preventDefault(); window.openOverlay('project-archive-of-light'); return false;">
         <div class="work-media">
           <span class="work-index">03 / 2024</span>
           <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=80" alt="Archive of Light" loading="lazy" />
@@ -1730,7 +1756,7 @@ footer {
           <span class="work-tags">Cultural — Istanbul</span>
         </div>
       </a>
-      <a href="#contact" class="work-card" onclick="closeAllOverlays()">
+      <a href="#" class="work-card" onclick="event.preventDefault(); window.openOverlay('project-soft-threshold'); return false;">
         <div class="work-media">
           <span class="work-index">04 / 2023</span>
           <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&q=80" alt="Soft Threshold" loading="lazy" />
@@ -2392,6 +2418,7 @@ window.addEventListener('scroll', () => {
     ['left', 'right'].forEach(side => {
       const slide = document.createElement('div');
       slide.className = 'ps-slide';
+      slide.dataset.project = p.overlay;
       const img = document.createElement('img');
       img.src = p[side];
       img.alt = p.title;
