@@ -1454,13 +1454,13 @@ footer {
   <!-- HEADER -->
   <header>
     <nav class="nav-left">
-      <a href="#" data-overlay="works" class="nav-link">
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('works'); return false;" class="nav-link">
         <span class="nav-flip">
           <span class="nav-face nav-face-front">Works</span>
           <span class="nav-face nav-face-back">Works</span>
         </span>
       </a>
-      <a href="#" data-overlay="studio" class="nav-link">
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('studio'); return false;" class="nav-link">
         <span class="nav-flip">
           <span class="nav-face nav-face-front">Studio</span>
           <span class="nav-face nav-face-back">Studio</span>
@@ -1476,13 +1476,13 @@ footer {
     </a>
 
     <nav class="nav-right">
-      <a href="#" data-overlay="research" class="nav-link">
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('research'); return false;" class="nav-link">
         <span class="nav-flip">
           <span class="nav-face nav-face-front">Research</span>
           <span class="nav-face nav-face-back">Research</span>
         </span>
       </a>
-      <a href="#" data-overlay="process" class="nav-link">
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('process'); return false;" class="nav-link">
         <span class="nav-flip">
           <span class="nav-face nav-face-front">Process</span>
           <span class="nav-face nav-face-back">Process</span>
@@ -1551,9 +1551,9 @@ footer {
   </button>
   <div class="burger-menu" id="burgerMenu" role="menu">
     <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('works'); return false;" role="menuitem">Works</a>
-    <a href="#" data-overlay="studio" role="menuitem">Studio</a>
-    <a href="#" data-overlay="research" role="menuitem">Research</a>
-    <a href="#" data-overlay="process" role="menuitem">Process</a>
+    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('studio'); return false;" role="menuitem">Studio</a>
+    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('research'); return false;" role="menuitem">Research</a>
+    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('process'); return false;" role="menuitem">Process</a>
     <div class="burger-sep"></div>
     <a href="#contact" role="menuitem">Get in Touch</a>
   </div>
@@ -1970,10 +1970,10 @@ footer {
       </div>
     </a>
     <nav class="footer-nav">
-      <a href="#" data-overlay="works">Works</a>
-      <a href="#" data-overlay="studio">Studio</a>
-      <a href="#" data-overlay="research">Research</a>
-      <a href="#" data-overlay="process">Process</a>
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('works'); return false;">Works</a>
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('studio'); return false;">Studio</a>
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('research'); return false;">Research</a>
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('process'); return false;">Process</a>
       <a href="#contact">Contact</a>
     </nav>
     <p class="footer-copy">&copy; 2026 The O Architecture Lab — Istanbul</p>
