@@ -703,6 +703,32 @@ header {
 #backToTop:hover { border-color: #C4A97A; background: rgba(20,20,20,.9); }
 #backToTop svg { width: 18px; height: 18px; stroke: #C4A97A; stroke-width: 2; fill: none; }
 
+/* ── Language toggle (TR / EN) ──────────────────────────── */
+.lang-toggle {
+  position: fixed;
+  bottom: 34px;
+  left: 32px;
+  z-index: 9850;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(14,14,14,.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(240,237,232,.18);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: .62rem;
+  letter-spacing: .14em;
+  transition: border-color .25s, background .25s;
+}
+.lang-toggle:hover { border-color: #C4A97A; }
+.lang-toggle [data-lang] { color: rgba(240,237,232,.4); transition: color .2s; }
+.lang-toggle [data-lang].active { color: #C4A97A; }
+.lang-toggle .lang-sep { color: rgba(240,237,232,.25); }
+
 /* ═══════════════════════════════════════════════════════
    PAGE SECTIONS — below the hero
    ═══════════════════════════════════════════════════════ */
@@ -1643,14 +1669,14 @@ footer {
     <nav class="nav-left">
       <a href="#" onclick="event.preventDefault(); window.openOverlay('works'); return false;" class="nav-link">
         <span class="nav-flip">
-          <span class="nav-face nav-face-front">Works</span>
-          <span class="nav-face nav-face-back">Works</span>
+          <span class="nav-face nav-face-front" data-tr="Projeler">Works</span>
+          <span class="nav-face nav-face-back" data-tr="Projeler">Works</span>
         </span>
       </a>
       <a href="#" onclick="event.preventDefault(); window.openOverlay('studio'); return false;" class="nav-link">
         <span class="nav-flip">
-          <span class="nav-face nav-face-front">Studio</span>
-          <span class="nav-face nav-face-back">Studio</span>
+          <span class="nav-face nav-face-front" data-tr="Stüdyo">Studio</span>
+          <span class="nav-face nav-face-back" data-tr="Stüdyo">Studio</span>
         </span>
       </a>
     </nav>
@@ -1665,14 +1691,14 @@ footer {
     <nav class="nav-right">
       <a href="#" onclick="event.preventDefault(); window.openOverlay('research'); return false;" class="nav-link">
         <span class="nav-flip">
-          <span class="nav-face nav-face-front">Research</span>
-          <span class="nav-face nav-face-back">Research</span>
+          <span class="nav-face nav-face-front" data-tr="Araştırma">Research</span>
+          <span class="nav-face nav-face-back" data-tr="Araştırma">Research</span>
         </span>
       </a>
       <a href="#" onclick="event.preventDefault(); window.openOverlay('process'); return false;" class="nav-link">
         <span class="nav-flip">
-          <span class="nav-face nav-face-front">Process</span>
-          <span class="nav-face nav-face-back">Process</span>
+          <span class="nav-face nav-face-front" data-tr="Süreç">Process</span>
+          <span class="nav-face nav-face-back" data-tr="Süreç">Process</span>
         </span>
       </a>
     </nav>
@@ -1683,16 +1709,16 @@ footer {
 
     <!-- Tagline -->
     <div class="tagline">
-      <span class="tl-bold">Architecture</span>
+      <span class="tl-bold" data-tr="Mimarlık">Architecture</span>
 
       <!-- Thread animation row -->
       <div class="tl-thread-row" aria-live="polite" aria-label="as a catalyst">
-        <span class="tl-thread-prefix">as&nbsp;a&nbsp;&nbsp;</span>
+        <span class="tl-thread-prefix" data-tr="bir&nbsp;">as&nbsp;a&nbsp;&nbsp;</span>
         <span class="tl-thread-word" id="threadWord"></span>
       </div>
 
-      <span class="tl-bold">for&nbsp;Change.</span>
-      <p class="tl-sub">Research &nbsp;&middot;&nbsp; Design &nbsp;&middot;&nbsp; Impact</p>
+      <span class="tl-bold" data-tr="değişim&nbsp;için.">for&nbsp;Change.</span>
+      <p class="tl-sub" data-tr="Araştırma &nbsp;&middot;&nbsp; Tasarım &nbsp;&middot;&nbsp; Etki">Research &nbsp;&middot;&nbsp; Design &nbsp;&middot;&nbsp; Impact</p>
     </div>
 
     <!-- GET IN TOUCH pill -->
@@ -1700,10 +1726,10 @@ footer {
       <button class="git-pill" aria-label="Get in touch — expand for contact options">
 
         <div class="git-content">
-          <span class="git-label">Get in touch</span>
+          <span class="git-label" data-tr="İletişime geçin">Get in touch</span>
           <div class="git-sep"></div>
           <a href="mailto:info@theoarchlab.com">info@theoarchlab.com</a>
-          <a href="#contact">Start a project →</a>
+          <a href="#contact" data-tr="Projeye başla →">Start a project →</a>
         </div>
 
         <div class="git-divider"></div>
@@ -1724,7 +1750,7 @@ footer {
 
 <!-- Scroll hint -->
 <div class="scroll-hint" id="scrollHint" aria-hidden="true">
-  <span>Scroll</span>
+  <span data-tr="Kaydır">Scroll</span>
   <svg class="scroll-arrow" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="6 10 12 16 18 10" />
   </svg>
@@ -1737,6 +1763,11 @@ footer {
   </svg>
 </button>
 
+<!-- Language toggle -->
+<button class="lang-toggle" aria-label="Switch language">
+  <span data-lang="en">EN</span><span class="lang-sep">/</span><span data-lang="tr">TR</span>
+</button>
+
 <!-- Spacer: reserves scroll distance for hero -->
 <div class="hero-spacer" aria-hidden="true"></div>
 
@@ -1746,12 +1777,12 @@ footer {
     <span></span><span></span><span></span>
   </button>
   <div class="burger-menu" id="burgerMenu" role="menu">
-    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('works'); return false;" role="menuitem">Works</a>
-    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('studio'); return false;" role="menuitem">Studio</a>
-    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('research'); return false;" role="menuitem">Research</a>
-    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('process'); return false;" role="menuitem">Process</a>
+    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('works'); return false;" role="menuitem" data-tr="Projeler">Works</a>
+    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('studio'); return false;" role="menuitem" data-tr="Stüdyo">Studio</a>
+    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('research'); return false;" role="menuitem" data-tr="Araştırma">Research</a>
+    <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('process'); return false;" role="menuitem" data-tr="Süreç">Process</a>
     <div class="burger-sep"></div>
-    <a href="#contact" role="menuitem">Get in Touch</a>
+    <a href="#contact" role="menuitem" data-tr="İletişime Geç">Get in Touch</a>
   </div>
 </nav>
 
@@ -1760,39 +1791,39 @@ footer {
   <div class="theo-def-inner" id="theoDefInner">
     <h2 class="theo-title">THE<span class="dot">·</span>O</h2>
     <p class="theo-phonetic">/ðə.oʊ/</p>
-    <p class="theo-pos">noun</p>
-    <p class="theo-desc">A studio where every design begins at its origin, returns to zero, and completes the whole.</p>
+    <p class="theo-pos" data-tr="isim">noun</p>
+    <p class="theo-desc" data-tr="Her tasarımın kendi kökeninde başladığı, sıfıra döndüğü ve bütünü tamamladığı bir stüdyo.">A studio where every design begins at its origin, returns to zero, and completes the whole.</p>
     <div class="theo-rule"></div>
     <ul class="theo-items">
       <li class="theo-item">
-        <span class="theo-item-key">Origin</span>
+        <span class="theo-item-key" data-tr="Köken">Origin</span>
         <span class="theo-item-arrow">→</span>
-        <span class="theo-item-val">The point where every design begins.</span>
+        <span class="theo-item-val" data-tr="Her tasarımın başladığı nokta.">The point where every design begins.</span>
       </li>
       <li class="theo-item">
-        <span class="theo-item-key">Zero Point</span>
+        <span class="theo-item-key" data-tr="Sıfır Noktası">Zero Point</span>
         <span class="theo-item-arrow">→</span>
-        <span class="theo-item-val">Where new ideas, research, and projects are born.</span>
+        <span class="theo-item-val" data-tr="Yeni fikirlerin, araştırmaların ve projelerin doğduğu yer.">Where new ideas, research, and projects are born.</span>
       </li>
       <li class="theo-item">
-        <span class="theo-item-key">Cycle</span>
+        <span class="theo-item-key" data-tr="Döngü">Cycle</span>
         <span class="theo-item-arrow">→</span>
-        <span class="theo-item-val">The closed-loop system at the heart of sustainability.</span>
+        <span class="theo-item-val" data-tr="Sürdürülebilirliğin kalbindeki kapalı döngü sistemi.">The closed-loop system at the heart of sustainability.</span>
       </li>
       <li class="theo-item">
-        <span class="theo-item-key">Continuity</span>
+        <span class="theo-item-key" data-tr="Süreklilik">Continuity</span>
         <span class="theo-item-arrow">→</span>
-        <span class="theo-item-val">The lasting impact of architecture across its lifecycle.</span>
+        <span class="theo-item-val" data-tr="Mimarlığın yaşam döngüsü boyunca kalıcı etkisi.">The lasting impact of architecture across its lifecycle.</span>
       </li>
       <li class="theo-item">
-        <span class="theo-item-key">Return</span>
+        <span class="theo-item-key" data-tr="Dönüş">Return</span>
         <span class="theo-item-arrow">→</span>
-        <span class="theo-item-val">Where beginning and end meet at the same point.</span>
+        <span class="theo-item-val" data-tr="Başlangıç ile bitişin aynı noktada buluştuğu yer.">Where beginning and end meet at the same point.</span>
       </li>
       <li class="theo-item">
-        <span class="theo-item-key">Wholeness</span>
+        <span class="theo-item-key" data-tr="Bütünlük">Wholeness</span>
         <span class="theo-item-arrow">→</span>
-        <span class="theo-item-val">The relationship between human, environment, and built world — treated as one.</span>
+        <span class="theo-item-val" data-tr="İnsan, çevre ve yapılı dünya arasındaki ilişki — tek bir bütün olarak ele alınır.">The relationship between human, environment, and built world — treated as one.</span>
       </li>
     </ul>
   </div>
@@ -1803,8 +1834,8 @@ footer {
   <div class="ps-sticky">
     <!-- Intro header — blurs out as first project appears -->
     <div class="ps-intro" id="psIntro">
-      <p class="sec-label">Selected Works</p>
-      <h2 class="sec-title">Built &amp; <em>imagined</em></h2>
+      <p class="sec-label" data-tr="Seçili Projeler">Selected Works</p>
+      <h2 class="sec-title" data-tr="İnşa edilen &amp; <em>hayal edilen</em>">Built &amp; <em>imagined</em></h2>
     </div>
     <div class="ps-col" id="psLeft"></div>
     <div class="ps-center">
@@ -1825,18 +1856,18 @@ footer {
   <!-- ── CONTACT ────────────────────────────────────────── -->
   <section class="section" id="contact">
     <div class="reveal">
-      <p class="sec-label">Contact</p>
-      <h2 class="sec-title">Start <em>a conversation</em></h2>
+      <p class="sec-label" data-tr="İletişim">Contact</p>
+      <h2 class="sec-title" data-tr="Bir <em>sohbet başlatın</em>">Start <em>a conversation</em></h2>
     </div>
 
     <div class="contact-grid">
       <div class="contact-aside reveal">
-        <p>Tell us about the site, the budget, the doubt that keeps returning.
+        <p data-tr="Bize araziden, bütçeden, sürekli geri dönen o sorudan bahsedin. Her şeyi okuyor ve iki iş günü içinde yanıt veriyoruz.">Tell us about the site, the budget, the doubt that keeps returning.
           We read everything and reply within two working days.</p>
         <div class="contact-links">
-          <span class="cl-label">E-mail</span>
+          <span class="cl-label" data-tr="E-posta">E-mail</span>
           <a href="mailto:info@theoarchlab.com">info@theoarchlab.com</a>
-          <span class="cl-label">Studio</span>
+          <span class="cl-label" data-tr="Stüdyo">Studio</span>
           <a href="https://maps.google.com/?q=Istanbul" target="_blank" rel="noopener">Istanbul, Türkiye</a>
         </div>
       </div>
@@ -1845,25 +1876,25 @@ footer {
             action="https://formspree.io/f/xzdqjbgg" method="POST">
         <div class="field-row">
           <div class="field">
-            <label for="cf-name">Name</label>
-            <input id="cf-name" type="text" name="name" placeholder="Your name" required />
+            <label for="cf-name" data-tr="Ad">Name</label>
+            <input id="cf-name" type="text" name="name" placeholder="Your name" data-tr-ph="Adınız" required />
           </div>
           <div class="field">
-            <label for="cf-email">E-mail</label>
-            <input id="cf-email" type="email" name="email" placeholder="you@example.com" required />
+            <label for="cf-email" data-tr="E-posta">E-mail</label>
+            <input id="cf-email" type="email" name="email" placeholder="you@example.com" data-tr-ph="siz@ornek.com" required />
           </div>
         </div>
         <div class="field">
-          <label for="cf-subject">Project type</label>
-          <input id="cf-subject" type="text" name="subject" placeholder="House, interior, research, something else…" />
+          <label for="cf-subject" data-tr="Proje türü">Project type</label>
+          <input id="cf-subject" type="text" name="subject" placeholder="House, interior, research, something else…" data-tr-ph="Ev, iç mekan, araştırma, başka bir şey…" />
         </div>
         <div class="field">
-          <label for="cf-message">Message</label>
-          <textarea id="cf-message" name="message" rows="5" placeholder="The site, the timeline, the question…" required></textarea>
+          <label for="cf-message" data-tr="Mesaj">Message</label>
+          <textarea id="cf-message" name="message" rows="5" placeholder="The site, the timeline, the question…" data-tr-ph="Arazi, zaman çizelgesi, soru…" required></textarea>
         </div>
 
         <button type="submit" class="form-submit">
-          Send message
+          <span data-tr="Mesaj gönder">Send message</span>
           <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="13 6 19 12 13 18"/>
@@ -1878,7 +1909,7 @@ footer {
 
 <!-- Shared overlay close button — replaces hamburger when overlay is open -->
 <button id="overlay-close-fixed" aria-label="Close overlay">
-  Close
+  <span data-tr="Geri">Close</span>
   <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 </button>
 
@@ -2567,11 +2598,11 @@ footer {
       </div>
     </a>
     <nav class="footer-nav">
-      <a href="#" onclick="event.preventDefault(); window.openOverlay('works'); return false;">Works</a>
-      <a href="#" onclick="event.preventDefault(); window.openOverlay('studio'); return false;">Studio</a>
-      <a href="#" onclick="event.preventDefault(); window.openOverlay('research'); return false;">Research</a>
-      <a href="#" onclick="event.preventDefault(); window.openOverlay('process'); return false;">Process</a>
-      <a href="#contact">Contact</a>
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('works'); return false;" data-tr="Projeler">Works</a>
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('studio'); return false;" data-tr="Stüdyo">Studio</a>
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('research'); return false;" data-tr="Araştırma">Research</a>
+      <a href="#" onclick="event.preventDefault(); window.openOverlay('process'); return false;" data-tr="Süreç">Process</a>
+      <a href="#contact" data-tr="İletişim">Contact</a>
     </nav>
     <p class="footer-copy">&copy; 2026 The O Architecture Lab — Istanbul</p>
   </div>
@@ -2751,16 +2782,11 @@ footer {
 (function () {
   const el = document.getElementById('threadWord');
 
-  const words = [
-    'catalyst',
-    'medium',
-    'research tool',
-    'dialogue',
-    'transformation',
-    'living memory',
-    'social act',
-    'discipline',
-  ];
+  const WORDS = {
+    en: ['catalyst', 'medium', 'research tool', 'dialogue', 'transformation', 'living memory', 'social act', 'discipline'],
+    tr: ['katalizör', 'araç', 'araştırma aracı', 'diyalog', 'dönüşüm', 'yaşayan bellek', 'sosyal eylem', 'disiplin'],
+  };
+  const getWords = () => WORDS[window.__lang === 'tr' ? 'tr' : 'en'];
 
   /* Timing (ms) */
   const TYPE_SPEED   = 72;   /* ms per character typed   */
@@ -2774,7 +2800,8 @@ footer {
   let timer       = null;
 
   function tick() {
-    const current = words[wordIndex];
+    const words = getWords();
+    const current = words[wordIndex % words.length];
 
     if (!deleting) {
       /* Type one character */
@@ -2799,7 +2826,7 @@ footer {
       if (charIndex === 0) {
         /* Fully deleted — move to next word */
         deleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
+        wordIndex = (wordIndex + 1) % getWords().length;
         timer = setTimeout(tick, HOLD_BEFORE);
         return;
       }
@@ -3094,13 +3121,17 @@ if (backToTop) {
       if (res.ok) {
         form.reset();
         status.className = 'form-status ok';
-        status.textContent = 'Thank you — your message is on its way. We reply within two working days.';
+        status.textContent = window.__lang === 'tr'
+          ? 'Teşekkürler — mesajınız yola çıktı. İki iş günü içinde yanıt veriyoruz.'
+          : 'Thank you — your message is on its way. We reply within two working days.';
       } else {
         throw new Error('Formspree error');
       }
     } catch {
       status.className = 'form-status err';
-      status.textContent = 'Something went wrong. Please e-mail us directly at info@theoarchlab.com.';
+      status.textContent = window.__lang === 'tr'
+        ? 'Bir şeyler ters gitti. Lütfen doğrudan info@theoarchlab.com adresine e-posta gönderin.'
+        : 'Something went wrong. Please e-mail us directly at info@theoarchlab.com.';
     } finally {
       button.disabled = false;
     }
@@ -3332,6 +3363,79 @@ if (backToTop) {
     if (e.key === 'ArrowRight' && lightboxModal.style.display === 'flex') softThresholdLightboxNav(1);
     if (e.key === 'ArrowLeft' && lightboxModal.style.display === 'flex') softThresholdLightboxNav(-1);
   });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   I18N — automatic TR/EN with toggle + localStorage
+   English is whatever is already in the DOM; [data-tr] holds Turkish.
+   ═══════════════════════════════════════════════════════ */
+(function () {
+  function getStored() { try { return localStorage.getItem('theo-lang'); } catch (e) { return null; } }
+  function setStored(l) { try { localStorage.setItem('theo-lang', l); } catch (e) {} }
+  function detect() { return (navigator.language || 'en').toLowerCase().startsWith('tr') ? 'tr' : 'en'; }
+
+  /* Dictionary of recurring labels — auto-tag matching elements with data-tr
+     so every overlay's repeated headings localise without manual tagging. */
+  const DICT = {
+    'Overview': 'Genel Bakış',
+    'Design Process': 'Tasarım Süreci',
+    'Project Gallery': 'Proje Galerisi',
+    'Materials & Details': 'Malzemeler & Detaylar',
+    'Materials & Program': 'Malzemeler & Program',
+    'Project Team': 'Proje Ekibi',
+    'The Four Elements': 'Dört Element',
+    'Zoning & Spatial Flow': 'Bölgeleme & Mekânsal Akış',
+    'Structure': 'Strüktür',
+    'Finishes': 'Yüzeyler',
+    'Materials': 'Malzemeler',
+    'Program': 'Program',
+    'Existing Structure': 'Mevcut Strüktür',
+    'New Insertions': 'Yeni Eklemeler',
+    'Ground & Structure': 'Zemin & Strüktür',
+    'Amenities': 'Donatılar',
+    'Custom Elements': 'Özel Tasarım Ögeler',
+    'Selected Works': 'Seçili Projeler',
+    'Studio': 'Stüdyo',
+    'Research': 'Araştırma',
+    'Process': 'Süreç',
+    'Works': 'Projeler',
+    'Contact': 'İletişim'
+  };
+  document.querySelectorAll('.sec-label, .overlay-top-label, .step-name, h4').forEach(el => {
+    if (el.getAttribute('data-tr') !== null) return;
+    const key = el.textContent.trim();
+    if (DICT[key]) el.setAttribute('data-tr', DICT[key]);
+  });
+
+  /* Capture the English originals once */
+  document.querySelectorAll('[data-tr]').forEach(el => {
+    if (el.getAttribute('data-en') === null) el.setAttribute('data-en', el.innerHTML);
+  });
+  document.querySelectorAll('[data-tr-ph]').forEach(el => {
+    if (el.getAttribute('data-en-ph') === null) el.setAttribute('data-en-ph', el.getAttribute('placeholder') || '');
+  });
+
+  function apply(lang) {
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('[data-tr]').forEach(el => {
+      const v = lang === 'tr' ? el.getAttribute('data-tr') : el.getAttribute('data-en');
+      if (v !== null) el.innerHTML = v;
+    });
+    document.querySelectorAll('[data-tr-ph]').forEach(el => {
+      const v = lang === 'tr' ? el.getAttribute('data-tr-ph') : el.getAttribute('data-en-ph');
+      if (v !== null) el.setAttribute('placeholder', v);
+    });
+    document.querySelectorAll('.lang-toggle [data-lang]').forEach(s =>
+      s.classList.toggle('active', s.dataset.lang === lang));
+    window.__lang = lang;
+  }
+
+  let lang = getStored() || detect();
+  apply(lang);
+
+  window.setLang = function (l) { setStored(l); apply(l); };
+  window.toggleLang = function () { window.setLang(window.__lang === 'tr' ? 'en' : 'tr'); };
+  document.querySelectorAll('.lang-toggle').forEach(b => b.addEventListener('click', window.toggleLang));
 })();
 </script>
 </body>
