@@ -2077,7 +2077,7 @@ footer {
   const burgerNav = document.getElementById('burger-nav');
   const burgerBtn = document.getElementById('burgerBtn');
 
-  function openOverlay(id) {
+  window.openOverlay = function openOverlay(id) {
     const ol = document.getElementById('overlay-' + id);
     if (!ol) return;
     ol.classList.add('open');
@@ -2418,6 +2418,12 @@ window.addEventListener('scroll', () => {
   dots[0].classList.add('active');
   lastIdx = 0;
   if (introEl) { introEl.style.transform = 'translateX(-50%)'; document.querySelector('.ps-center').style.opacity = '0'; }
+
+  /* Direct click on project name opens its detail overlay */
+  nameEl.addEventListener('click', () => {
+    const id = nameEl.dataset.overlay;
+    if (id && window.openOverlay) window.openOverlay(id);
+  });
 
   window.addEventListener('scroll', update, { passive: true });
   update();
