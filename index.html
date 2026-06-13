@@ -1229,11 +1229,20 @@ footer {
 .theo-def-inner.is-visible { opacity: 1; transform: translateY(0); }
 .theo-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 400;
+  font-weight: 700;
   font-size: clamp(4.5rem, 11vw, 10rem);
   letter-spacing: -.03em;
   color: #F4F2EE;
   line-height: .92;
+}
+.theo-title .dot {
+  display: inline-block;
+  font-weight: 300;
+  font-size: .55em;
+  color: #C4A97A;
+  letter-spacing: 0;
+  vertical-align: .18em;
+  margin: 0 .04em;
 }
 .theo-phonetic {
   font-family: 'DM Sans', sans-serif;
@@ -1546,7 +1555,7 @@ footer {
 <!-- ── THE.O Definition ───────────────────────────────────── -->
 <section id="theo-definition">
   <div class="theo-def-inner" id="theoDefInner">
-    <h2 class="theo-title">THE.O</h2>
+    <h2 class="theo-title">THE<span class="dot">·</span>O</h2>
     <p class="theo-phonetic">/ðə.oʊ/</p>
     <p class="theo-pos">noun</p>
     <p class="theo-desc">A studio where every design begins at its origin, returns to zero, and completes the whole.</p>
