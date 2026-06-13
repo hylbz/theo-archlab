@@ -2424,7 +2424,8 @@ window.addEventListener('scroll', () => {
   if (introEl) { introEl.style.transform = 'translateX(-50%)'; document.querySelector('.ps-center').style.opacity = '0'; }
 
   /* Direct click on project name opens its detail overlay */
-  nameEl.addEventListener('click', () => {
+  nameEl.addEventListener('click', (e) => {
+    e.preventDefault();
     const id = nameEl.dataset.overlay;
     if (id && window.openOverlay) window.openOverlay(id);
   });
