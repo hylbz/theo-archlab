@@ -76,7 +76,7 @@ body.cursor--hover #cursor-ring {
 #projects-showcase {
   position: relative;
   z-index: 3;
-  height: 500vh; /* 4 projects × 100vh + 100vh base */
+  height: 400vh; /* 4 projects: raw goes 0→N-1, no trailing scroll */
   background: #080808;
 }
 .ps-sticky {
@@ -134,7 +134,9 @@ body.cursor--hover #cursor-ring {
   color: #F0EDE8;
   line-height: 1.1;
   transition: opacity .25s, transform .3s cubic-bezier(.4,0,.2,1);
+  cursor: pointer;
 }
+.ps-name:hover { color: #C4A97A; }
 .ps-tags {
   font-family: 'DM Sans', sans-serif;
   font-weight: 300;
@@ -1886,6 +1888,75 @@ footer {
   </div>
 </div>
 
+<!-- PROJECT overlays ──────────────────────────────────── -->
+<div class="section-overlay" id="overlay-project-veil-house" role="dialog" aria-modal="true" aria-label="Veil House">
+  <div class="overlay-body">
+    <p class="overlay-top-label">01 — Residential</p>
+    <h2 class="sec-title" style="margin-bottom:12px;">Veil <em>House</em></h2>
+    <p class="ps-tags" style="margin-bottom:48px;">Istanbul, 2023</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px;">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=85" alt="Veil House" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+      <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85" alt="Veil House" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+    </div>
+    <div style="max-width:640px;">
+      <p class="sec-label" style="margin-bottom:16px;">About the project</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;margin-bottom:24px;">A private residence on the Bosphorus waterfront where the boundary between interior and landscape is deliberately blurred. Perforated stone screens — the veil — filter light, air and view without closing off the water entirely.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;">The programme is organized around a single continuous surface that rises from garden level to roof terrace, folding into floor, wall and ceiling as it climbs. Material palette: raw concrete, pale travertine, aged brass.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-overlay" id="overlay-project-common-ground" role="dialog" aria-modal="true" aria-label="Common Ground">
+  <div class="overlay-body">
+    <p class="overlay-top-label">02 — Public Space</p>
+    <h2 class="sec-title" style="margin-bottom:12px;">Common <em>Ground</em></h2>
+    <p class="ps-tags" style="margin-bottom:48px;">Izmir, 2022</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px;">
+      <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?w=1200&q=85" alt="Common Ground" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+      <img src="https://images.unsplash.com/photo-1464146072230-91cabc968266?w=1200&q=85" alt="Common Ground" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+    </div>
+    <div style="max-width:640px;">
+      <p class="sec-label" style="margin-bottom:16px;">About the project</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;margin-bottom:24px;">A reclaimed industrial plot in Alsancak converted into a shared civic space for a neighbourhood that had none. The brief asked for a plaza; the result is closer to a public room — enclosed enough to gather, open enough to pass through.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;">Seating, planting and a water element are embedded into a single cast-concrete topography rather than placed on top of a flat surface. The ground itself does the work.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-overlay" id="overlay-project-archive-of-light" role="dialog" aria-modal="true" aria-label="Archive of Light">
+  <div class="overlay-body">
+    <p class="overlay-top-label">03 — Cultural</p>
+    <h2 class="sec-title" style="margin-bottom:12px;">Archive of <em>Light</em></h2>
+    <p class="ps-tags" style="margin-bottom:48px;">Istanbul, 2021</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px;">
+      <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=85" alt="Archive of Light" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+      <img src="https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=1200&q=85" alt="Archive of Light" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+    </div>
+    <div style="max-width:640px;">
+      <p class="sec-label" style="margin-bottom:16px;">About the project</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;margin-bottom:24px;">A photography archive and study centre housed in a former printing workshop in Karaköy. The original cast-iron structure is retained and expressed; new insertions are clearly legible as new. Light — the subject of the archive — is the primary design medium.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;">A system of sliding perforated screens controls the quality of light across reading rooms, print vaults and a small public gallery throughout the day without mechanical assistance.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-overlay" id="overlay-project-soft-threshold" role="dialog" aria-modal="true" aria-label="Soft Threshold">
+  <div class="overlay-body">
+    <p class="overlay-top-label">04 — Interior</p>
+    <h2 class="sec-title" style="margin-bottom:12px;">Soft <em>Threshold</em></h2>
+    <p class="ps-tags" style="margin-bottom:48px;">Ankara, 2024</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px;">
+      <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&q=85" alt="Soft Threshold" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+      <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=85" alt="Soft Threshold" style="width:100%;aspect-ratio:4/3;object-fit:cover;" />
+    </div>
+    <div style="max-width:640px;">
+      <p class="sec-label" style="margin-bottom:16px;">About the project</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;margin-bottom:24px;">A 220 m² apartment interior in Çankaya where the client's brief was simply: make the rooms feel connected without removing the walls. The answer is a threshold system — deep doorways, level changes and material shifts that signal transition without hard division.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.75;">Warm plaster, unlacquered oak and hand-woven textiles provide continuity of warmth across all rooms while allowing each space its own register.</p>
+    </div>
+  </div>
+</div>
+
 <!-- ── FOOTER ─────────────────────────────────────────── -->
 <footer>
   <div class="footer-grid">
@@ -2207,22 +2278,22 @@ window.addEventListener('scroll', () => {
 (function () {
   const PROJECTS = [
     {
-      idx: '01', title: 'Veil House', tags: 'Residential — Istanbul',
+      idx: '01', title: 'Veil House', tags: 'Residential — Istanbul', overlay: 'project-veil-house',
       left:  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80',
       right: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80',
     },
     {
-      idx: '02', title: 'Common Ground', tags: 'Public Space — Izmir',
+      idx: '02', title: 'Common Ground', tags: 'Public Space — Izmir', overlay: 'project-common-ground',
       left:  'https://images.unsplash.com/photo-1486718448742-163732cd1544?w=900&q=80',
       right: 'https://images.unsplash.com/photo-1464146072230-91cabc968266?w=900&q=80',
     },
     {
-      idx: '03', title: 'Archive of Light', tags: 'Cultural — Istanbul',
+      idx: '03', title: 'Archive of Light', tags: 'Cultural — Istanbul', overlay: 'project-archive-of-light',
       left:  'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&q=80',
       right: 'https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=900&q=80',
     },
     {
-      idx: '04', title: 'Soft Threshold', tags: 'Interior — Ankara',
+      idx: '04', title: 'Soft Threshold', tags: 'Interior — Ankara', overlay: 'project-soft-threshold',
       left:  'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900&q=80',
       right: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&q=80',
     },
@@ -2282,6 +2353,7 @@ window.addEventListener('scroll', () => {
     /* swap immediately — CSS transition handles the fade */
     idxEl.textContent  = p.idx;
     nameEl.textContent = p.title;
+    nameEl.dataset.overlay = p.overlay;
     tagsEl.textContent = p.tags;
     requestAnimationFrame(() => {
       nameEl.style.opacity = '1';
@@ -2296,9 +2368,9 @@ window.addEventListener('scroll', () => {
     const scrolled = Math.max(0, window.scrollY - top);
     const maxS     = section.offsetHeight - window.innerHeight;
     const p        = maxS > 0 ? Math.min(1, scrolled / maxS) : 0;
-    const raw      = p * PROJECTS.length;
+    const raw      = p * (PROJECTS.length - 1);
     const idx      = Math.min(Math.floor(raw), PROJECTS.length - 1);
-    const frac     = idx === PROJECTS.length - 1 ? 0 : raw - Math.floor(raw);
+    const frac     = raw - Math.floor(raw);
     const vh       = window.innerHeight;
 
     PROJECTS.forEach((_, i) => {
@@ -2339,9 +2411,10 @@ window.addEventListener('scroll', () => {
   }
 
   /* Init text, dots & intro */
-  idxEl.textContent  = PROJECTS[0].idx;
-  nameEl.textContent = PROJECTS[0].title;
-  tagsEl.textContent = PROJECTS[0].tags;
+  idxEl.textContent       = PROJECTS[0].idx;
+  nameEl.textContent      = PROJECTS[0].title;
+  nameEl.dataset.overlay  = PROJECTS[0].overlay;
+  tagsEl.textContent      = PROJECTS[0].tags;
   dots[0].classList.add('active');
   lastIdx = 0;
   if (introEl) { introEl.style.transform = 'translateX(-50%)'; document.querySelector('.ps-center').style.opacity = '0'; }
