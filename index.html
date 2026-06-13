@@ -1550,7 +1550,7 @@ footer {
     <span></span><span></span><span></span>
   </button>
   <div class="burger-menu" id="burgerMenu" role="menu">
-    <a href="#" data-overlay="works" role="menuitem">Works</a>
+    <a href="#" onclick="event.preventDefault(); event.stopPropagation(); window.openOverlay('works'); return false;" role="menuitem">Works</a>
     <a href="#" data-overlay="studio" role="menuitem">Studio</a>
     <a href="#" data-overlay="research" role="menuitem">Research</a>
     <a href="#" data-overlay="process" role="menuitem">Process</a>
