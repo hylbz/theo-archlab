@@ -1332,48 +1332,43 @@ footer {
   overscroll-behavior: contain;
 }
 .section-overlay.open { transform: translateX(0); }
-.overlay-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background: rgba(6,6,6,.96);
-  backdrop-filter: blur(8px);
-  display: flex;
+/* Shared fixed close button — same position as hamburger */
+#overlay-close-fixed {
+  position: fixed;
+  top: 36px;
+  right: 48px;
+  z-index: 9001;
+  display: none;
   align-items: center;
-  justify-content: space-between;
-  padding: 26px clamp(28px, 6vw, 80px);
-  border-bottom: 1px solid rgba(240,237,232,.07);
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(240,237,232,.45);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  transition: color .2s, opacity .3s;
+  padding: 8px;
 }
-.overlay-label {
+#overlay-close-fixed:hover { color: #F0EDE8; }
+#overlay-close-fixed.visible { display: flex; }
+#overlay-close-fixed svg {
+  width: 13px; height: 13px;
+  stroke: currentColor; stroke-width: 2;
+  fill: none;
+  flex-shrink: 0;
+}
+.overlay-top-label {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: .6rem;
   letter-spacing: .28em;
   text-transform: uppercase;
   color: rgba(240,237,232,.28);
-}
-.overlay-close-btn {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: rgba(240,237,232,.4);
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: .58rem;
-  font-weight: 700;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  transition: color .2s;
-  padding: 4px 0;
-}
-.overlay-close-btn:hover { color: #F0EDE8; }
-.overlay-close-btn svg {
-  width: 13px; height: 13px;
-  stroke: currentColor; stroke-width: 2;
-  fill: none;
-  flex-shrink: 0;
+  margin-bottom: 48px;
 }
 .overlay-body {
   padding: clamp(44px, 7vw, 80px) clamp(28px, 6vw, 80px) 80px;
@@ -1598,7 +1593,6 @@ footer {
     <div class="ps-intro" id="psIntro">
       <p class="sec-label">Selected Works</p>
       <h2 class="sec-title">Built &amp; <em>imagined</em></h2>
-      <p class="sec-note">A selection of projects where research, context and craft meet — each one a question asked through space.</p>
     </div>
     <div class="ps-col" id="psLeft"></div>
     <div class="ps-center">
@@ -1670,20 +1664,20 @@ footer {
 
 </main>
 
+<!-- Shared overlay close button — replaces hamburger when overlay is open -->
+<button id="overlay-close-fixed" aria-label="Close overlay">
+  Close
+  <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+
 <!-- ═══════════════════════════════════════════════════════
      SECTION OVERLAYS — slide in from right on nav click
      ═══════════════════════════════════════════════════════ -->
 
 <!-- WORKS overlay -->
 <div class="section-overlay" id="overlay-works" role="dialog" aria-modal="true" aria-label="Works">
-  <div class="overlay-header">
-    <span class="overlay-label">Works</span>
-    <button class="overlay-close-btn" aria-label="Close">
-      Close
-      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
   <div class="overlay-body">
+    <p class="overlay-top-label">Works</p>
     <div class="reveal in">
       <p class="sec-label">Selected Works</p>
       <h2 class="sec-title">Built &amp; <em>imagined</em></h2>
@@ -1736,14 +1730,8 @@ footer {
 
 <!-- STUDIO overlay -->
 <div class="section-overlay" id="overlay-studio" role="dialog" aria-modal="true" aria-label="Studio">
-  <div class="overlay-header">
-    <span class="overlay-label">Studio</span>
-    <button class="overlay-close-btn" aria-label="Close">
-      Close
-      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
   <div class="overlay-body">
+    <p class="overlay-top-label">Studio</p>
     <div class="reveal in">
       <p class="sec-label">Studio</p>
       <h2 class="sec-title">A lab, <em>not an office</em></h2>
@@ -1806,14 +1794,8 @@ footer {
 
 <!-- RESEARCH overlay -->
 <div class="section-overlay" id="overlay-research" role="dialog" aria-modal="true" aria-label="Research">
-  <div class="overlay-header">
-    <span class="overlay-label">Research</span>
-    <button class="overlay-close-btn" aria-label="Close">
-      Close
-      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
   <div class="overlay-body">
+    <p class="overlay-top-label">Research</p>
     <div class="reveal in">
       <p class="sec-label">Research</p>
       <h2 class="sec-title">Questions <em>we keep open</em></h2>
@@ -1841,14 +1823,8 @@ footer {
 
 <!-- PROCESS overlay -->
 <div class="section-overlay" id="overlay-process" role="dialog" aria-modal="true" aria-label="Process">
-  <div class="overlay-header">
-    <span class="overlay-label">Process</span>
-    <button class="overlay-close-btn" aria-label="Close">
-      Close
-      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
   <div class="overlay-body">
+    <p class="overlay-top-label">Process</p>
     <div class="reveal in">
       <p class="sec-label">Process</p>
       <h2 class="sec-title">Research first, <em>form later</em></h2>
@@ -2000,20 +1976,29 @@ footer {
    SECTION OVERLAYS — slide-in panels
    ═══════════════════════════════════════════════════════ */
 (function () {
+  const closeBtn  = document.getElementById('overlay-close-fixed');
+  const burgerNav = document.getElementById('burger-nav');
+  const burgerBtn = document.getElementById('burgerBtn');
+
   function openOverlay(id) {
     const ol = document.getElementById('overlay-' + id);
     if (!ol) return;
     ol.classList.add('open');
     document.body.style.overflow = 'hidden';
     ol.scrollTop = 0;
+    closeBtn.classList.add('visible');
+    if (burgerNav) burgerNav.style.opacity = '0';
   }
 
   window.closeAllOverlays = function () {
-    document.querySelectorAll('.section-overlay.open').forEach(ol => {
-      ol.classList.remove('open');
-    });
+    document.querySelectorAll('.section-overlay.open').forEach(ol => ol.classList.remove('open'));
     document.body.style.overflow = '';
+    closeBtn.classList.remove('visible');
+    if (burgerNav) burgerNav.style.opacity = '';
   };
+
+  /* Shared close button */
+  closeBtn.addEventListener('click', window.closeAllOverlays);
 
   /* Nav + footer links with data-overlay */
   document.addEventListener('click', e => {
@@ -2021,22 +2006,10 @@ footer {
     if (trigger) {
       e.preventDefault();
       openOverlay(trigger.dataset.overlay);
-      /* Close burger menu if open */
-      const burgerNav = document.getElementById('burger-nav');
-      const burgerBtn = document.getElementById('burgerBtn');
       if (burgerNav) {
         burgerNav.classList.remove('open');
         burgerBtn.setAttribute('aria-expanded', 'false');
       }
-      return;
-    }
-
-    /* Close button inside overlay */
-    const closeBtn = e.target.closest('.overlay-close-btn');
-    if (closeBtn) {
-      const ol = closeBtn.closest('.section-overlay');
-      if (ol) { ol.classList.remove('open'); document.body.style.overflow = ''; }
-      return;
     }
   });
 
@@ -2277,18 +2250,18 @@ window.addEventListener('scroll', () => {
     if (idx === lastIdx) return;
     lastIdx = idx;
     const p = PROJECTS[idx];
-    /* Fade out → swap → fade in */
     nameEl.style.opacity = '0';
     nameEl.style.transform = 'translateY(6px)';
     tagsEl.style.opacity = '0';
-    setTimeout(() => {
-      idxEl.textContent  = p.idx;
-      nameEl.textContent = p.title;
-      tagsEl.textContent = p.tags;
+    /* swap immediately — CSS transition handles the fade */
+    idxEl.textContent  = p.idx;
+    nameEl.textContent = p.title;
+    tagsEl.textContent = p.tags;
+    requestAnimationFrame(() => {
       nameEl.style.opacity = '1';
       nameEl.style.transform = 'translateY(0)';
       tagsEl.style.opacity = '1';
-    }, 180);
+    });
     dots.forEach((d, i) => d.classList.toggle('active', i === idx));
   }
 
@@ -2323,7 +2296,9 @@ window.addEventListener('scroll', () => {
       }
     });
 
-    updateText(idx);
+    /* Show next project's title when it's more than halfway in */
+    const textIdx = (frac > 0.5 && idx < PROJECTS.length - 1) ? idx + 1 : idx;
+    updateText(textIdx);
 
     /* Blur / fade out the intro header as first project comes in */
     if (introEl) {
