@@ -704,33 +704,52 @@ header {
 #backToTop svg { width: 18px; height: 18px; stroke: #C4A97A; stroke-width: 2; fill: none; }
 
 /* ── Language toggle (TR / EN) ──────────────────────────── */
-.lang-toggle {
-  position: fixed;
-  top: 34px;
-  left: 48px;
-  z-index: 9990;
+/* Language pill — stacked above the Get-in-touch pill, same expand effect */
+.git-wrap {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+.lang-pill .lang-code {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: #0C0C0C;
+}
+.lang-opt {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(12,12,12,.4);
+  text-decoration: none;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .15s;
+  white-space: nowrap;
+}
+.lang-opt:hover { color: #0C0C0C; }
+.lang-opt.active { color: #8B7355; }
+
+/* Language row inside the burger menu (for scrolled state) */
+.burger-lang {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(14,14,14,.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(240,237,232,.18);
-  border-radius: 999px;
-  padding: 8px 14px;
+  gap: 8px;
+  background: none;
+  border: none;
   cursor: pointer;
+  padding: 0;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: .62rem;
   letter-spacing: .14em;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .4s, border-color .25s, background .25s;
 }
-.lang-toggle.visible { opacity: 1; pointer-events: auto; }
-.lang-toggle:hover { border-color: #C4A97A; }
-.lang-toggle [data-lang] { color: rgba(240,237,232,.4); transition: color .2s; }
-.lang-toggle [data-lang].active { color: #C4A97A; }
-.lang-toggle .lang-sep { color: rgba(240,237,232,.25); }
+.burger-lang [data-lang] { color: rgba(240,237,232,.4); transition: color .2s; }
+.burger-lang [data-lang].active { color: #C4A97A; }
+.burger-lang .lang-sep { color: rgba(240,237,232,.25); }
 
 /* ═══════════════════════════════════════════════════════
    PAGE SECTIONS — below the hero
@@ -739,6 +758,14 @@ header {
   position: relative;
   z-index: 4;
   background: #080808;
+  min-height: 100vh; /* final panel fully covers the sticky backdrop below it */
+}
+/* Contact = the closing full-screen panel that scrolls over everything */
+#contact {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .section {
@@ -1726,6 +1753,19 @@ footer {
 
     <!-- GET IN TOUCH pill -->
     <div class="git-wrap">
+
+      <!-- LANGUAGE pill -->
+      <button class="git-pill lang-pill" aria-label="Language — switch between English and Turkish">
+        <div class="git-content">
+          <span class="git-label" data-tr="Dil">Language</span>
+          <div class="git-sep"></div>
+          <span class="lang-opt" data-lang-opt="en" onclick="event.stopPropagation(); window.setLang('en');">English</span>
+          <span class="lang-opt" data-lang-opt="tr" onclick="event.stopPropagation(); window.setLang('tr');">Türkçe</span>
+        </div>
+        <div class="git-divider"></div>
+        <div class="git-icon lang-code" aria-hidden="true"><span data-lang-code>EN</span></div>
+      </button>
+
       <button class="git-pill" aria-label="Get in touch — expand for contact options">
 
         <div class="git-content">
@@ -1766,11 +1806,6 @@ footer {
   </svg>
 </button>
 
-<!-- Language toggle -->
-<button class="lang-toggle" aria-label="Switch language">
-  <span data-lang="en">EN</span><span class="lang-sep">/</span><span data-lang="tr">TR</span>
-</button>
-
 <!-- Spacer: reserves scroll distance for hero -->
 <div class="hero-spacer" aria-hidden="true"></div>
 
@@ -1786,6 +1821,10 @@ footer {
     <a href="#" onclick="event.preventDefault(); var m=document.getElementById('burger-nav'), b=document.getElementById('burgerBtn'); if(m&&b){m.classList.remove('open');b.setAttribute('aria-expanded','false');} window.openOverlay('process'); return false;" role="menuitem" data-tr="Süreç">Process</a>
     <div class="burger-sep"></div>
     <a href="#contact" role="menuitem" data-tr="İletişime Geç">Get in Touch</a>
+    <div class="burger-sep"></div>
+    <button class="burger-lang" role="menuitem" aria-label="Switch language">
+      <span data-lang="en" onclick="event.stopPropagation(); window.setLang('en');">EN</span><span class="lang-sep">/</span><span data-lang="tr" onclick="event.stopPropagation(); window.setLang('tr');">TR</span>
+    </button>
   </div>
 </nav>
 
@@ -3345,8 +3384,12 @@ if (backToTop) {
       const v = lang === 'tr' ? el.getAttribute('data-tr-ph') : el.getAttribute('data-en-ph');
       if (v !== null) el.setAttribute('placeholder', v);
     });
-    document.querySelectorAll('.lang-toggle [data-lang]').forEach(s =>
+    /* Reflect current language in the controls */
+    document.querySelectorAll('.burger-lang [data-lang]').forEach(s =>
       s.classList.toggle('active', s.dataset.lang === lang));
+    document.querySelectorAll('[data-lang-opt]').forEach(s =>
+      s.classList.toggle('active', s.getAttribute('data-lang-opt') === lang));
+    document.querySelectorAll('[data-lang-code]').forEach(s => s.textContent = lang.toUpperCase());
     window.__lang = lang;
   }
 
@@ -3355,7 +3398,8 @@ if (backToTop) {
 
   window.setLang = function (l) { setStored(l); apply(l); };
   window.toggleLang = function () { window.setLang(window.__lang === 'tr' ? 'en' : 'tr'); };
-  document.querySelectorAll('.lang-toggle').forEach(b => b.addEventListener('click', window.toggleLang));
+  /* The burger language row toggles; the hero lang-pill uses per-option clicks */
+  document.querySelectorAll('.burger-lang').forEach(b => b.addEventListener('click', window.toggleLang));
 })();
 </script>
 </body>
