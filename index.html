@@ -1266,14 +1266,17 @@ footer {
   letter-spacing: -.03em;
   color: #F4F2EE;
   line-height: .92;
+  opacity: 0.85;
 }
 .theo-title .dot {
   display: inline-block;
-  font-weight: 300;
-  font-size: .55em;
+  font-weight: 700;
+  font-size: .48em;
   color: #C4A97A;
   letter-spacing: 0;
-  vertical-align: .18em;
+  vertical-align: .35em;
+  opacity: 0.7;
+  margin: 0 .08em;
   margin: 0 .04em;
 }
 .theo-phonetic {
@@ -1455,6 +1458,136 @@ footer {
   .tl-thread-prefix { font-size: clamp(1.4rem, 6vw, 2.4rem); }
   .tl-thread-word   { font-size: clamp(1.4rem, 6vw, 2.4rem); }
   .process-steps { grid-template-columns: 1fr; }
+}
+
+/* ── CAROUSEL & LIGHTBOX ────────────────────────── */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.carousel-section { position: relative; margin-bottom: 80px; }
+.carousel-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+.carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform .6s cubic-bezier(.4, 0, .2, 1);
+}
+.carousel-track img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+  opacity: .7;
+  transition: opacity .4s ease;
+}
+.carousel-track img.active { opacity: 1; }
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: #F0EDE8;
+  border: none;
+  font-size: 2.5rem;
+  padding: 20px 24px;
+  cursor: pointer;
+  z-index: 10;
+  transition: background .3s;
+}
+.carousel-btn:hover { background: rgba(0, 0, 0, 0.75); }
+.carousel-prev { left: 0; }
+.carousel-next { right: 0; }
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+}
+.carousel-dots div {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(240, 237, 232, .3);
+  cursor: pointer;
+  transition: all .3s;
+}
+.carousel-dots div.active { background: #C4A97A; width: 24px; border-radius: 4px; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+}
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  cursor: pointer;
+  transition: all .4s cubic-bezier(.4, 0, .2, 1);
+  filter: brightness(.9);
+}
+.gallery-grid img:hover {
+  transform: scale(1.05);
+  filter: brightness(1);
+}
+
+.lightbox-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .95);
+  z-index: 10000;
+  animation: fadeIn .3s ease;
+}
+.lightbox-modal.open { display: flex; }
+.lightbox-image {
+  max-width: 90vw;
+  max-height: 80vh;
+  object-fit: contain;
+  margin: auto;
+}
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  background: none;
+  border: none;
+  color: #F0EDE8;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10001;
+}
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0);
+  color: #F0EDE8;
+  border: none;
+  font-size: 3rem;
+  padding: 20px 30px;
+  cursor: pointer;
+  z-index: 10001;
+  transition: all .3s;
+}
+.lightbox-nav:hover { background: rgba(0, 0, 0, .6); }
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+.lightbox-counter {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(240, 237, 232, .6);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
 }
 </style>
 </head>
@@ -1920,7 +2053,98 @@ footer {
 
 <!-- PROJECT overlays ──────────────────────────────────── -->
 <div class="section-overlay" id="overlay-project-veil-house" role="dialog" aria-modal="true" aria-label="Veil House">
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="veilHouseLightbox">
+    <button class="lightbox-close" onclick="document.getElementById('veilHouseLightbox').style.display='none';" aria-label="Close lightbox">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="veilHouseLightboxNav(-1);">‹</button>
+    <img class="lightbox-image" id="lightboxImage" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" onclick="veilHouseLightboxNav(1);">›</button>
+    <p class="lightbox-counter"><span id="lightboxCurrent">1</span> / <span id="lightboxTotal">6</span></p>
+  </div>
+
   <div class="overlay-body">
+    <!-- Carousel Header -->
+    <div class="carousel-section" style="margin-bottom:80px;">
+      <div class="carousel-container">
+        <div class="carousel-track" id="veilCarouselTrack">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=85" alt="Veil House - View 1" />
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1400&q=85" alt="Veil House - View 2" />
+          <img src="https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=1400&q=85" alt="Veil House - View 3" />
+          <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1400&q=85" alt="Veil House - View 4" />
+        </div>
+        <button class="carousel-btn carousel-prev" onclick="veilHouseCarouselNav(-1);">←</button>
+        <button class="carousel-btn carousel-next" onclick="veilHouseCarouselNav(1);">→</button>
+      </div>
+      <div class="carousel-dots" id="veilCarouselDots"></div>
+    </div>
+
+    <!-- Hero Title -->
+    <div style="margin-bottom:60px;">
+      <p class="overlay-top-label">01 — Residential</p>
+      <h2 class="sec-title" style="margin-bottom:12px;">Veil <em>House</em></h2>
+      <p class="ps-tags" style="margin-bottom:0;">Istanbul, Turkey — 2023</p>
+    </div>
+
+    <!-- Overview -->
+    <div style="max-width:900px;margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:24px;">Overview</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.85;margin-bottom:24px;">A private residence on the Bosphorus waterfront where the boundary between interior and landscape is deliberately blurred. Perforated stone screens — the veil — filter light, air and view without closing off the water entirely. Every surface is crafted to dissolve the threshold between built and natural.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(240,237,232,.72);line-height:1.85;">The programme is organized around a single continuous surface that rises from garden level to roof terrace, folding into floor, wall and ceiling as it climbs. Material palette: raw concrete, pale travertine, aged brass.</p>
+    </div>
+
+    <!-- Process -->
+    <div style="margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Design Process</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:900px;">
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">01 — Site Research</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Deep study of the waterfront topography, vegetation, sun path, and wind patterns.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .1s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">02 — Material Exploration</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Testing stone perforation patterns, concrete finishes, and brass aging prototypes.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .2s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">03 — Form Studies</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Physical models exploring the continuous surface concept and veil screen geometry.</p>
+        </div>
+        <div style="opacity:0;animation:fadeInUp .8s ease forwards .3s;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:16px;">04 — Technical Development</h4>
+          <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.7;">Detailed design and structural engineering to realize the concept on site.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery with Lightbox -->
+    <div style="margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Project Gallery</p>
+      <div class="gallery-grid" id="veilHouseGallery">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=85" alt="Interior detail" onclick="veilHouseLightboxOpen(0)" />
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=85" alt="Exterior view" onclick="veilHouseLightboxOpen(1)" />
+        <img src="https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=800&q=85" alt="Detail shot" onclick="veilHouseLightboxOpen(2)" />
+        <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&q=85" alt="Evening view" onclick="veilHouseLightboxOpen(3)" />
+        <img src="https://images.unsplash.com/photo-1500595046891-65d440fde965?w=800&q=85" alt="Landscape" onclick="veilHouseLightboxOpen(4)" />
+        <img src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=800&q=85" alt="Material detail" onclick="veilHouseLightboxOpen(5)" />
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="max-width:900px;margin-bottom:80px;">
+      <p class="sec-label" style="margin-bottom:40px;">Materials & Details</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div><h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px;">Structure</h4><ul style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.8;list-style:none;padding:0;"><li>• Reinforced concrete</li><li>• Local stone aggregates</li><li>• Exposed columns</li></ul></div>
+        <div><h4 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px;">Finishes</h4><ul style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(.88rem,1.3vw,1rem);color:rgba(240,237,232,.65);line-height:1.8;list-style:none;padding:0;"><li>• Pale travertine</li><li>• Raw concrete</li><li>• Aged brass</li></ul></div>
+      </div>
+    </div>
+
+    <!-- Credits -->
+    <div style="padding-top:40px;border-top:1px solid rgba(240,237,232,.1);max-width:900px;">
+      <p class="sec-label" style="margin-bottom:16px;">Project Team</p>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:.95rem;color:rgba(240,237,232,.55);line-height:1.8;">Architecture: THE O | Structural: [Partner] | Landscape: [Partner] | Photography: [Photographer]</p>
+    </div>
+
+  </div>
+</div>
     <!-- Hero -->
     <div style="margin-bottom:80px;">
       <p class="overlay-top-label">01 — Residential</p>
@@ -2565,6 +2789,89 @@ window.addEventListener('scroll', () => {
       status.textContent = 'Something went wrong. Please e-mail us directly at info@theoarchlab.com.';
     } finally {
       button.disabled = false;
+    }
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   VEIL HOUSE CAROUSEL & LIGHTBOX
+   ═══════════════════════════════════════════════════════ */
+(function() {
+  let carouselIndex = 0;
+  const carouselTrack = document.getElementById('veilCarouselTrack');
+  const carouselDots = document.getElementById('veilCarouselDots');
+  const images = carouselTrack ? carouselTrack.querySelectorAll('img') : [];
+
+  if (carouselTrack && images.length > 0) {
+    /* Create dots */
+    images.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = i === 0 ? 'active' : '';
+      dot.onclick = () => veilHouseCarouselGo(i);
+      carouselDots.appendChild(dot);
+    });
+
+    /* Auto-rotate carousel every 5s */
+    setInterval(() => {
+      veilHouseCarouselNav(1);
+    }, 5000);
+  }
+
+  window.veilHouseCarouselNav = function(dir) {
+    carouselIndex = (carouselIndex + dir + images.length) % images.length;
+    veilHouseCarouselGo(carouselIndex);
+  };
+
+  window.veilHouseCarouselGo = function(idx) {
+    carouselIndex = idx;
+    carouselTrack.style.transform = `translateX(-${idx * 100}%)`;
+    document.querySelectorAll('#veilCarouselDots div').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+  };
+
+  /* Lightbox */
+  const lightboxModal = document.getElementById('veilHouseLightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const lightboxCurrent = document.getElementById('lightboxCurrent');
+  const galleryImages = document.querySelectorAll('#veilHouseGallery img');
+  let currentImageIdx = 0;
+
+  window.veilHouseLightboxOpen = function(idx) {
+    currentImageIdx = idx;
+    const img = galleryImages[idx];
+    if (img) {
+      lightboxImage.src = img.src;
+      lightboxImage.alt = img.alt;
+      lightboxCurrent.textContent = idx + 1;
+      lightboxModal.style.display = 'flex';
+    }
+  };
+
+  window.veilHouseLightboxNav = function(dir) {
+    currentImageIdx = (currentImageIdx + dir + galleryImages.length) % galleryImages.length;
+    const img = galleryImages[currentImageIdx];
+    if (img) {
+      lightboxImage.style.opacity = '0';
+      setTimeout(() => {
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+        lightboxCurrent.textContent = currentImageIdx + 1;
+        lightboxImage.style.opacity = '1';
+      }, 150);
+    }
+  };
+
+  /* Close lightbox on escape */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxModal.style.display === 'flex') {
+      lightboxModal.style.display = 'none';
+    }
+    if (e.key === 'ArrowRight' && lightboxModal.style.display === 'flex') {
+      veilHouseLightboxNav(1);
+    }
+    if (e.key === 'ArrowLeft' && lightboxModal.style.display === 'flex') {
+      veilHouseLightboxNav(-1);
     }
   });
 })();
