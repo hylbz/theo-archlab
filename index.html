@@ -2106,11 +2106,13 @@ footer {
     const trigger = e.target.closest('[data-overlay]');
     if (trigger) {
       e.preventDefault();
-      openOverlay(trigger.dataset.overlay);
-      if (burgerNav) {
+      e.stopPropagation();
+      const id = trigger.dataset.overlay;
+      if (burgerNav && burgerNav.classList.contains('open')) {
         burgerNav.classList.remove('open');
         burgerBtn.setAttribute('aria-expanded', 'false');
       }
+      window.openOverlay(id);
     }
   });
 
