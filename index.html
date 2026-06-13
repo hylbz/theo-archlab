@@ -116,6 +116,7 @@ body.cursor--hover #cursor-ring {
   padding: 0 16px;
   position: relative;
   z-index: 2;
+  pointer-events: auto;
 }
 .ps-idx {
   font-family: 'Space Grotesk', sans-serif;
@@ -133,8 +134,11 @@ body.cursor--hover #cursor-ring {
   text-transform: uppercase;
   color: #F0EDE8;
   line-height: 1.1;
-  transition: opacity .25s, transform .3s cubic-bezier(.4,0,.2,1);
+  transition: opacity .25s, transform .3s cubic-bezier(.4,0,.2,1), color .2s;
   cursor: pointer;
+  text-decoration: none;
+  display: block;
+  pointer-events: auto;
 }
 .ps-name:hover { color: #C4A97A; }
 .ps-tags {
@@ -1609,7 +1613,7 @@ footer {
     <div class="ps-col" id="psLeft"></div>
     <div class="ps-center">
       <p class="ps-idx" id="psIdx">01</p>
-      <h3 class="ps-name" id="psName"></h3>
+      <a class="ps-name" id="psName" href="#" role="button"></a>
       <p class="ps-tags" id="psTags"></p>
       <div class="ps-progress" id="psProgress"></div>
     </div>
