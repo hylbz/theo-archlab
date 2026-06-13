@@ -1301,11 +1301,12 @@ footer {
   flex-shrink: 0;
 }
 .theo-item-arrow {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 400;
-  font-size: 1.1rem;
-  color: #C4A97A;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #D4A853;
   flex-shrink: 0;
+  opacity: 1 !important;
 }
 .theo-item-val {
   font-family: 'DM Sans', sans-serif;
@@ -1966,19 +1967,35 @@ footer {
     return;
   }
 
+  function revealTheo() {
+    inner.classList.add('is-visible');
+    items.forEach((item, i) => {
+      setTimeout(() => item.classList.add('is-visible'), 480 + i * 110);
+    });
+  }
+
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        inner.classList.add('is-visible');
-        items.forEach((item, i) => {
-          setTimeout(() => item.classList.add('is-visible'), 480 + i * 110);
-        });
-        io.unobserve(section);
+        revealTheo();
+        io.disconnect();
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.05, rootMargin: '0px 0px -10% 0px' });
 
-  io.observe(section);
+  io.observe(inner);
+
+  /* Fallback: if sticky section never triggers IO, reveal on scroll near it */
+  function scrollFallback() {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+      revealTheo();
+      window.removeEventListener('scroll', scrollFallback, { passive: true });
+    }
+  }
+  window.addEventListener('scroll', scrollFallback, { passive: true });
+  /* Also try immediately in case already in view */
+  scrollFallback();
 })();
 
 /* ═══════════════════════════════════════════════════════
