@@ -2792,7 +2792,7 @@ document.addEventListener('click', () => {
    VIDEO fallback
    ═══════════════════════════════════════════════════════ */
 const vid = document.querySelector('.bg-video video');
-vid.addEventListener('error', () => { vid.style.display = 'none'; });
+if (vid) vid.addEventListener('error', () => { vid.style.display = 'none'; });
 
 /* ═══════════════════════════════════════════════════════
    SCROLL HINT — fade out once the user scrolls
