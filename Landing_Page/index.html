@@ -1657,8 +1657,8 @@ footer {
   .field-row { grid-template-columns: 1fr; }
   .studio-stats { grid-template-columns: 1fr; }
 }
-@media (max-width: 520px) {
-  /* 2-row mobile header: logo full-width top, all 4 nav links below */
+@media (max-width: 768px) {
+  /* Clean mobile header: centered logo + hamburger (full nav would overflow) */
   header {
     display: flex;
     justify-content: center;
@@ -1668,8 +1668,19 @@ footer {
   .nav-left, .nav-right { display: none; }
   .logo-center { align-items: center; }
   .logo-sub, .logo-arch { display: none; }
-  .logo-name { font-size: clamp(.72rem, 3.5vw, .9rem); letter-spacing: .24em; }
+  .logo-name { font-size: clamp(.78rem, 3.4vw, 1rem); letter-spacing: .24em; }
   .logo-o-wrap { width: 1.1em; height: 1.1em; }
+
+  /* Hamburger legibility chip (shown from the start on mobile via JS) */
+  .burger-btn {
+    opacity: 1;
+    background: rgba(6,6,6,.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(240,237,232,.14);
+    border-radius: 999px;
+    padding: 13px 14px;
+  }
+  .burger-btn span { background: #F0EDE8; }
   .tl-thread-prefix { font-size: clamp(1.4rem, 6vw, 2.4rem); }
   .tl-thread-word   { font-size: clamp(1.4rem, 6vw, 2.4rem); }
   .process-steps { grid-template-columns: 1fr; }
@@ -3032,10 +3043,12 @@ footer {
   /* Show/hide based on scroll position (burger + language toggle together) */
   const langToggleEl = document.querySelector('.lang-toggle');
   function onScroll() {
-    const past = window.scrollY >= window.innerHeight * 0.9;
+    /* On mobile the hamburger is the only nav, so show it from the top. */
+    const past = window.innerWidth <= 768 || window.scrollY >= window.innerHeight * 0.9;
     nav.classList.toggle('visible', past);
     if (langToggleEl) langToggleEl.classList.toggle('visible', past);
   }
+  window.addEventListener('resize', onScroll, { passive: true });
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
@@ -3637,7 +3650,8 @@ if (backToTop) {
     window.__lang = lang;
   }
 
-  let lang = getStored() || detect();
+  /* Default to English on first visit; remember the visitor's choice after. */
+  let lang = getStored() || 'en';
   apply(lang);
 
   window.setLang = function (l) { setStored(l); apply(l); };
