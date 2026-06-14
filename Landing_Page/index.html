@@ -56,6 +56,12 @@ body {
   transition: opacity .3s;
 }
 
+/* Touch devices: no real cursor, so hide the custom one and restore taps */
+@media (hover: none) {
+  * { cursor: auto !important; }
+  #cursor-dot, #cursor-ring { display: none !important; }
+}
+
 body.cursor--hover #cursor-ring {
   opacity: 0.4;
 }
@@ -567,7 +573,9 @@ header {
   padding: 0;
   transition: width .52s cubic-bezier(.4,0,.2,1);
 }
-.git-pill:hover { width: 320px; }
+.git-pill:hover,
+.git-pill.touch-open { width: 320px; }
+.lang-pill.touch-open { width: 158px; }
 
 .git-icon {
   flex-shrink: 0;
@@ -585,7 +593,8 @@ header {
   stroke-width: 2;
   transition: transform .42s cubic-bezier(.4,0,.2,1);
 }
-.git-pill:hover .git-icon svg { transform: rotate(-45deg); }
+.git-pill:hover .git-icon svg,
+.git-pill.touch-open .git-icon svg { transform: rotate(-45deg); }
 
 .git-content {
   display: flex;
@@ -599,7 +608,8 @@ header {
   pointer-events: none;
   order: 1;
 }
-.git-pill:hover .git-content {
+.git-pill:hover .git-content,
+.git-pill.touch-open .git-content {
   opacity: 1;
   transform: translateX(0);
   pointer-events: auto;
@@ -1589,17 +1599,19 @@ footer {
   display: none;
   align-items: center;
   gap: 8px;
-  background: none;
-  border: none;
+  background: rgba(6,6,6,.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(240,237,232,.12);
+  border-radius: 999px;
   cursor: pointer;
-  color: rgba(240,237,232,.45);
+  color: rgba(240,237,232,.6);
   font-family: 'Space Grotesk', sans-serif;
   font-size: .6rem;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
   transition: color .2s, opacity .3s;
-  padding: 8px;
+  padding: 9px 16px;
 }
 #overlay-close-fixed:hover { color: #F0EDE8; }
 #overlay-close-fixed.visible { display: flex; }
@@ -1661,6 +1673,14 @@ footer {
   .tl-thread-prefix { font-size: clamp(1.4rem, 6vw, 2.4rem); }
   .tl-thread-word   { font-size: clamp(1.4rem, 6vw, 2.4rem); }
   .process-steps { grid-template-columns: 1fr; }
+
+  /* Hero bottom: tagline on top, language + contact pills as a row beneath
+     it (right-aligned) so the wide tagline no longer runs under the pills. */
+  .bottom-bar { flex-direction: column; align-items: stretch; gap: 22px; padding: 0 22px 26px; }
+  .git-wrap { align-self: flex-end; }            /* pills stay stacked, bottom-right under the tagline */
+  .git-pill:hover, .git-pill.touch-open { width: min(300px, 80vw); }
+  .scroll-hint { display: none; }                /* hidden on mobile to keep the pills clear */
+  .studio-tabs { gap: 16px 22px; }
 }
 
 /* ── CAROUSEL & LIGHTBOX ────────────────────────── */
@@ -2982,18 +3002,24 @@ footer {
 /* ═══════════════════════════════════════════════════════
    PILL — touch toggle
    ═══════════════════════════════════════════════════════ */
-const pill = document.querySelector('.git-pill');
-let open = false;
-
-pill.addEventListener('click', e => {
-  if (!window.matchMedia('(hover:none)').matches) return;
-  open = !open;
-  pill.style.width = open ? '300px' : '';
-  e.stopPropagation();
-});
-document.addEventListener('click', () => {
-  if (open) { open = false; pill.style.width = ''; }
-});
+/* On touch devices there is no hover, so tapping a pill expands it.
+   Works for BOTH the language pill and the get-in-touch pill. */
+(function () {
+  const pills = document.querySelectorAll('.git-pill');
+  const isTouch = () => window.matchMedia('(hover:none)').matches;
+  pills.forEach(pill => {
+    pill.addEventListener('click', e => {
+      if (!isTouch()) return;
+      if (pill.classList.contains('touch-open')) return; /* let inner links/options act */
+      pills.forEach(p => p.classList.remove('touch-open'));
+      pill.classList.add('touch-open');
+      e.stopPropagation();
+    });
+  });
+  document.addEventListener('click', () => {
+    pills.forEach(p => p.classList.remove('touch-open'));
+  });
+})();
 
 /* ═══════════════════════════════════════════════════════
    HAMBURGER NAV — show after hero is scrolled past
