@@ -999,6 +999,117 @@ header {
 }
 
 /* ── SERVICES ───────────────────────────────────────────── */
+/* ── Studio tabs (Overview / People / How we think / How we work) ── */
+.studio-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(18px, 3vw, 40px);
+  margin: 44px 0 8px;
+  border-bottom: 1px solid rgba(240,237,232,.1);
+}
+.studio-tab {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0 16px;
+  margin-bottom: -1px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: .66rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,.4);
+  border-bottom: 1px solid transparent;
+  transition: color .25s, border-color .25s;
+}
+.studio-tab:hover { color: rgba(240,237,232,.75); }
+.studio-tab.active { color: #C4A97A; border-bottom-color: #C4A97A; }
+.studio-panel { display: none; padding-top: 44px; }
+.studio-panel.active { display: block; animation: fadeInUp .6s ease both; }
+
+/* People */
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 40px;
+  max-width: 1000px;
+}
+.person-card { max-width: 320px; }
+.person-photo {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: #141414;
+  filter: grayscale(.4) brightness(.92);
+  margin-bottom: 20px;
+}
+.person-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -.01em;
+  color: #F0EDE8;
+  margin-bottom: 6px;
+}
+.person-role {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: .9rem;
+  color: #C4A97A;
+  margin-bottom: 16px;
+}
+.person-bio {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: .95rem;
+  color: rgba(240,237,232,.65);
+  line-height: 1.7;
+}
+.people-note {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: .95rem;
+  color: rgba(240,237,232,.5);
+  line-height: 1.7;
+  max-width: 620px;
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(240,237,232,.1);
+}
+
+/* Principles (How we think) */
+.principle-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 44px 56px;
+  max-width: 1040px;
+}
+.principle-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: .7rem;
+  letter-spacing: .2em;
+  color: #C4A97A;
+  margin-bottom: 14px;
+}
+.principle-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  color: #F0EDE8;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.principle-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: .98rem;
+  color: rgba(240,237,232,.68);
+  line-height: 1.75;
+}
+
 .service-list { margin-top: 60px; }
 .service-row {
   display: grid;
@@ -2025,6 +2136,17 @@ footer {
       <p class="sec-label">Studio</p>
       <h2 class="sec-title" data-tr="Bir ofis değil, <em>bir laboratuvar</em>">A lab, <em>not an office</em></h2>
     </div>
+
+    <!-- Studio tabs -->
+    <div class="studio-tabs" role="tablist">
+      <button class="studio-tab active" data-studio-tab="overview" data-tr="Genel Bakış">Overview</button>
+      <button class="studio-tab" data-studio-tab="people" data-tr="Kişiler">People</button>
+      <button class="studio-tab" data-studio-tab="think" data-tr="Nasıl düşünürüz">How we think</button>
+      <button class="studio-tab" data-studio-tab="work" data-tr="Nasıl çalışırız">How we work</button>
+    </div>
+
+    <!-- OVERVIEW panel -->
+    <div class="studio-panel active" data-studio-panel="overview">
     <div class="studio-grid">
       <p class="studio-statement" data-tr="Her projeyi bir <strong>araştırma sorusu</strong> olarak ele alıyoruz — yapı, arazinin baştan beri sorduğu bir şeye yanıt verene dek test ediyor, prototipliyor ve eliyoruz.">
         We treat every brief as a <strong>research question</strong> —
@@ -2078,6 +2200,77 @@ footer {
         <p class="service-desc" data-tr="Ne inşa edeceğini — ya da inşa edip etmemeyi — tartan müşteriler için erken aşama strateji, arazi değerlendirmesi ve fizibilite çalışmaları.">Early-stage strategy, site assessment and feasibility studies for clients weighing what to build — or whether to build at all.</p>
       </div>
     </div>
+    </div><!-- /overview panel -->
+
+    <!-- PEOPLE panel -->
+    <div class="studio-panel" data-studio-panel="people">
+      <p class="studio-statement" style="margin-bottom:48px;" data-tr="Küçük, odaklı ve elini taşın altına koyan bir stüdyo. Şu an tek kişilik — her projede güvendiğimiz mühendis, üretici ve danışman ağıyla birlikte çalışıyoruz.">A small, focused, hands-on studio. Currently one person — working with a trusted network of engineers, makers and consultants on every project.</p>
+      <div class="people-grid">
+        <div class="person-card">
+          <img class="person-photo" src="https://images.unsplash.com/photo-1531123414780-f74242c2b052?w=600&q=80" alt="Zişan Osmanoğlu" loading="lazy" />
+          <h3 class="person-name">Zişan Osmanoğlu</h3>
+          <p class="person-role" data-tr="Kurucu &amp; Baş Mimar">Founder &amp; Lead Architect</p>
+          <p class="person-bio" data-tr="THE O ARCHITECTURE LAB'in kurucusu ve baş mimarı. Mimarlık, araştırma ve mekânsal düşünme arasında çalışıyor — her projeye araziyi, malzemeyi ve insanı dinleyerek başlıyor. [Buraya kendi biyografini ekleyebilirsin.]">Founder and lead architect of THE O ARCHITECTURE LAB. Works across architecture, research and spatial thinking — beginning every project by listening to the site, the material and the people. [Replace with your own bio.]</p>
+        </div>
+      </div>
+      <p class="people-note" data-tr="Ekip büyüdükçe bu bölüm de büyüyecek.">As the team grows, this section will grow with it.</p>
+    </div>
+
+    <!-- HOW WE THINK panel -->
+    <div class="studio-panel" data-studio-panel="think">
+      <p class="studio-statement" style="margin-bottom:56px;" data-tr="Önce soru, sonra biçim. Bir yapıyı çizmeden önce, çözmeye çalıştığı sorunun etrafına bir daire çiziyoruz — adımızdaki “O”.">Question first, form later. Before drawing a building, we draw a circle around the problem it tries to solve — the “O” in our name.</p>
+      <div class="principle-list">
+        <div>
+          <p class="principle-num">01</p>
+          <h3 class="principle-title" data-tr="Önce araştırma">Research before form</h3>
+          <p class="principle-desc" data-tr="Tasarım, dinlemeyle başladığında en güçlüdür — insanı, bağlamı ve malzemeyi dinleyerek. Form, anlamadan sonra gelir.">Design is strongest when it begins by listening — to people, to context, to material. Form comes after understanding.</p>
+        </div>
+        <div>
+          <p class="principle-num">02</p>
+          <h3 class="principle-title" data-tr="Soruyu çerçevele">Frame the question</h3>
+          <p class="principle-desc" data-tr="Her brief bir soruya dönüşür. Bir projenin neyi yanıtlaması — ve neyi reddetmesi — gerektiğini netleştirmek, çözümün yarısıdır.">Every brief becomes a question. Defining what a project must answer — and what it should refuse — is half the solution.</p>
+        </div>
+        <div>
+          <p class="principle-num">03</p>
+          <h3 class="principle-title" data-tr="Doğayla birlikte">Work with nature</h3>
+          <p class="principle-desc" data-tr="Yer çekimi, iklim ve topografyayla çalışırız; onlara karşı değil. Mimarlık, doğaya bir engel değil, bir aracı olabilir.">We work with gravity, climate and topography — not against them. Architecture can be a mediator with nature, not a barrier to it.</p>
+        </div>
+        <div>
+          <p class="principle-num">04</p>
+          <h3 class="principle-title" data-tr="Malzemenin dürüstlüğü">Honesty of material</h3>
+          <p class="principle-desc" data-tr="Malzemelerin dürüstçe yaşlanmasına ve zanaatını açığa çıkarmasına izin veririz. Zaman, iyi bir detayın düşmanı değil ortağıdır.">We let materials age honestly and reveal their craft. Time is a partner to a good detail, not its enemy.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW WE WORK panel -->
+    <div class="studio-panel" data-studio-panel="work">
+      <p class="studio-statement" style="margin-bottom:56px;" data-tr="Yöntem ölçekten önce gelir: önce araştırma, sonra form. Aynı dört adım, tek odalı bir iç mekanda da, kamusal bir yapıda da geçerli.">Method before scale: research first, form later. The same four moves apply to a single-room interior and to a public building alike.</p>
+      <div class="process-steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3 class="step-name" data-tr="Dinle">Listen</h3>
+          <p data-tr="Arazi ziyaretleri, sohbetler, arşivler. Bir şey önermeden önce mekânın halihazırda bildiklerini haritalandırıyoruz.">Site visits, conversations, archives. We map what the place already knows before proposing anything.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3 class="step-name" data-tr="Çerçevele">Frame</h3>
+          <p data-tr="Brief bir soruya dönüşür. Projenin neyi yanıtlaması — ve neyi reddetmesi — gerektiğini tanımlarız.">The brief becomes a question. We define what the project must answer — and what it should refuse.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3 class="step-name" data-tr="Test Et">Test</h3>
+          <p data-tr="Maketler, prototipler, yinelenen çizimler. Seçenekler dürüstçe karşılaştırılacak kadar uzun süre canlı tutulur.">Models, prototypes, drawings in iteration. Options are kept alive long enough to be compared honestly.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <h3 class="step-name" data-tr="Teslim Et">Deliver</h3>
+          <p data-tr="Dokümantasyon, denetim ve teslim — fikir inşaattan sağ çıkana dek yapının yanında kalarak.">Documentation, supervision and handover — staying close to the build until the idea survives construction.</p>
+        </div>
+      </div>
+      <p class="people-note" data-tr="Her aşamada güvendiğimiz mühendis, üretici ve danışman ağıyla iş birliği yaparız.">At every stage we collaborate with a trusted network of engineers, makers and consultants.</p>
+    </div>
+
   </div>
 </div>
 
@@ -3328,6 +3521,24 @@ if (backToTop) {
     if (e.key === 'Escape' && lightboxModal.style.display === 'flex') lightboxModal.style.display = 'none';
     if (e.key === 'ArrowRight' && lightboxModal.style.display === 'flex') softThresholdLightboxNav(1);
     if (e.key === 'ArrowLeft' && lightboxModal.style.display === 'flex') softThresholdLightboxNav(-1);
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   STUDIO TABS — Overview / People / How we think / How we work
+   ═══════════════════════════════════════════════════════ */
+(function () {
+  const studio = document.getElementById('overlay-studio');
+  if (!studio) return;
+  const tabs = studio.querySelectorAll('.studio-tab');
+  const panels = studio.querySelectorAll('.studio-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.studioTab;
+      tabs.forEach(t => t.classList.toggle('active', t === tab));
+      panels.forEach(p => p.classList.toggle('active', p.dataset.studioPanel === id));
+      studio.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   });
 })();
 
