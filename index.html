@@ -4,11 +4,19 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>THE O ARCHITECTURE LAB</title>
-<link rel="canonical" href="Landing_Page/index.html" />
-<meta http-equiv="refresh" content="0; url=Landing_Page/index.html" />
-<script>window.location.replace('Landing_Page/index.html');</script>
+<link rel="canonical" href="/theo-archlab/Landing_Page/index.html" />
+<meta http-equiv="refresh" content="0; url=/theo-archlab/Landing_Page/index.html" />
+<script>
+  /* Robust redirect: works with or without a trailing slash by building a
+     repo-root-relative absolute path from the current location. */
+  (function () {
+    var seg = location.pathname.split('/').filter(Boolean)[0] || '';
+    var base = seg ? '/' + seg + '/' : '/';
+    location.replace(base + 'Landing_Page/index.html');
+  })();
+</script>
 </head>
 <body>
-<p>Redirecting to <a href="Landing_Page/index.html">THE O ARCHITECTURE LAB</a>…</p>
+<p>Redirecting to <a href="/theo-archlab/Landing_Page/index.html">THE O ARCHITECTURE LAB</a>…</p>
 </body>
 </html>
